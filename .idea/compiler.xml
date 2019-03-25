@@ -6,11 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="springbootlearn" />
+        <module name="spring-boot-learn" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="springbootlearn" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

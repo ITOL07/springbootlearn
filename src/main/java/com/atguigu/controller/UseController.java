@@ -24,5 +24,21 @@ public class UseController {
         User user = this.userService.getUserById(userId);
         return user;
     }
+    @RequestMapping("/updateUser")
+    @ResponseBody
+    public boolean toIndex2(HttpServletRequest request, Model model){
+        int userId = Integer.parseInt(request.getParameter("id"));
+        int age=Integer.parseInt(request.getParameter("age"));
+        String username=request.getParameter("username");
+        String passwd= request.getParameter("passwd");
+        System.out.println("id====="+userId+"username"+username);
+        User user= new User();
+        user.setId(userId);
+        user.setAge(age);
+        user.setUserName(username);
+        user.setPassword(passwd);
+        boolean bool = this.userService.addUser(user);
+        return bool;
+    }
 
 }
