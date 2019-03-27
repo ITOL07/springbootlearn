@@ -18,7 +18,7 @@ public class UseController {
 
     @RequestMapping("/showUser")
     @ResponseBody
-    public User toIndex(HttpServletRequest request, Model model){
+    public User getUserById(HttpServletRequest request, Model model){
         int userId = Integer.parseInt(request.getParameter("id"));
         System.out.println("id====="+userId);
         User user = this.userService.getUserById(userId);
@@ -26,7 +26,8 @@ public class UseController {
     }
     @RequestMapping("/updateUser")
     @ResponseBody
-    public boolean toIndex2(HttpServletRequest request, Model model){
+    public User toIndex2(HttpServletRequest request, Model model){
+        System.out.println("request.getParameterMap()"+request.getParameterMap());
         int userId = Integer.parseInt(request.getParameter("id"));
         int age=Integer.parseInt(request.getParameter("age"));
         String username=request.getParameter("username");
@@ -38,7 +39,7 @@ public class UseController {
         user.setUserName(username);
         user.setPassword(passwd);
         boolean bool = this.userService.addUser(user);
-        return bool;
+        return user;
     }
 
 }
