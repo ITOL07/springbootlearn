@@ -16,9 +16,10 @@ spring:
   profiles: dev
 
   datasource:
-    url: jdbc:mysql://39.106.156.239:3306/test_db
+   # url: jdbc:mysql://39.106.156.239:3306/test_db
+    url: jdbc:mysql://39.97.180.53:3306/test_db
     username: root
-    password: root
+    password: Mysql123.
     driver-class-name: com.mysql.jdbc.Driver
     # 使用druid数据源
     type: com.alibaba.druid.pool.DruidDataSource

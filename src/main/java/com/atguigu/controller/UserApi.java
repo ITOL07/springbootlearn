@@ -30,8 +30,18 @@ public class UserApi {
     ) {
         // 配置请求参数
         Map<String, String> param = new HashMap<>();
-        param.put("appid", "wxca481df05b53c896");
-        param.put("secret", "3380d60cec8755112336a59d6049526e");
+        //会员端appid wx9dabed0089993ef3
+        //会员端appsecret c19bc48143163c69c41d6c8134b6fa98
+        //会员端openid osxFH4wTSaP9LCEB3AZmoI5LWuMQ
+        //商户id 1525988861
+
+        //itol appid: wxca481df05b53c896
+        //itol appsecret 3380d60cec8755112336a59d6049526e
+        //itol open_id ooWuZ5Wdj72u1vwt-dwL-Pst_crc
+        //param.put("appid", "wxca481df05b53c896");
+        //param.put("secret", "3380d60cec8755112336a59d6049526e");
+        param.put("appid", "wx9dabed0089993ef3");
+        param.put("secret", "c19bc48143163c69c41d6c8134b6fa98");
         //param.put("js_code", "061abR6p1d8sni0pBZ4p1IQS6p1abR6v");
         param.put("js_code", code);
         param.put("grant_type", "authorization_code");
