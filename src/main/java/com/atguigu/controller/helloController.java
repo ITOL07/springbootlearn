@@ -1,16 +1,22 @@
 package com.atguigu.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class helloController {
 
     @ResponseBody
-    @RequestMapping("/hello")
-    public String hello() {
-        return "hello World!";
+    @RequestMapping("/payResult")
+    public void getUserById(HttpServletRequest request, Model model){
+        //int userId = Integer.parseInt(request.getParameter("id"));
+        System.out.println("request====="+request.getQueryString());
+
     }
 }
 
