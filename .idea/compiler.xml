@@ -9,5 +9,8 @@
         <module name="spring-boot-learn" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="spring-boot-learn" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

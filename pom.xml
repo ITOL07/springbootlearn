@@ -68,7 +68,12 @@
             <version>1.1.0</version>
         </dependency>
 
-
+        <!-- https://mvnrepository.com/artifact/org.jdom/jdom -->
+        <dependency>
+            <groupId>org.jdom</groupId>
+            <artifactId>jdom</artifactId>
+            <version>1.1</version>
+        </dependency>
     </dependencies>
 
     <!-- 可将应用打包成一个jar包-->
