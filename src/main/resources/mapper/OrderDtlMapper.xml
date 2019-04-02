@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.dao.OrderDtlMapper" >
+  <resultMap id="BaseResultMap" type="com.atguigu.entity.OrderDtl" >
+    <id column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="mem_id" property="memId" jdbcType="VARCHAR" />
+    <result column="course_id" property="courseId" jdbcType="INTEGER" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="count" property="count" jdbcType="INTEGER" />
+    <result column="trade_state" property="tradeState" jdbcType="TINYINT" />
+    <result column="des" property="des" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_no, mem_id, course_id, amount, count, trade_state, des
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_dtl
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from order_dtl
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.atguigu.entity.OrderDtl" >
+    insert into order_dtl (order_no, mem_id, course_id, 
+      amount, count, trade_state, 
+      des)
+    values (#{orderNo,jdbcType=VARCHAR}, #{memId,jdbcType=VARCHAR}, #{courseId,jdbcType=INTEGER}, 
+      #{amount,jdbcType=DECIMAL}, #{count,jdbcType=INTEGER}, #{tradeState,jdbcType=TINYINT}, 
+      #{des,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.atguigu.entity.OrderDtl" >
+    insert into order_dtl
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="memId != null" >
+        mem_id,
+      </if>
+      <if test="courseId != null" >
+        course_id,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="tradeState != null" >
+        trade_state,
+      </if>
+      <if test="des != null" >
+        des,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="memId != null" >
+        #{memId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null" >
+        #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=INTEGER},
+      </if>
+      <if test="tradeState != null" >
+        #{tradeState,jdbcType=TINYINT},
+      </if>
+      <if test="des != null" >
+        #{des,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.OrderDtl" >
+    update order_dtl
+    <set >
+      <if test="memId != null" >
+        mem_id = #{memId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null" >
+        course_id = #{courseId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="tradeState != null" >
+        trade_state = #{tradeState,jdbcType=TINYINT},
+      </if>
+      <if test="des != null" >
+        des = #{des,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.OrderDtl" >
+    update order_dtl
+    set mem_id = #{memId,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=INTEGER},
+      amount = #{amount,jdbcType=DECIMAL},
+      count = #{count,jdbcType=INTEGER},
+      trade_state = #{tradeState,jdbcType=TINYINT},
+      des = #{des,jdbcType=VARCHAR}
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

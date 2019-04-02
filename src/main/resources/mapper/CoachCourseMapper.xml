@@ -9,15 +9,22 @@
     <result column="rem" property="rem" jdbcType="TINYINT" />
     <result column="course_id" property="courseId" jdbcType="INTEGER" />
     <result column="club_id" property="clubId" jdbcType="INTEGER" />
+    <!--<collection property="course" javaType="com.atguigu.entity.Course">-->
+      <!--<id column="course_id" property="courseId" />-->
+      <!--<result column="name" property="name" jdbcType="VARCHAR" />-->
+      <!--<result column="price" property="price" jdbcType="DECIMAL" />-->
+      <!--<result column="discount" property="discount" jdbcType="DECIMAL" />-->
+      <!--<result column="status" property="status" jdbcType="TINYINT" />-->
+    <!--</collection>-->
   </resultMap>
   <sql id="Base_Column_List" >
     coach_Id, status, total_lesson, used, rem, course_id, club_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+    select
     <include refid="Base_Column_List" />
     from coach_course
-    where club_Id = #{coachId,jdbcType=INTEGER}
+        where club_id = #{coachId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from coach_course

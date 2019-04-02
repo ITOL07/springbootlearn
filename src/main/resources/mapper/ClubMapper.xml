@@ -1,30 +1,30 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.atguigu.dao.ClubMapper" >
-  <resultMap id="BaseResultMap" type="com.atguigu.entity.Club" >
-    <id column="club_Id" property="clubId" jdbcType="INTEGER" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="jd" property="jd" jdbcType="DECIMAL" />
-    <result column="wd" property="wd" jdbcType="DECIMAL" />
-    <result column="icon" property="icon" jdbcType="VARCHAR" />
-    <result column="address" property="address" jdbcType="VARCHAR" />
-    <result column="tel" property="tel" jdbcType="VARCHAR" />
-    <result column="photo" property="photo" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.dao.ClubMapper">
+  <resultMap id="BaseResultMap" type="com.atguigu.entity.Club">
+    <id column="club_Id" jdbcType="INTEGER" property="clubId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="jd" jdbcType="DECIMAL" property="jd" />
+    <result column="wd" jdbcType="DECIMAL" property="wd" />
+    <result column="icon" jdbcType="VARCHAR" property="icon" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="tel" jdbcType="VARCHAR" property="tel" />
+    <result column="photo" jdbcType="VARCHAR" property="photo" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
     club_Id, name, jd, wd, icon, address, tel, photo
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from club
     where club_Id = #{clubId,jdbcType=INTEGER}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from club
     where club_Id = #{clubId,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.atguigu.entity.Club" >
+  <insert id="insert" parameterType="com.atguigu.entity.Club">
     insert into club (club_Id, name, jd, 
       wd, icon, address, 
       tel, photo)
@@ -32,89 +32,89 @@
       #{wd,jdbcType=DECIMAL}, #{icon,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
       #{tel,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.atguigu.entity.Club" >
+  <insert id="insertSelective" parameterType="com.atguigu.entity.Club">
     insert into club
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="clubId != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="clubId != null">
         club_Id,
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         name,
       </if>
-      <if test="jd != null" >
+      <if test="jd != null">
         jd,
       </if>
-      <if test="wd != null" >
+      <if test="wd != null">
         wd,
       </if>
-      <if test="icon != null" >
+      <if test="icon != null">
         icon,
       </if>
-      <if test="address != null" >
+      <if test="address != null">
         address,
       </if>
-      <if test="tel != null" >
+      <if test="tel != null">
         tel,
       </if>
-      <if test="photo != null" >
+      <if test="photo != null">
         photo,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="clubId != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="clubId != null">
         #{clubId,jdbcType=INTEGER},
       </if>
-      <if test="name != null" >
+      <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="jd != null" >
+      <if test="jd != null">
         #{jd,jdbcType=DECIMAL},
       </if>
-      <if test="wd != null" >
+      <if test="wd != null">
         #{wd,jdbcType=DECIMAL},
       </if>
-      <if test="icon != null" >
+      <if test="icon != null">
         #{icon,jdbcType=VARCHAR},
       </if>
-      <if test="address != null" >
+      <if test="address != null">
         #{address,jdbcType=VARCHAR},
       </if>
-      <if test="tel != null" >
+      <if test="tel != null">
         #{tel,jdbcType=VARCHAR},
       </if>
-      <if test="photo != null" >
+      <if test="photo != null">
         #{photo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.Club" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.Club">
     update club
-    <set >
-      <if test="name != null" >
+    <set>
+      <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="jd != null" >
+      <if test="jd != null">
         jd = #{jd,jdbcType=DECIMAL},
       </if>
-      <if test="wd != null" >
+      <if test="wd != null">
         wd = #{wd,jdbcType=DECIMAL},
       </if>
-      <if test="icon != null" >
+      <if test="icon != null">
         icon = #{icon,jdbcType=VARCHAR},
       </if>
-      <if test="address != null" >
+      <if test="address != null">
         address = #{address,jdbcType=VARCHAR},
       </if>
-      <if test="tel != null" >
+      <if test="tel != null">
         tel = #{tel,jdbcType=VARCHAR},
       </if>
-      <if test="photo != null" >
+      <if test="photo != null">
         photo = #{photo,jdbcType=VARCHAR},
       </if>
     </set>
     where club_Id = #{clubId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.Club" >
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.Club">
     update club
     set name = #{name,jdbcType=VARCHAR},
       jd = #{jd,jdbcType=DECIMAL},
