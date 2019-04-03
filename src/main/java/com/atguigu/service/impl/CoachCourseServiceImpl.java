@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 @Service("coachCourseService")
@@ -24,8 +25,8 @@ public class CoachCourseServiceImpl implements CoachCourseService{
     }
 
     @Override
-    public Map<Object, Object> selecttest(int coachId) {
-        Map<Object,Object> map = coachCourseMapper.selecttest(coachId);
+    public List<Map<Object, Object>> selecttest(int coachId) {
+        List<Map<Object, Object>> map = coachCourseMapper.selecttest(coachId);
         return map;
     }
 

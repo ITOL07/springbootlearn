@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -33,13 +34,15 @@ public class CoachCourseController {
     }
     @RequestMapping("/showCoachCourse1")
     @ResponseBody
-    public Map<Object,Object> selecttest(HttpServletRequest request, Model model){
-        Map<Object,Object> map = new HashMap<>();
+    public List<Map<Object,Object>> selecttest(HttpServletRequest request, Model model){
+
         int userId = Integer.parseInt(request.getParameter("id"));
         System.out.println("id====="+userId);
-        map = this.coachCourseService.selecttest(userId);
-        System.out.println("id return ====:"+map.get("coachId"));
-        return map;
+        List<Map<Object,Object>> list = this.coachCourseService.selecttest(userId);
+        for (Map<Object, Object> list1: list){
+            System.out.println("id return ====:"+list1.get("coach_Id"));
+        }
+        return list;
     }
 
     @RequestMapping("/showCoachCourse2")
