@@ -9,13 +9,13 @@
     <result column="rem" property="rem" jdbcType="TINYINT" />
     <result column="course_id" property="courseId" jdbcType="INTEGER" />
     <result column="club_id" property="clubId" jdbcType="INTEGER" />
-    <!--<collection property="course" javaType="com.atguigu.entity.Course">-->
-      <!--<id column="course_id" property="courseId" />-->
-      <!--<result column="name" property="name" jdbcType="VARCHAR" />-->
-      <!--<result column="price" property="price" jdbcType="DECIMAL" />-->
-      <!--<result column="discount" property="discount" jdbcType="DECIMAL" />-->
-      <!--<result column="status" property="status" jdbcType="TINYINT" />-->
-    <!--</collection>-->
+    <association property="courseId" javaType="com.atguigu.entity.Course">
+      <id column="course_id" property="courseId" />
+      <result column="name" property="name" jdbcType="VARCHAR" />
+      <result column="price" property="price" jdbcType="DECIMAL" />
+      <result column="discount" property="discount" jdbcType="DECIMAL" />
+      <result column="status" property="status" jdbcType="TINYINT" />
+    </association>
   </resultMap>
   <sql id="Base_Column_List" >
     coach_Id, status, total_lesson, used, rem, course_id, club_id
@@ -25,6 +25,16 @@
     <include refid="Base_Column_List" />
     from coach_course
         where club_id = #{coachId,jdbcType=INTEGER}
+  </select>
+  <select id="selecttest" resultType="map" parameterType="java.lang.Integer">
+    select a.club_id,a.coach_Id,b.name,b.price,b.discount from coach_course a , course b
+	where a.course_id=b.course_id
+	and club_Id= #{coachId,jdbcType=INTEGER}
+  </select>
+  <select id="selecttest1" resultMap="BaseResultMap" parameterType="java.lang.Integer">
+    select a.club_id,a.coach_Id,b.name,b.price,b.discount from coach_course a , course b
+	where a.course_id=b.course_id
+	and club_Id= #{coachId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from coach_course
