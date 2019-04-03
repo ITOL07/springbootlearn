@@ -6,9 +6,11 @@ import com.atguigu.dao.CoachCourseMapper;
 import com.atguigu.entity.Club;
 import com.atguigu.entity.CoachCourse;
 import com.atguigu.service.CoachCourseService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 @Service("coachCourseService")
 public class CoachCourseServiceImpl implements CoachCourseService{
@@ -17,6 +19,18 @@ public class CoachCourseServiceImpl implements CoachCourseService{
 
 
     public CoachCourse getCoachCourseById(int clubId) {
+
         return coachCourseMapper.selectByPrimaryKey(clubId);
+    }
+
+    @Override
+    public Map<Object, Object> selecttest(int coachId) {
+        Map<Object,Object> map = coachCourseMapper.selecttest(coachId);
+        return map;
+    }
+
+    @Override
+    public CoachCourse selecttest1(int coachId) {
+        return coachCourseMapper.selecttest1(coachId);
     }
 }
