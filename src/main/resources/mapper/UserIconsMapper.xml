@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.dao.UserIconsMapper" >
+  <resultMap id="BaseResultMap" type="com.atguigu.entity.UserIcons" >
+    <id column="icon_name" property="iconName" jdbcType="VARCHAR" />
+    <result column="user_Id" property="userId" jdbcType="VARCHAR" />
+    <result column="icon_url" property="iconUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    icon_name, user_Id, icon_url
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from user_icons
+    where icon_name = #{iconName,jdbcType=VARCHAR}
+  </select>
+  <select id="selectByUser" resultType="map" parameterType="java.lang.String">
+    select
+    <include refid="Base_Column_List" />
+    from user_icons
+    where user_Id = #{userid,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from user_icons
+    where icon_name = #{iconName,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.atguigu.entity.UserIcons" >
+    insert into user_icons (icon_name, user_Id, icon_url
+      )
+    values (#{iconName,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{iconUrl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.atguigu.entity.UserIcons" >
+    insert into user_icons
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="iconName != null" >
+        icon_name,
+      </if>
+      <if test="userId != null" >
+        user_Id,
+      </if>
+      <if test="iconUrl != null" >
+        icon_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="iconName != null" >
+        #{iconName,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="iconUrl != null" >
+        #{iconUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.UserIcons" >
+    update user_icons
+    <set >
+      <if test="userId != null" >
+        user_Id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="iconUrl != null" >
+        icon_url = #{iconUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where icon_name = #{iconName,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.UserIcons" >
+    update user_icons
+    set user_Id = #{userId,jdbcType=VARCHAR},
+      icon_url = #{iconUrl,jdbcType=VARCHAR}
+    where icon_name = #{iconName,jdbcType=VARCHAR}
+  </update>
+</mapper>
