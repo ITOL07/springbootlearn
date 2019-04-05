@@ -19,7 +19,7 @@ public class UseController {
     @RequestMapping("/showUser")
     @ResponseBody
     public User getUserById(HttpServletRequest request, Model model){
-        int userId = Integer.parseInt(request.getParameter("id"));
+        String userId = request.getParameter("id");
         System.out.println("id====="+userId);
         User user = this.userService.getUserById(userId);
         return user;
@@ -28,14 +28,14 @@ public class UseController {
     @ResponseBody
     public User toIndex2(HttpServletRequest request, Model model){
         System.out.println("request.getParameterMap()"+request.getParameterMap());
-        int userId = Integer.parseInt(request.getParameter("id"));
+        String userId = request.getParameter("id");
         int age=Integer.parseInt(request.getParameter("age"));
         String username=request.getParameter("username");
         String passwd= request.getParameter("passwd");
         System.out.println("id====="+userId+"username"+username);
         User user= new User();
         user.setId(userId);
-        user.setAge(age);
+//        user.setAge(age);
         user.setUserName(username);
         user.setPassword(passwd);
         boolean bool = this.userService.addUser(user);

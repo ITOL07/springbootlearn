@@ -27,8 +27,8 @@
         where club_id = #{coachId,jdbcType=INTEGER}
   </select>
   <select id="selecttest" resultType="map" parameterType="java.lang.Integer">
-    select a.club_id,a.coach_Id,b.name,b.price,b.discount from coach_course a , course b
-	where a.course_id=b.course_id
+    select a.club_id,a.coach_Id,b.name,b.price,b.discount,c.name coach_name from coach_course a , course b,coach c
+	where a.course_id=b.course_id and a.coach_Id=c.coach_Id
 	and club_Id= #{coachId,jdbcType=INTEGER}
   </select>
   <select id="selecttest1" resultMap="BaseResultMap" parameterType="java.lang.Integer">

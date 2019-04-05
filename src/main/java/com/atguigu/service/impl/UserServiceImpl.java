@@ -1,6 +1,7 @@
 package com.atguigu.service.impl;
 
-import com.atguigu.dao.UserDao;
+
+import com.atguigu.dao.UserMapper;
 import com.atguigu.entity.User;
 import com.atguigu.service.UserService1;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +15,48 @@ import java.util.Map;
 public class UserServiceImpl implements UserService1 {
 
     @Resource
-    private UserDao userDao;
+    private UserMapper userDao;
 
-
-    public User getUserById(int userId) {
+    public User getUserById(String userId) {
         return userDao.selectByPrimaryKey(userId);
     }
 
+    public User getUserByOpenId(String openId) {
+        return userDao.selectByOpenid(openId);
+    }
+
+    public Map<Object,Object> getUserByName(String userId) {
+        return userDao.selectbyUsername(userId);
+    }
+
+    public String getMaxId(){ return userDao.selectMaxId(); }
     public boolean addUser(User record){
         boolean result = false;
         try {
             userDao.insertSelective(record);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public boolean updateUser(User record){
+        boolean result = false;
+        try {
+            userDao.updateByPrimaryKey(record);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+    public boolean updateUser1(User record){
+        boolean result = false;
+        try {
+            userDao.updateByUserName(record);
             result = true;
         } catch (Exception e) {
             e.printStackTrace();

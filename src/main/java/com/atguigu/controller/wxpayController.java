@@ -25,13 +25,14 @@ public class wxpayController {
     public  Map<String, Object> wxpay(
             @RequestParam("desc") String desc,
             @RequestParam("order_no") String order_no,
-            @RequestParam("openid") String openid
+            @RequestParam("openid") String openid,
+            @RequestParam("price") String price
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
         String money = "0.01";//TODO 测试马路边捡到一分钱
         OrderDtl order = new OrderDtl();
 
-        BigDecimal bigtotalAmount = new BigDecimal(money);
+        BigDecimal bigtotalAmount = new BigDecimal(price);
 
         resultMap = UnifiedOrder.weixinPrePay(order_no, bigtotalAmount, desc,openid);
         //插入order表
