@@ -16,14 +16,29 @@ public class OrderServiceImpl implements OrderService {
     private OrderDtlMapper order;
 
 
-    public OrderDtl getUserById(String orderNo) {
+    public OrderDtl getOrderById(String orderNo) {
         return order.selectByPrimaryKey(orderNo);
     }
 
+    public OrderDtl getOrderByMemId(String memId){
+        return order.selectByMemId(memId);
+    }
     public boolean addOrder(OrderDtl record){
         boolean result = false;
         try {
             order.insertSelective(record);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public boolean updateOrder(OrderDtl record) {
+        boolean result = false;
+        try {
+            order.updateByPrimaryKeySelective(record);
             result = true;
         } catch (Exception e) {
             e.printStackTrace();

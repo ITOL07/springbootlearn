@@ -80,7 +80,7 @@ public class Userlogin {
         // 根据返回的user实体类，判断用户是否是新用户，不是的话，更新最新登录时间，是的话，将用户信息存到数据库
         System.out.println("username ===="+phoneNo+"========passwd====="+passwd);
         Map<Object,Object> map = userService.getUserByName(phoneNo);
-
+        int index=0;
 
         if(map != null){
             result.put("errono","0");
@@ -91,7 +91,9 @@ public class Userlogin {
 
             String maxId=userService.getMaxId();
             System.out.println("maxId==="+maxId);
-            int index=Integer.parseInt(maxId.substring(8));
+            if(maxId!=null) {
+                index = Integer.parseInt(maxId.substring(8));
+            }
             String id= getSeqNo.getId(12,index);
             insert_user.setId(id);
             insert_user.setUserName(phoneNo);

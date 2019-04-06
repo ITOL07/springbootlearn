@@ -1,6 +1,5 @@
 package com.atguigu.controller;
 
-import com.atguigu.entity.Order;
 import com.atguigu.entity.OrderDtl;
 import com.atguigu.service.OrderService;
 import com.atguigu.wechatpay.app.UnifiedOrder;
@@ -48,5 +47,41 @@ public class wxpayController {
         payMap=UnifiedOrder.queryWxResult(order_no);
         System.out.println(payMap);
         return resultMap;
+    }
+
+    @PostMapping("/res")
+    public  Map<String, Object> wxpay(
+            @RequestParam("order_no") String order_no//,
+//            @RequestParam("tradeState") String tradeState
+    ){
+        Map<String, Object> payMap = new HashMap<String, Object>();
+        OrderDtl order = new OrderDtl();
+
+
+        //更新order表支付状态
+//        System.out.println("order_no==="+order_no+"====tradeState======"+tradeState);
+        System.out.println("收到订单号==="+order_no);
+        System.out.println("开始查询支付结果==="+order_no);
+
+
+        payMap=UnifiedOrder.queryWxResult(order_no);
+        String trade_state=payMap.get("trade_state").toString();
+        String trade_state_desc=payMap.get("trade_state_desc").toString();
+        System.out.println("order_no["+order_no+"]\t trade_state["+trade_state+"]\t trade_state_desc"+trade_state_desc);
+
+        order.setOrderNo(order_no);
+        if(trade_state.equals("NOTPAY")){
+            trade_state="-1";
+        }else if(trade_state.equals("SUCCESS")){
+            trade_state="0";
+        }
+
+        order.setTradeState(trade_state);
+        order.setTradeStateDesc(trade_state_desc);
+
+        boolean bool = this.orderService.updateOrder(order);
+        System.out.println("更新数据库状态："+bool);
+
+        return payMap;
     }
 }

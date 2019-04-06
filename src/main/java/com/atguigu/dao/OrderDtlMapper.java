@@ -10,8 +10,10 @@ public interface OrderDtlMapper {
     int insertSelective(OrderDtl record);
 
     OrderDtl selectByPrimaryKey(String orderNo);
+    OrderDtl selectByMemId(String memId);
 
     int updateByPrimaryKeySelective(OrderDtl record);
 
     int updateByPrimaryKey(OrderDtl record);
+    int updateByMemId(OrderDtl record);
 }

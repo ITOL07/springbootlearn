@@ -1,21 +1,26 @@
 package com.atguigu.entity;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class OrderDtl {
     private String orderNo;
 
     private String memId;
 
-    private Integer courseId;
+    private String saleId;
 
     private BigDecimal amount;
 
     private Integer count;
 
-    private Byte tradeState;
+    private String tradeState;
 
     private String des;
+
+    private String tradeStateDesc;
+
+    private Date recvTime;
 
     public String getOrderNo() {
         return orderNo;
@@ -33,12 +38,12 @@ public class OrderDtl {
         this.memId = memId;
     }
 
-    public Integer getCourseId() {
-        return courseId;
+    public String getSaleId() {
+        return saleId;
     }
 
-    public void setCourseId(Integer courseId) {
-        this.courseId = courseId;
+    public void setSaleId(String saleId) {
+        this.saleId = saleId;
     }
 
     public BigDecimal getAmount() {
@@ -57,11 +62,11 @@ public class OrderDtl {
         this.count = count;
     }
 
-    public Byte getTradeState() {
+    public String getTradeState() {
         return tradeState;
     }
 
-    public void setTradeState(Byte tradeState) {
+    public void setTradeState(String tradeState) {
         this.tradeState = tradeState;
     }
 
@@ -71,5 +76,21 @@ public class OrderDtl {
 
     public void setDes(String des) {
         this.des = des;
+    }
+
+    public String getTradeStateDesc() {
+        return tradeStateDesc;
+    }
+
+    public void setTradeStateDesc(String tradeStateDesc) {
+        this.tradeStateDesc = tradeStateDesc;
+    }
+
+    public Date getRecvTime() {
+        return recvTime;
+    }
+
+    public void setRecvTime(Date recvTime) {
+        this.recvTime = recvTime;
     }
 }
