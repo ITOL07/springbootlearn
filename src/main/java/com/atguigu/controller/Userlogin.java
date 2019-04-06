@@ -17,6 +17,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 用户登录模块，包括
+ * 1：用户登录
+ * 2：用户注册
+ * 3：重置密码
+ * 4：查看是否已注册
+ * 5：获取手机验证码
+ */
 @RestController
 @RequestMapping("/user")
 public class Userlogin {
