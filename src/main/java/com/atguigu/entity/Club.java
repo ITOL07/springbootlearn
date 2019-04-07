@@ -3,13 +3,13 @@ package com.atguigu.entity;
 import java.math.BigDecimal;
 
 public class Club {
-    private Integer clubId;
+    private String clubId;
 
     private String name;
 
-    private BigDecimal jd;
+    private BigDecimal la;
 
-    private BigDecimal wd;
+    private BigDecimal lo;
 
     private String icon;
 
@@ -19,11 +19,13 @@ public class Club {
 
     private String photo;
 
-    public Integer getClubId() {
+    private Byte type;
+
+    public String getClubId() {
         return clubId;
     }
 
-    public void setClubId(Integer clubId) {
+    public void setClubId(String clubId) {
         this.clubId = clubId;
     }
 
@@ -35,20 +37,20 @@ public class Club {
         this.name = name;
     }
 
-    public BigDecimal getJd() {
-        return jd;
+    public BigDecimal getLa() {
+        return la;
     }
 
-    public void setJd(BigDecimal jd) {
-        this.jd = jd;
+    public void setLa(BigDecimal la) {
+        this.la = la;
     }
 
-    public BigDecimal getWd() {
-        return wd;
+    public BigDecimal getLo() {
+        return lo;
     }
 
-    public void setWd(BigDecimal wd) {
-        this.wd = wd;
+    public void setLo(BigDecimal lo) {
+        this.lo = lo;
     }
 
     public String getIcon() {
@@ -81,5 +83,13 @@ public class Club {
 
     public void setPhoto(String photo) {
         this.photo = photo;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
     }
 }

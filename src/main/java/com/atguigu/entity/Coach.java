@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class Coach {
-    private Integer coachId;
+    private String coachId;
 
     private String no;
 
@@ -30,11 +30,13 @@ public class Coach {
 
     private String comment;
 
-    public Integer getCoachId() {
+    private Byte type;
+
+    public String getCoachId() {
         return coachId;
     }
 
-    public void setCoachId(Integer coachId) {
+    public void setCoachId(String coachId) {
         this.coachId = coachId;
     }
 
@@ -132,5 +134,13 @@ public class Coach {
 
     public void setComment(String comment) {
         this.comment = comment;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
     }
 }

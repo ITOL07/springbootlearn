@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 用户登录模块，包括
+ * 手机用户登录模块，包括
  * 1：用户登录
  * 2：用户注册
  * 3：重置密码

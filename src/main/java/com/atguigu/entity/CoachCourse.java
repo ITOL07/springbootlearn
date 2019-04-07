@@ -1,9 +1,9 @@
 package com.atguigu.entity;
 
 public class CoachCourse {
-    private Integer coachId;
+    private String coachId;
 
-    private Byte status;
+    private String courseId;
 
     private Byte totalLesson;
 
@@ -11,24 +11,24 @@ public class CoachCourse {
 
     private Byte rem;
 
-    private Integer courseId;
+    private String clubId;
 
-    private Integer clubId;
+    private Byte status;
 
-    public Integer getCoachId() {
+    public String getCoachId() {
         return coachId;
     }
 
-    public void setCoachId(Integer coachId) {
+    public void setCoachId(String coachId) {
         this.coachId = coachId;
     }
 
-    public Byte getStatus() {
-        return status;
+    public String getCourseId() {
+        return courseId;
     }
 
-    public void setStatus(Byte status) {
-        this.status = status;
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     public Byte getTotalLesson() {
@@ -55,19 +55,19 @@ public class CoachCourse {
         this.rem = rem;
     }
 
-    public Integer getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(Integer courseId) {
-        this.courseId = courseId;
-    }
-
-    public Integer getClubId() {
+    public String getClubId() {
         return clubId;
     }
 
-    public void setClubId(Integer clubId) {
+    public void setClubId(String clubId) {
         this.clubId = clubId;
+    }
+
+    public Byte getStatus() {
+        return status;
+    }
+
+    public void setStatus(Byte status) {
+        this.status = status;
     }
 }

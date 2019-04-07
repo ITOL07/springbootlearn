@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * 万能的helloWorld，入门
+ */
 @Controller
 public class helloController {
 

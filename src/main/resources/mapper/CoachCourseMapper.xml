@@ -2,51 +2,31 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.atguigu.dao.CoachCourseMapper" >
   <resultMap id="BaseResultMap" type="com.atguigu.entity.CoachCourse" >
-    <id column="coach_Id" property="coachId" jdbcType="INTEGER" />
-    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="coach_Id" property="coachId" jdbcType="VARCHAR" />
+    <result column="course_id" property="courseId" jdbcType="VARCHAR" />
     <result column="total_lesson" property="totalLesson" jdbcType="TINYINT" />
     <result column="used" property="used" jdbcType="TINYINT" />
     <result column="rem" property="rem" jdbcType="TINYINT" />
-    <result column="course_id" property="courseId" jdbcType="INTEGER" />
-    <result column="club_id" property="clubId" jdbcType="INTEGER" />
-    <association property="courseId" javaType="com.atguigu.entity.Course">
-      <id column="course_id" property="courseId" />
-      <result column="name" property="name" jdbcType="VARCHAR" />
-      <result column="price" property="price" jdbcType="DECIMAL" />
-      <result column="discount" property="discount" jdbcType="DECIMAL" />
-      <result column="status" property="status" jdbcType="TINYINT" />
-    </association>
+    <result column="club_id" property="clubId" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    coach_Id, status, total_lesson, used, rem, course_id, club_id
+    coach_Id, course_id, total_lesson, used, rem, club_id, status
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />
     from coach_course
-        where club_id = #{coachId,jdbcType=INTEGER}
+    where coach_Id = #{coachId,jdbcType=VARCHAR}
   </select>
-  <select id="selecttest" resultType="map" parameterType="java.lang.Integer">
-    select a.club_id,a.coach_Id,b.name,b.price,b.discount,c.name coach_name from coach_course a , course b,coach c
-	where a.course_id=b.course_id and a.coach_Id=c.coach_Id
-	and club_Id= #{coachId,jdbcType=INTEGER}
-  </select>
-  <select id="selecttest1" resultMap="BaseResultMap" parameterType="java.lang.Integer">
-    select a.club_id,a.coach_Id,b.name,b.price,b.discount from coach_course a , course b
-	where a.course_id=b.course_id
-	and club_Id= #{coachId,jdbcType=INTEGER}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
-    delete from coach_course
-    where coach_Id = #{coachId,jdbcType=INTEGER}
-  </delete>
+
   <insert id="insert" parameterType="com.atguigu.entity.CoachCourse" >
-    insert into coach_course (coach_Id, status, total_lesson, 
-      used, rem, course_id, 
-      club_id)
-    values (#{coachId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{totalLesson,jdbcType=TINYINT}, 
-      #{used,jdbcType=TINYINT}, #{rem,jdbcType=TINYINT}, #{courseId,jdbcType=INTEGER}, 
-      #{clubId,jdbcType=INTEGER})
+    insert into coach_course (coach_Id, course_id, total_lesson, 
+      used, rem, club_id, 
+      status)
+    values (#{coachId,jdbcType=VARCHAR}, #{courseId,jdbcType=VARCHAR}, #{totalLesson,jdbcType=TINYINT}, 
+      #{used,jdbcType=TINYINT}, #{rem,jdbcType=TINYINT}, #{clubId,jdbcType=VARCHAR}, 
+      #{status,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.atguigu.entity.CoachCourse" >
     insert into coach_course
@@ -54,8 +34,8 @@
       <if test="coachId != null" >
         coach_Id,
       </if>
-      <if test="status != null" >
-        status,
+      <if test="courseId != null" >
+        course_id,
       </if>
       <if test="totalLesson != null" >
         total_lesson,
@@ -66,19 +46,19 @@
       <if test="rem != null" >
         rem,
       </if>
-      <if test="courseId != null" >
-        course_id,
-      </if>
       <if test="clubId != null" >
         club_id,
+      </if>
+      <if test="status != null" >
+        status,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="coachId != null" >
-        #{coachId,jdbcType=INTEGER},
+        #{coachId,jdbcType=VARCHAR},
       </if>
-      <if test="status != null" >
-        #{status,jdbcType=TINYINT},
+      <if test="courseId != null" >
+        #{courseId,jdbcType=VARCHAR},
       </if>
       <if test="totalLesson != null" >
         #{totalLesson,jdbcType=TINYINT},
@@ -89,46 +69,12 @@
       <if test="rem != null" >
         #{rem,jdbcType=TINYINT},
       </if>
-      <if test="courseId != null" >
-        #{courseId,jdbcType=INTEGER},
-      </if>
       <if test="clubId != null" >
-        #{clubId,jdbcType=INTEGER},
+        #{clubId,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.CoachCourse" >
-    update coach_course
-    <set >
-      <if test="status != null" >
-        status = #{status,jdbcType=TINYINT},
-      </if>
-      <if test="totalLesson != null" >
-        total_lesson = #{totalLesson,jdbcType=TINYINT},
-      </if>
-      <if test="used != null" >
-        used = #{used,jdbcType=TINYINT},
-      </if>
-      <if test="rem != null" >
-        rem = #{rem,jdbcType=TINYINT},
-      </if>
-      <if test="courseId != null" >
-        course_id = #{courseId,jdbcType=INTEGER},
-      </if>
-      <if test="clubId != null" >
-        club_id = #{clubId,jdbcType=INTEGER},
-      </if>
-    </set>
-    where coach_Id = #{coachId,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.CoachCourse" >
-    update coach_course
-    set status = #{status,jdbcType=TINYINT},
-      total_lesson = #{totalLesson,jdbcType=TINYINT},
-      used = #{used,jdbcType=TINYINT},
-      rem = #{rem,jdbcType=TINYINT},
-      course_id = #{courseId,jdbcType=INTEGER},
-      club_id = #{clubId,jdbcType=INTEGER}
-    where coach_Id = #{coachId,jdbcType=INTEGER}
-  </update>
 </mapper>

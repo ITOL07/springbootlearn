@@ -3,7 +3,7 @@ package com.atguigu.entity;
 import java.math.BigDecimal;
 
 public class Course {
-    private Integer courseId;
+    private String courseId;
 
     private Integer type;
 
@@ -15,11 +15,23 @@ public class Course {
 
     private Byte status;
 
-    public Integer getCourseId() {
+    private String coachId;
+
+    private Byte coachType;
+
+    private String clubId;
+
+    private Byte clubType;
+
+    private String bz1;
+
+    private String bz2;
+
+    public String getCourseId() {
         return courseId;
     }
 
-    public void setCourseId(Integer courseId) {
+    public void setCourseId(String courseId) {
         this.courseId = courseId;
     }
 
@@ -61,5 +73,53 @@ public class Course {
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getCoachId() {
+        return coachId;
+    }
+
+    public void setCoachId(String coachId) {
+        this.coachId = coachId;
+    }
+
+    public Byte getCoachType() {
+        return coachType;
+    }
+
+    public void setCoachType(Byte coachType) {
+        this.coachType = coachType;
+    }
+
+    public String getClubId() {
+        return clubId;
+    }
+
+    public void setClubId(String clubId) {
+        this.clubId = clubId;
+    }
+
+    public Byte getClubType() {
+        return clubType;
+    }
+
+    public void setClubType(Byte clubType) {
+        this.clubType = clubType;
+    }
+
+    public String getBz1() {
+        return bz1;
+    }
+
+    public void setBz1(String bz1) {
+        this.bz1 = bz1;
+    }
+
+    public String getBz2() {
+        return bz2;
+    }
+
+    public void setBz2(String bz2) {
+        this.bz2 = bz2;
     }
 }

@@ -15,15 +15,18 @@ import java.util.HashMap;
 import java.util.Map;
 import com.alibaba.fastjson.*;
 
+/**
+ * 微信用户登录接口，接收小程序上传的code，返回open_id
+ */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/wxuser")
 public class UserApi {
 
     @Autowired
     private UserService1 userService;
 
 
-    @PostMapping("/me/login")
+    @PostMapping("/login")
     //public JsonResult user_login(
     public String user_login(
         @RequestParam("code") String code

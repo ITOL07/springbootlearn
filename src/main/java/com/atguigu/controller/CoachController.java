@@ -21,7 +21,7 @@ public class CoachController {
 
     @RequestMapping("/getCoach")
     public List<Map<String, Object>> getDbType() {
-        String sql = "select * from coach";
+        String sql = "select * from coach where score>4 order by score desc ";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
         for (Map<String, Object> map : list) {
             Set<Entry<String, Object>> entries = map.entrySet();

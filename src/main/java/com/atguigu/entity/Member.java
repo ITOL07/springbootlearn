@@ -26,6 +26,8 @@ public class Member {
 
     private String name;
 
+    private Byte type;
+
     public String getMemId() {
         return memId;
     }
@@ -112,5 +114,13 @@ public class Member {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Byte getType() {
+        return type;
+    }
+
+    public void setType(Byte type) {
+        this.type = type;
     }
 }

@@ -19,19 +19,19 @@ public class CoachCourseServiceImpl implements CoachCourseService{
     private CoachCourseMapper coachCourseMapper;
 
 
-    public CoachCourse getCoachCourseById(int clubId) {
-
+    public List<CoachCourse> getCoachCourseById(String clubId) {
+//        List<CoachCourse> ls = new List<CoachCourse>
         return coachCourseMapper.selectByPrimaryKey(clubId);
     }
 
-    @Override
-    public List<Map<Object, Object>> selecttest(int coachId) {
-        List<Map<Object, Object>> map = coachCourseMapper.selecttest(coachId);
-        return map;
-    }
-
-    @Override
-    public CoachCourse selecttest1(int coachId) {
-        return coachCourseMapper.selecttest1(coachId);
-    }
+//    @Override
+//    public List<Map<Object, Object>> selecttest(int coachId) {
+//        List<Map<Object, Object>> map = coachCourseMapper.selecttest(coachId);
+//        return map;
+//    }
+//
+//    @Override
+//    public CoachCourse selecttest1(int coachId) {
+//        return coachCourseMapper.selecttest1(coachId);
+//    }
 }
