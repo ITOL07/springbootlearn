@@ -4,14 +4,16 @@
   <resultMap id="BaseResultMap" type="com.atguigu.entity.OrderDtl" >
     <id column="order_no" property="orderNo" jdbcType="VARCHAR" />
     <result column="mem_id" property="memId" jdbcType="VARCHAR" />
-    <result column="course_id" property="courseId" jdbcType="INTEGER" />
+    <result column="sale_id" property="saleId" jdbcType="VARCHAR" />
     <result column="amount" property="amount" jdbcType="DECIMAL" />
     <result column="count" property="count" jdbcType="INTEGER" />
-    <result column="trade_state" property="tradeState" jdbcType="TINYINT" />
+    <result column="trade_state" property="tradeState" jdbcType="VARCHAR" />
     <result column="des" property="des" jdbcType="VARCHAR" />
+    <result column="trade_state_desc" property="tradeStateDesc" jdbcType="VARCHAR" />
+    <result column="recv_time" property="recvTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
-    order_no, mem_id, course_id, amount, count, trade_state, des
+    order_no, mem_id, sale_id, amount, count, trade_state, des, trade_state_desc, recv_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -19,17 +21,25 @@
     from order_dtl
     where order_no = #{orderNo,jdbcType=VARCHAR}
   </select>
+  <select id="selectByMemId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from order_dtl
+    where mem_id = #{memId,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from order_dtl
     where order_no = #{orderNo,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.atguigu.entity.OrderDtl" >
-    insert into order_dtl (order_no, mem_id, course_id, 
+    insert into order_dtl (order_no, mem_id, sale_id, 
       amount, count, trade_state, 
-      des)
-    values (#{orderNo,jdbcType=VARCHAR}, #{memId,jdbcType=VARCHAR}, #{courseId,jdbcType=INTEGER}, 
-      #{amount,jdbcType=DECIMAL}, #{count,jdbcType=INTEGER}, #{tradeState,jdbcType=TINYINT}, 
-      #{des,jdbcType=VARCHAR})
+      des, trade_state_desc, recv_time
+      )
+    values (#{orderNo,jdbcType=VARCHAR}, #{memId,jdbcType=VARCHAR}, #{saleId,jdbcType=VARCHAR}, 
+      #{amount,jdbcType=DECIMAL}, #{count,jdbcType=INTEGER}, #{tradeState,jdbcType=VARCHAR}, 
+      #{des,jdbcType=VARCHAR}, #{tradeStateDesc,jdbcType=VARCHAR}, #{recvTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.atguigu.entity.OrderDtl" >
     insert into order_dtl
@@ -40,8 +50,8 @@
       <if test="memId != null" >
         mem_id,
       </if>
-      <if test="courseId != null" >
-        course_id,
+      <if test="saleId != null" >
+        sale_id,
       </if>
       <if test="amount != null" >
         amount,
@@ -55,6 +65,12 @@
       <if test="des != null" >
         des,
       </if>
+      <if test="tradeStateDesc != null" >
+        trade_state_desc,
+      </if>
+      <if test="recvTime != null" >
+        recv_time,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="orderNo != null" >
@@ -63,8 +79,8 @@
       <if test="memId != null" >
         #{memId,jdbcType=VARCHAR},
       </if>
-      <if test="courseId != null" >
-        #{courseId,jdbcType=INTEGER},
+      <if test="saleId != null" >
+        #{saleId,jdbcType=VARCHAR},
       </if>
       <if test="amount != null" >
         #{amount,jdbcType=DECIMAL},
@@ -73,10 +89,16 @@
         #{count,jdbcType=INTEGER},
       </if>
       <if test="tradeState != null" >
-        #{tradeState,jdbcType=TINYINT},
+        #{tradeState,jdbcType=VARCHAR},
       </if>
       <if test="des != null" >
         #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeStateDesc != null" >
+        #{tradeStateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="recvTime != null" >
+        #{recvTime,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -86,8 +108,8 @@
       <if test="memId != null" >
         mem_id = #{memId,jdbcType=VARCHAR},
       </if>
-      <if test="courseId != null" >
-        course_id = #{courseId,jdbcType=INTEGER},
+      <if test="saleId != null" >
+        sale_id = #{saleId,jdbcType=VARCHAR},
       </if>
       <if test="amount != null" >
         amount = #{amount,jdbcType=DECIMAL},
@@ -96,22 +118,60 @@
         count = #{count,jdbcType=INTEGER},
       </if>
       <if test="tradeState != null" >
-        trade_state = #{tradeState,jdbcType=TINYINT},
+        trade_state = #{tradeState,jdbcType=VARCHAR},
       </if>
       <if test="des != null" >
         des = #{des,jdbcType=VARCHAR},
       </if>
+      <if test="tradeStateDesc != null" >
+        trade_state_desc = #{tradeStateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="recvTime != null" >
+        recv_time = #{recvTime,jdbcType=TIMESTAMP},
+      </if>
     </set>
     where order_no = #{orderNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByMemId" parameterType="com.atguigu.entity.OrderDtl" >
+    update order_dtl
+    <set >
+      <if test="memId != null" >
+        mem_id = #{memId,jdbcType=VARCHAR},
+      </if>
+      <if test="saleId != null" >
+        sale_id = #{saleId,jdbcType=VARCHAR},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=INTEGER},
+      </if>
+      <if test="tradeState != null" >
+        trade_state = #{tradeState,jdbcType=VARCHAR},
+      </if>
+      <if test="des != null" >
+        des = #{des,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeStateDesc != null" >
+        trade_state_desc = #{tradeStateDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="recvTime != null" >
+        recv_time = #{recvTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where mem_id = #{memId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.OrderDtl" >
     update order_dtl
     set mem_id = #{memId,jdbcType=VARCHAR},
-      course_id = #{courseId,jdbcType=INTEGER},
+      sale_id = #{saleId,jdbcType=VARCHAR},
       amount = #{amount,jdbcType=DECIMAL},
       count = #{count,jdbcType=INTEGER},
-      trade_state = #{tradeState,jdbcType=TINYINT},
-      des = #{des,jdbcType=VARCHAR}
+      trade_state = #{tradeState,jdbcType=VARCHAR},
+      des = #{des,jdbcType=VARCHAR},
+      trade_state_desc = #{tradeStateDesc,jdbcType=VARCHAR},
+      recv_time = #{recvTime,jdbcType=TIMESTAMP}
     where order_no = #{orderNo,jdbcType=VARCHAR}
   </update>
 </mapper>

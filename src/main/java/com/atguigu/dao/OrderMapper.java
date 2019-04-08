@@ -10,6 +10,7 @@ public interface OrderMapper {
     int insertSelective(Order record);
 
     Order selectByPrimaryKey(String orderNo);
+    Order selectByMemId(String memId);
 
     int updateByPrimaryKeySelective(Order record);
 

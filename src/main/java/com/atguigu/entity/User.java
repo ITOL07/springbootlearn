@@ -1,43 +1,65 @@
 package com.atguigu.entity;
 
+import java.util.Date;
+
 public class User {
-        private Integer id;
+    private String id;
 
-        private String userName;
+    private String userName;
 
-        private String password;
+    private String password;
 
-        private Integer age;
+    private Byte chn;
 
-        public Integer getId() {
-            return id;
-        }
+    private Date lastLogin;
 
-        public void setId(Integer id) {
-            this.id = id;
-        }
+    private String openId;
 
-        public String getUserName() {
-            return userName;
-        }
+    public String getId() {
+        return id;
+    }
 
-        public void setUserName(String userName) {
-            this.userName = userName == null ? null : userName.trim();
-        }
+    public void setId(String id) {
+        this.id = id;
+    }
 
-        public String getPassword() {
-            return password;
-        }
+    public String getUserName() {
+        return userName;
+    }
 
-        public void setPassword(String password) {
-            this.password = password == null ? null : password.trim();
-        }
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
 
-        public Integer getAge() {
-            return age;
-        }
+    public String getPassword() {
+        return password;
+    }
 
-        public void setAge(Integer age) {
-            this.age = age;
-        }
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Byte getChn() {
+        return chn;
+    }
+
+    public void setChn(Byte chn) {
+        this.chn = chn;
+    }
+
+    public Date getLastLogin() {
+        return lastLogin;
+    }
+
+    public void setLastLogin(Date lastLogin) {
+        this.lastLogin = lastLogin;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
 }

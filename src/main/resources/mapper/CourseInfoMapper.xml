@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.dao.CourseInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.atguigu.entity.CourseInfo" >
+    <result column="course_type" property="courseType" jdbcType="TINYINT" />
+    <result column="course_name" property="courseName" jdbcType="VARCHAR" />
+    <result column="bz1" property="bz1" jdbcType="VARCHAR" />
+    <result column="bz2" property="bz2" jdbcType="VARCHAR" />
+  </resultMap>
+  <insert id="insert" parameterType="com.atguigu.entity.CourseInfo" >
+    insert into course_info (course_type, course_name, bz1, 
+      bz2)
+    values (#{courseType,jdbcType=TINYINT}, #{courseName,jdbcType=VARCHAR}, #{bz1,jdbcType=VARCHAR}, 
+      #{bz2,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.atguigu.entity.CourseInfo" >
+    insert into course_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="courseType != null" >
+        course_type,
+      </if>
+      <if test="courseName != null" >
+        course_name,
+      </if>
+      <if test="bz1 != null" >
+        bz1,
+      </if>
+      <if test="bz2 != null" >
+        bz2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="courseType != null" >
+        #{courseType,jdbcType=TINYINT},
+      </if>
+      <if test="courseName != null" >
+        #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="bz1 != null" >
+        #{bz1,jdbcType=VARCHAR},
+      </if>
+      <if test="bz2 != null" >
+        #{bz2,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

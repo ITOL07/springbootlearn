@@ -2,35 +2,46 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.atguigu.dao.ClubMapper">
   <resultMap id="BaseResultMap" type="com.atguigu.entity.Club">
-    <id column="club_Id" jdbcType="INTEGER" property="clubId" />
+    <id column="club_Id" jdbcType="VARCHAR" property="clubId" />
     <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="jd" jdbcType="DECIMAL" property="jd" />
-    <result column="wd" jdbcType="DECIMAL" property="wd" />
+    <result column="la" jdbcType="DECIMAL" property="la" />
+    <result column="lo" jdbcType="DECIMAL" property="lo" />
     <result column="icon" jdbcType="VARCHAR" property="icon" />
     <result column="address" jdbcType="VARCHAR" property="address" />
     <result column="tel" jdbcType="VARCHAR" property="tel" />
     <result column="photo" jdbcType="VARCHAR" property="photo" />
+    <result column="type" jdbcType="TINYINT" property="type" />
   </resultMap>
   <sql id="Base_Column_List">
-    club_Id, name, jd, wd, icon, address, tel, photo
+    club_Id, name, la, lo, icon, address, tel, photo, type
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from club
-    where club_Id = #{clubId,jdbcType=INTEGER}
+    where club_Id = #{clubId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <select id="selectCoachById" resultType="map" parameterType="java.lang.String" >
+  select *
+  from coach a ,course b
+  where a.coach_id=b.coach_id and
+  b.club_id = #{clubId,jdbcType=VARCHAR}
+  </select>
+    <select id="selectMaxId" resultType="java.lang.String">
+        select max(club_id)
+        from club
+    </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from club
-    where club_Id = #{clubId,jdbcType=INTEGER}
+    where club_Id = #{clubId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.atguigu.entity.Club">
-    insert into club (club_Id, name, jd, 
-      wd, icon, address, 
-      tel, photo)
-    values (#{clubId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{jd,jdbcType=DECIMAL}, 
-      #{wd,jdbcType=DECIMAL}, #{icon,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{tel,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR})
+    insert into club (club_Id, name, la, 
+      lo, icon, address, 
+      tel, photo, type)
+    values (#{clubId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{la,jdbcType=DECIMAL}, 
+      #{lo,jdbcType=DECIMAL}, #{icon,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{tel,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.atguigu.entity.Club">
     insert into club
@@ -41,11 +52,11 @@
       <if test="name != null">
         name,
       </if>
-      <if test="jd != null">
-        jd,
+      <if test="la != null">
+        la,
       </if>
-      <if test="wd != null">
-        wd,
+      <if test="lo != null">
+        lo,
       </if>
       <if test="icon != null">
         icon,
@@ -59,19 +70,22 @@
       <if test="photo != null">
         photo,
       </if>
+      <if test="type != null">
+        type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="clubId != null">
-        #{clubId,jdbcType=INTEGER},
+        #{clubId,jdbcType=VARCHAR},
       </if>
       <if test="name != null">
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="jd != null">
-        #{jd,jdbcType=DECIMAL},
+      <if test="la != null">
+        #{la,jdbcType=DECIMAL},
       </if>
-      <if test="wd != null">
-        #{wd,jdbcType=DECIMAL},
+      <if test="lo != null">
+        #{lo,jdbcType=DECIMAL},
       </if>
       <if test="icon != null">
         #{icon,jdbcType=VARCHAR},
@@ -85,6 +99,9 @@
       <if test="photo != null">
         #{photo,jdbcType=VARCHAR},
       </if>
+      <if test="type != null">
+        #{type,jdbcType=TINYINT},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.Club">
@@ -93,11 +110,11 @@
       <if test="name != null">
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="jd != null">
-        jd = #{jd,jdbcType=DECIMAL},
+      <if test="la != null">
+        la = #{la,jdbcType=DECIMAL},
       </if>
-      <if test="wd != null">
-        wd = #{wd,jdbcType=DECIMAL},
+      <if test="lo != null">
+        lo = #{lo,jdbcType=DECIMAL},
       </if>
       <if test="icon != null">
         icon = #{icon,jdbcType=VARCHAR},
@@ -111,18 +128,22 @@
       <if test="photo != null">
         photo = #{photo,jdbcType=VARCHAR},
       </if>
+      <if test="type != null">
+        type = #{type,jdbcType=TINYINT},
+      </if>
     </set>
-    where club_Id = #{clubId,jdbcType=INTEGER}
+    where club_Id = #{clubId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.Club">
     update club
     set name = #{name,jdbcType=VARCHAR},
-      jd = #{jd,jdbcType=DECIMAL},
-      wd = #{wd,jdbcType=DECIMAL},
+      la = #{la,jdbcType=DECIMAL},
+      lo = #{lo,jdbcType=DECIMAL},
       icon = #{icon,jdbcType=VARCHAR},
       address = #{address,jdbcType=VARCHAR},
       tel = #{tel,jdbcType=VARCHAR},
-      photo = #{photo,jdbcType=VARCHAR}
-    where club_Id = #{clubId,jdbcType=INTEGER}
+      photo = #{photo,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT}
+    where club_Id = #{clubId,jdbcType=VARCHAR}
   </update>
 </mapper>

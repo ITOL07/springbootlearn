@@ -1,175 +1,195 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.atguigu.dao.CoachMapper">
-  <resultMap id="BaseResultMap" type="com.atguigu.entity.Coach">
-    <id column="coach_Id" jdbcType="INTEGER" property="coachId" />
-    <result column="no" jdbcType="VARCHAR" property="no" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
-    <result column="age" jdbcType="TINYINT" property="age" />
-    <result column="tel" jdbcType="VARCHAR" property="tel" />
-    <result column="height" jdbcType="DECIMAL" property="height" />
-    <result column="weight" jdbcType="DECIMAL" property="weight" />
-    <result column="birthday" jdbcType="DATE" property="birthday" />
-    <result column="sex" jdbcType="VARCHAR" property="sex" />
-    <result column="icon" jdbcType="VARCHAR" property="icon" />
-    <result column="score" jdbcType="REAL" property="score" />
-    <result column="comment" jdbcType="VARCHAR" property="comment" />
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.dao.CoachMapper" >
+  <resultMap id="BaseResultMap" type="com.atguigu.entity.Coach" >
+    <id column="coach_Id" property="coachId" jdbcType="VARCHAR" />
+    <result column="no" property="no" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="TINYINT" />
+    <result column="tel" property="tel" jdbcType="VARCHAR" />
+    <result column="height" property="height" jdbcType="DECIMAL" />
+    <result column="weight" property="weight" jdbcType="DECIMAL" />
+    <result column="birthday" property="birthday" jdbcType="DATE" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="icon" property="icon" jdbcType="VARCHAR" />
+    <result column="score" property="score" jdbcType="REAL" />
+    <result column="comment" property="comment" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
+    <!--<association property="" javaType="com.atguigu.dao.CourseMapper">-->
+       <!--<id property="clubId" column="club_id"/>-->
+    <!--</association>-->
   </resultMap>
-  <sql id="Base_Column_List">
+  <sql id="Base_Column_List" >
     coach_Id, no, name, nick_name, age, tel, height, weight, birthday, sex, icon, score, 
-    comment
+    comment, type
   </sql>
-  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from coach
-    where coach_Id = #{coachId,jdbcType=INTEGER}
+    where coach_Id = #{coachId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+  <select id="selectByClubId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    a.*
+    from coach a ,course b
+    where a.coach_id=b.coach_id and
+    b.club_id = #{coachId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from coach
-    where coach_Id = #{coachId,jdbcType=INTEGER}
+    where coach_Id = #{coachId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.atguigu.entity.Coach">
+  <insert id="insert" parameterType="com.atguigu.entity.Coach" >
     insert into coach (coach_Id, no, name, 
       nick_name, age, tel, 
       height, weight, birthday, 
-      sex, icon, score, comment
-      )
-    values (#{coachId,jdbcType=INTEGER}, #{no,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      sex, icon, score, comment, 
+      type)
+    values (#{coachId,jdbcType=VARCHAR}, #{no,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{nickName,jdbcType=VARCHAR}, #{age,jdbcType=TINYINT}, #{tel,jdbcType=VARCHAR}, 
       #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, #{birthday,jdbcType=DATE}, 
-      #{sex,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{score,jdbcType=REAL}, #{comment,jdbcType=VARCHAR}
-      )
+      #{sex,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{score,jdbcType=REAL}, #{comment,jdbcType=VARCHAR}, 
+      #{type,jdbcType=TINYINT})
   </insert>
-  <insert id="insertSelective" parameterType="com.atguigu.entity.Coach">
+  <insert id="insertSelective" parameterType="com.atguigu.entity.Coach" >
     insert into coach
-    <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="coachId != null">
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="coachId != null" >
         coach_Id,
       </if>
-      <if test="no != null">
+      <if test="no != null" >
         no,
       </if>
-      <if test="name != null">
+      <if test="name != null" >
         name,
       </if>
-      <if test="nickName != null">
+      <if test="nickName != null" >
         nick_name,
       </if>
-      <if test="age != null">
+      <if test="age != null" >
         age,
       </if>
-      <if test="tel != null">
+      <if test="tel != null" >
         tel,
       </if>
-      <if test="height != null">
+      <if test="height != null" >
         height,
       </if>
-      <if test="weight != null">
+      <if test="weight != null" >
         weight,
       </if>
-      <if test="birthday != null">
+      <if test="birthday != null" >
         birthday,
       </if>
-      <if test="sex != null">
+      <if test="sex != null" >
         sex,
       </if>
-      <if test="icon != null">
+      <if test="icon != null" >
         icon,
       </if>
-      <if test="score != null">
+      <if test="score != null" >
         score,
       </if>
-      <if test="comment != null">
+      <if test="comment != null" >
         comment,
       </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="coachId != null">
-        #{coachId,jdbcType=INTEGER},
+      <if test="type != null" >
+        type,
       </if>
-      <if test="no != null">
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="coachId != null" >
+        #{coachId,jdbcType=VARCHAR},
+      </if>
+      <if test="no != null" >
         #{no,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
+      <if test="name != null" >
         #{name,jdbcType=VARCHAR},
       </if>
-      <if test="nickName != null">
+      <if test="nickName != null" >
         #{nickName,jdbcType=VARCHAR},
       </if>
-      <if test="age != null">
+      <if test="age != null" >
         #{age,jdbcType=TINYINT},
       </if>
-      <if test="tel != null">
+      <if test="tel != null" >
         #{tel,jdbcType=VARCHAR},
       </if>
-      <if test="height != null">
+      <if test="height != null" >
         #{height,jdbcType=DECIMAL},
       </if>
-      <if test="weight != null">
+      <if test="weight != null" >
         #{weight,jdbcType=DECIMAL},
       </if>
-      <if test="birthday != null">
+      <if test="birthday != null" >
         #{birthday,jdbcType=DATE},
       </if>
-      <if test="sex != null">
+      <if test="sex != null" >
         #{sex,jdbcType=VARCHAR},
       </if>
-      <if test="icon != null">
+      <if test="icon != null" >
         #{icon,jdbcType=VARCHAR},
       </if>
-      <if test="score != null">
+      <if test="score != null" >
         #{score,jdbcType=REAL},
       </if>
-      <if test="comment != null">
+      <if test="comment != null" >
         #{comment,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.Coach">
+  <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.Coach" >
     update coach
-    <set>
-      <if test="no != null">
+    <set >
+      <if test="no != null" >
         no = #{no,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
+      <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
-      <if test="nickName != null">
+      <if test="nickName != null" >
         nick_name = #{nickName,jdbcType=VARCHAR},
       </if>
-      <if test="age != null">
+      <if test="age != null" >
         age = #{age,jdbcType=TINYINT},
       </if>
-      <if test="tel != null">
+      <if test="tel != null" >
         tel = #{tel,jdbcType=VARCHAR},
       </if>
-      <if test="height != null">
+      <if test="height != null" >
         height = #{height,jdbcType=DECIMAL},
       </if>
-      <if test="weight != null">
+      <if test="weight != null" >
         weight = #{weight,jdbcType=DECIMAL},
       </if>
-      <if test="birthday != null">
+      <if test="birthday != null" >
         birthday = #{birthday,jdbcType=DATE},
       </if>
-      <if test="sex != null">
+      <if test="sex != null" >
         sex = #{sex,jdbcType=VARCHAR},
       </if>
-      <if test="icon != null">
+      <if test="icon != null" >
         icon = #{icon,jdbcType=VARCHAR},
       </if>
-      <if test="score != null">
+      <if test="score != null" >
         score = #{score,jdbcType=REAL},
       </if>
-      <if test="comment != null">
+      <if test="comment != null" >
         comment = #{comment,jdbcType=VARCHAR},
       </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
     </set>
-    where coach_Id = #{coachId,jdbcType=INTEGER}
+    where coach_Id = #{coachId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.Coach">
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.Coach" >
     update coach
     set no = #{no,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
@@ -182,7 +202,8 @@
       sex = #{sex,jdbcType=VARCHAR},
       icon = #{icon,jdbcType=VARCHAR},
       score = #{score,jdbcType=REAL},
-      comment = #{comment,jdbcType=VARCHAR}
-    where coach_Id = #{coachId,jdbcType=INTEGER}
+      comment = #{comment,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT}
+    where coach_Id = #{coachId,jdbcType=VARCHAR}
   </update>
 </mapper>

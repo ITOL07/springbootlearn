@@ -6,8 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 public interface UserService1 {
-    public User getUserById(int userId);
+    public User getUserById(String userId);
+    public User getUserByOpenId(String openId);
+    public Map<Object,Object> getUserByName(String userId);
+    public String getMaxId();
 
     boolean addUser(User record);
+
+    boolean updateUser(User user);
+    boolean updateUser1(User user);
 
 }

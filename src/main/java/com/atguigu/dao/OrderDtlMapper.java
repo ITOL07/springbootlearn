@@ -2,6 +2,8 @@ package com.atguigu.dao;
 
 import com.atguigu.entity.OrderDtl;
 
+import java.util.List;
+
 public interface OrderDtlMapper {
     int deleteByPrimaryKey(String orderNo);
 
@@ -10,8 +12,10 @@ public interface OrderDtlMapper {
     int insertSelective(OrderDtl record);
 
     OrderDtl selectByPrimaryKey(String orderNo);
+    List<OrderDtl> selectByMemId(String memId);
 
     int updateByPrimaryKeySelective(OrderDtl record);
 
     int updateByPrimaryKey(OrderDtl record);
+    int updateByMemId(OrderDtl record);
 }
