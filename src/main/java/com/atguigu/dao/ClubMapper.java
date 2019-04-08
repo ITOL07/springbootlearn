@@ -19,4 +19,6 @@ public interface ClubMapper {
     int updateByPrimaryKeySelective(Club record);
 
     int updateByPrimaryKey(Club record);
+
+    String selectMaxId();
 }

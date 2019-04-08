@@ -32,4 +32,29 @@ public class MemberServiceImpl implements MemberService {
         List<Map<Object, Object>> map=mem_les.selectByIdS(memId,status);
         return map;
     }
+
+    public List<Map<Object,Object>> getMemberLessByView(String memId,String status){
+        List<Map<Object, Object>> map=mem_les.selectByView(memId,status);
+        return map;
+    }
+
+    public boolean addMemberLes(MemberLesson record){
+        boolean result = false;
+        try {
+            mem_les.insertSelective(record);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+    public String getMaxId(String memId,String sale_id){
+        return mem_les.selectMaxId(memId,sale_id);
+    }
+
+//    public int updateMemberLes(MemberLesson mem,String mem_id,String sale_id,Byte seq_no){
+    public int updateMemberLes(MemberLesson mem){
+        return mem_les.update(mem);
+    }
 }

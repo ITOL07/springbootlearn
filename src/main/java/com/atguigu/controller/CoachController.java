@@ -1,11 +1,16 @@
 package com.atguigu.controller;
 
 
+import com.atguigu.entity.Coach;
+import com.atguigu.service.CoachService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -13,11 +18,13 @@ import java.util.Map.Entry;
 import java.util.Set;
 
 @RestController
-@RequestMapping("/mydb")
+@RequestMapping("/coach")
 public class CoachController {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Resource
+    private CoachService coachService;
 
     @RequestMapping("/getCoach")
     public List<Map<String, Object>> getDbType() {
@@ -37,4 +44,14 @@ public class CoachController {
         }
         return list;
     }
+
+    @RequestMapping("/qry")
+    public Coach getCoach(
+            @RequestParam("coach_id") String coach_id
+    ) {
+        System.out.println("coach_id==="+coach_id);
+        System.out.println(coachService.getCoachById(coach_id));
+        return coachService.getCoachById(coach_id);
+    }
+
 }

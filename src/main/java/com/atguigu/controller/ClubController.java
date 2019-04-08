@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -77,11 +78,31 @@ public class ClubController {
         System.out.println("club_id ===="+club_id);
         c = clubService.getClubById(club_id);
 
-//        order=orderService.getOrderById("");
-
-        // 封装返回小程序
-
         return c;
+    }
+
+    @RequestMapping("/add")
+    public boolean addClub(
+            @RequestParam("name") String name,
+            @RequestParam("la") BigDecimal la,
+            @RequestParam("lo") BigDecimal lo,
+            @RequestParam("addr") String addr,
+            @RequestParam("tel") String tel
+    ){
+        Club c= new Club();
+        c.setName(name);
+        c.setLa(la);
+        c.setLo(lo);
+        c.setAddress(addr);
+        c.setTel(tel);
+
+        String s=clubService.getMaxId();
+        int i=Integer.parseInt(s);
+        c.setClubId(String.valueOf(++i));
+
+        System.out.println("name ===="+name);
+        return clubService.addUser(c);
+
     }
 
     @RequestMapping("/qryCourse")
@@ -90,8 +111,6 @@ public class ClubController {
     ){
         List<Course> list = courseService.getCourseByClubId(club_id);
         System.out.println("club_id ===="+club_id);
-
-        // 封装返回小程序
 
         return list;
     }
@@ -102,8 +121,6 @@ public class ClubController {
     ){
         List<Coach> list = coachService.getCoachByClubId(club_id);
         System.out.println("club_id ===="+club_id);
-
-        // 封装返回小程序
 
         return list;
     }

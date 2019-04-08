@@ -49,15 +49,15 @@ public class getSeqNo {
         return result;
     }
 
-//    /**
-//     * 获取当天最大的id
-//     */
-//
+    /**
+     * 获取当天最大的id
+     */
+
 //    public String getMaxId(){
 //        @Resource
 //        private UserService1 userService;
 //
-//        String tmp=userService.getMaxId()
+//        String tmp=userService.getMaxId();
 //
 //        return tmp;
 //    }

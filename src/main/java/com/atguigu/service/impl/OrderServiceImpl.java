@@ -8,6 +8,7 @@ import com.atguigu.service.OrderService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 @Service("orderService")
 public class OrderServiceImpl implements OrderService {
@@ -20,7 +21,7 @@ public class OrderServiceImpl implements OrderService {
         return order.selectByPrimaryKey(orderNo);
     }
 
-    public OrderDtl getOrderByMemId(String memId){
+    public List<OrderDtl> getOrderByMemId(String memId){
         return order.selectByMemId(memId);
     }
     public boolean addOrder(OrderDtl record){

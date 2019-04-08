@@ -27,6 +27,10 @@
   where a.coach_id=b.coach_id and
   b.club_id = #{clubId,jdbcType=VARCHAR}
   </select>
+    <select id="selectMaxId" resultType="java.lang.String">
+        select max(club_id)
+        from club
+    </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from club
     where club_Id = #{clubId,jdbcType=VARCHAR}

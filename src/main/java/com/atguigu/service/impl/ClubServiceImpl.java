@@ -31,4 +31,8 @@ public class ClubServiceImpl implements ClubService {
         return result;
     }
 
+    public String getMaxId(){
+        return clubMapper.selectMaxId();
+    }
+
 }
