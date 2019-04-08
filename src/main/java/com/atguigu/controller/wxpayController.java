@@ -10,9 +10,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 微信支付接口，包括统一下单和订单查询
+ */
 @RestController
 @RequestMapping("/pay")
 public class wxpayController {
@@ -56,6 +60,7 @@ public class wxpayController {
     ){
         Map<String, Object> payMap = new HashMap<String, Object>();
         OrderDtl order = new OrderDtl();
+        Date d = new Date();
 
 
         //更新order表支付状态
@@ -76,8 +81,10 @@ public class wxpayController {
             trade_state="0";
         }
 
+        order.setOrderNo(order_no);
         order.setTradeState(trade_state);
         order.setTradeStateDesc(trade_state_desc);
+        order.setRecvTime(d);
 
         boolean bool = this.orderService.updateOrder(order);
         System.out.println("更新数据库状态："+bool);

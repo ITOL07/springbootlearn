@@ -18,16 +18,20 @@ public class Test {
 
         //20190329000002  支付成功的
         //1554474280259173 支付失败的
-        String order_no="20190329000002";
-        payMap=UnifiedOrder.queryWxResult(order_no);
-        System.out.println(payMap);
-        System.out.println(payMap.get("trade_state"));
-        System.out.println(payMap.get("trade_state_desc"));
+//        String order_no="20190329000002";
+//        payMap=UnifiedOrder.queryWxResult(order_no);
+//        System.out.println(payMap);
+//        System.out.println(payMap.get("trade_state"));
+//        System.out.println(payMap.get("trade_state_desc"));
+//
+//        order_no="1554474280259173";
+//        payMap=UnifiedOrder.queryWxResult(order_no);
+//        System.out.println(payMap);
+//        System.out.println(payMap.get("trade_state"));
+//        System.out.println(payMap.get("trade_state_desc"));
 
-        order_no="1554474280259173";
-        payMap=UnifiedOrder.queryWxResult(order_no);
-        System.out.println(payMap);
-        System.out.println(payMap.get("trade_state"));
-        System.out.println(payMap.get("trade_state_desc"));
+        String s ="15";
+        int i=Integer.parseInt(s);
+        System.out.println(++i);
     }
 }

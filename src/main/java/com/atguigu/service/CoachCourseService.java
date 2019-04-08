@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface CoachCourseService {
-    public CoachCourse getCoachCourseById(@Param("coachId")int coachId);
+    public List<CoachCourse> getCoachCourseById(@Param("coachId")String coachId);
 
-    public List<Map<Object, Object>> selecttest(@Param("coachId")int coachId);
-
-    public CoachCourse selecttest1(@Param("coachId")int coachId);
+//    public List<Map<Object, Object>> selecttest(@Param("coachId")String coachId);
+//
+//    public CoachCourse selecttest1(@Param("coachId")String coachId);
 }

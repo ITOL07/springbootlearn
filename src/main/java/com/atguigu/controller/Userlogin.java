@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 用户登录模块，包括
+ * 手机用户登录模块，包括
  * 1：用户登录
  * 2：用户注册
  * 3：重置密码
@@ -187,7 +187,7 @@ public class Userlogin {
 //            ,
 //            @RequestParam("optType") String optType
     ){
-//        CommonRpc crp = new CommonRpc();
+        CommonRpc crp = new CommonRpc();
 
 //        SMS_152471207  身份验证验证码
 //        SMS_152471206  登录确认验证码
@@ -197,14 +197,13 @@ public class Userlogin {
 //        SMS_152471202  信息变更验证码
 //        switch (optType)
 
-//        String optCode="SMS_152471202";
+        String optCode="SMS_152471207";
 //
         JSONObject jsono= new JSONObject();
-//        jsono.put("vericode",crp.sendMsgCode(phoneNo,optCode));
-        jsono.put("vericode","1234");
+        jsono.put("vericode",crp.sendMsgCode(phoneNo,optCode));
         jsono.put("errocode","0");
 
-//      return crp.sendMsgCode(phoneNo,optCode);
+//        return crp.sendMsgCode(phoneNo,optCode);
         return jsono;
     }
 

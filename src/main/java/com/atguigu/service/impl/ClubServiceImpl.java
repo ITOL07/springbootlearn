@@ -15,7 +15,7 @@ public class ClubServiceImpl implements ClubService {
     private ClubMapper clubMapper;
 
 
-    public Club getUserById(int userId) {
+    public Club getClubById(String userId) {
         return clubMapper.selectByPrimaryKey(userId);
     }
 
@@ -29,6 +29,10 @@ public class ClubServiceImpl implements ClubService {
         }
 
         return result;
+    }
+
+    public String getMaxId(){
+        return clubMapper.selectMaxId();
     }
 
 }

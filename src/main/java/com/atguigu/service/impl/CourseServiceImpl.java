@@ -1,33 +1,35 @@
 package com.atguigu.service.impl;
 
+import com.atguigu.dao.CourseMapper;
 import com.atguigu.dao.OrderDtlMapper;
-import com.atguigu.dao.OrderMapper;
-import com.atguigu.entity.Order;
+import com.atguigu.entity.Course;
 import com.atguigu.entity.OrderDtl;
+import com.atguigu.service.CourseService;
 import com.atguigu.service.OrderService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 
-@Service("orderService")
-public class OrderServiceImpl implements OrderService {
+@Service("courseService")
+public class CourseServiceImpl implements CourseService {
 
     @Resource
-    private OrderDtlMapper order;
+    private CourseMapper course;
 
 
-    public OrderDtl getOrderById(String orderNo) {
-        return order.selectByPrimaryKey(orderNo);
+    public Course getCourseById(String course_id) {
+        return course.selectByPrimaryKey(course_id);
     }
 
-    public List<OrderDtl> getOrderByMemId(String memId){
-        return order.selectByMemId(memId);
+    public List<Course> getCourseByClubId(String club_id) {
+        return course.selectByClubId(club_id);
     }
-    public boolean addOrder(OrderDtl record){
+
+    public boolean addOrder(Course record){
         boolean result = false;
         try {
-            order.insertSelective(record);
+            course.insertSelective(record);
             result = true;
         } catch (Exception e) {
             e.printStackTrace();
@@ -36,10 +38,10 @@ public class OrderServiceImpl implements OrderService {
         return result;
     }
 
-    public boolean updateOrder(OrderDtl record) {
+    public boolean updateOrder(Course record) {
         boolean result = false;
         try {
-            order.updateByPrimaryKeySelective(record);
+            course.updateByPrimaryKeySelective(record);
             result = true;
         } catch (Exception e) {
             e.printStackTrace();

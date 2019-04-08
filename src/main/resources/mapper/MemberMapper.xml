@@ -13,9 +13,10 @@
     <result column="sex" property="sex" jdbcType="VARCHAR" />
     <result column="icon" property="icon" jdbcType="VARCHAR" />
     <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="TINYINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    mem_Id, no, nick_name, age, tel, height, weight, birthday, sex, icon, name
+    mem_Id, no, nick_name, age, tel, height, weight, birthday, sex, icon, name, type
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -30,12 +31,12 @@
   <insert id="insert" parameterType="com.atguigu.entity.Member" >
     insert into member (mem_Id, no, nick_name, 
       age, tel, height, weight, 
-      birthday, sex, icon, name
-      )
+      birthday, sex, icon, name, 
+      type)
     values (#{memId,jdbcType=VARCHAR}, #{no,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
       #{age,jdbcType=TINYINT}, #{tel,jdbcType=VARCHAR}, #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, 
-      #{birthday,jdbcType=DATE}, #{sex,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}
-      )
+      #{birthday,jdbcType=DATE}, #{sex,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{type,jdbcType=TINYINT})
   </insert>
   <insert id="insertSelective" parameterType="com.atguigu.entity.Member" >
     insert into member
@@ -73,6 +74,9 @@
       <if test="name != null" >
         name,
       </if>
+      <if test="type != null" >
+        type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="memId != null" >
@@ -107,6 +111,9 @@
       </if>
       <if test="name != null" >
         #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=TINYINT},
       </if>
     </trim>
   </insert>
@@ -143,6 +150,9 @@
       <if test="name != null" >
         name = #{name,jdbcType=VARCHAR},
       </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=TINYINT},
+      </if>
     </set>
     where mem_Id = #{memId,jdbcType=VARCHAR}
   </update>
@@ -157,7 +167,8 @@
       birthday = #{birthday,jdbcType=DATE},
       sex = #{sex,jdbcType=VARCHAR},
       icon = #{icon,jdbcType=VARCHAR},
-      name = #{name,jdbcType=VARCHAR}
+      name = #{name,jdbcType=VARCHAR},
+      type = #{type,jdbcType=TINYINT}
     where mem_Id = #{memId,jdbcType=VARCHAR}
   </update>
 </mapper>

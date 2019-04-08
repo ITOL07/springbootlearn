@@ -2,33 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.atguigu.dao.CourseMapper" >
   <resultMap id="BaseResultMap" type="com.atguigu.entity.Course" >
-    <id column="course_id" property="courseId" jdbcType="INTEGER" />
+    <id column="course_id" property="courseId" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="DECIMAL" />
     <result column="discount" property="discount" jdbcType="DECIMAL" />
     <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="coach_id" property="coachId" jdbcType="VARCHAR" />
+    <result column="coach_type" property="coachType" jdbcType="TINYINT" />
+    <result column="club_id" property="clubId" jdbcType="VARCHAR" />
+    <result column="club_type" property="clubType" jdbcType="TINYINT" />
+    <result column="bz1" property="bz1" jdbcType="VARCHAR" />
+    <result column="bz2" property="bz2" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    course_id, type, name, price, discount, status
+    course_id, type, name, price, discount, status, coach_id, coach_type, club_id, club_type, 
+    bz1, bz2
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from course
-    where course_id = #{courseId,jdbcType=INTEGER}
+    where course_id = #{courseId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <select id="selectByClubId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from course
+    where club_id = #{clubId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from course
-    where course_id = #{courseId,jdbcType=INTEGER}
+    where course_id = #{courseId,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.atguigu.entity.Course" >
     insert into course (course_id, type, name, 
-      price, discount, status
-      )
-    values (#{courseId,jdbcType=INTEGER}, #{type,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
-      #{price,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}
-      )
+      price, discount, status, 
+      coach_id, coach_type, club_id, 
+      club_type, bz1, bz2)
+    values (#{courseId,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{price,jdbcType=DECIMAL}, #{discount,jdbcType=DECIMAL}, #{status,jdbcType=TINYINT}, 
+      #{coachId,jdbcType=VARCHAR}, #{coachType,jdbcType=TINYINT}, #{clubId,jdbcType=VARCHAR}, 
+      #{clubType,jdbcType=TINYINT}, #{bz1,jdbcType=VARCHAR}, #{bz2,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.atguigu.entity.Course" >
     insert into course
@@ -51,10 +66,28 @@
       <if test="status != null" >
         status,
       </if>
+      <if test="coachId != null" >
+        coach_id,
+      </if>
+      <if test="coachType != null" >
+        coach_type,
+      </if>
+      <if test="clubId != null" >
+        club_id,
+      </if>
+      <if test="clubType != null" >
+        club_type,
+      </if>
+      <if test="bz1 != null" >
+        bz1,
+      </if>
+      <if test="bz2 != null" >
+        bz2,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="courseId != null" >
-        #{courseId,jdbcType=INTEGER},
+        #{courseId,jdbcType=VARCHAR},
       </if>
       <if test="type != null" >
         #{type,jdbcType=INTEGER},
@@ -70,6 +103,24 @@
       </if>
       <if test="status != null" >
         #{status,jdbcType=TINYINT},
+      </if>
+      <if test="coachId != null" >
+        #{coachId,jdbcType=VARCHAR},
+      </if>
+      <if test="coachType != null" >
+        #{coachType,jdbcType=TINYINT},
+      </if>
+      <if test="clubId != null" >
+        #{clubId,jdbcType=VARCHAR},
+      </if>
+      <if test="clubType != null" >
+        #{clubType,jdbcType=TINYINT},
+      </if>
+      <if test="bz1 != null" >
+        #{bz1,jdbcType=VARCHAR},
+      </if>
+      <if test="bz2 != null" >
+        #{bz2,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -91,8 +142,26 @@
       <if test="status != null" >
         status = #{status,jdbcType=TINYINT},
       </if>
+      <if test="coachId != null" >
+        coach_id = #{coachId,jdbcType=VARCHAR},
+      </if>
+      <if test="coachType != null" >
+        coach_type = #{coachType,jdbcType=TINYINT},
+      </if>
+      <if test="clubId != null" >
+        club_id = #{clubId,jdbcType=VARCHAR},
+      </if>
+      <if test="clubType != null" >
+        club_type = #{clubType,jdbcType=TINYINT},
+      </if>
+      <if test="bz1 != null" >
+        bz1 = #{bz1,jdbcType=VARCHAR},
+      </if>
+      <if test="bz2 != null" >
+        bz2 = #{bz2,jdbcType=VARCHAR},
+      </if>
     </set>
-    where course_id = #{courseId,jdbcType=INTEGER}
+    where course_id = #{courseId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.Course" >
     update course
@@ -100,7 +169,13 @@
       name = #{name,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
       discount = #{discount,jdbcType=DECIMAL},
-      status = #{status,jdbcType=TINYINT}
-    where course_id = #{courseId,jdbcType=INTEGER}
+      status = #{status,jdbcType=TINYINT},
+      coach_id = #{coachId,jdbcType=VARCHAR},
+      coach_type = #{coachType,jdbcType=TINYINT},
+      club_id = #{clubId,jdbcType=VARCHAR},
+      club_type = #{clubType,jdbcType=TINYINT},
+      bz1 = #{bz1,jdbcType=VARCHAR},
+      bz2 = #{bz2,jdbcType=VARCHAR}
+    where course_id = #{courseId,jdbcType=VARCHAR}
   </update>
 </mapper>

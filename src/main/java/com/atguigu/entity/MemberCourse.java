@@ -1,7 +1,7 @@
 package com.atguigu.entity;
 
-public class CoachCourse {
-    private String coachId;
+public class MemberCourse {
+    private String memId;
 
     private String courseId;
 
@@ -11,16 +11,16 @@ public class CoachCourse {
 
     private Byte rem;
 
-    private String clubId;
-
     private Byte status;
 
-    public String getCoachId() {
-        return coachId;
+    private String bz1;
+
+    public String getMemId() {
+        return memId;
     }
 
-    public void setCoachId(String coachId) {
-        this.coachId = coachId;
+    public void setMemId(String memId) {
+        this.memId = memId;
     }
 
     public String getCourseId() {
@@ -55,19 +55,19 @@ public class CoachCourse {
         this.rem = rem;
     }
 
-    public String getClubId() {
-        return clubId;
-    }
-
-    public void setClubId(String clubId) {
-        this.clubId = clubId;
-    }
-
     public Byte getStatus() {
         return status;
     }
 
     public void setStatus(Byte status) {
         this.status = status;
+    }
+
+    public String getBz1() {
+        return bz1;
+    }
+
+    public void setBz1(String bz1) {
+        this.bz1 = bz1;
     }
 }
