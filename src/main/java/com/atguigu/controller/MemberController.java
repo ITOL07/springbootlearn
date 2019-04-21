@@ -120,7 +120,7 @@ public class MemberController {
             System.out.println("start_time====="+map.get("end_time_1"));
         }
 //        return memberService.getMemberLessByIdS(mem_id,status);
-        return memberService.getMemberLessByView(mem_id,status);
+        return memberService.getMemberLessByView(mem_id,"",status);
     }
 
     /**

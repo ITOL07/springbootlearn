@@ -85,4 +85,8 @@ public class CoachServiceImpl implements CoachService {
     public float getCoachIncomePct(Integer cnt,String para_id){
         return tPubParamMapper.selectPct(cnt,para_id);
     }
+
+    public List<Map<Object,Object>> getMyMemberId(String coachId){
+        return coach.selectMyMemId(coachId);
+    }
 }

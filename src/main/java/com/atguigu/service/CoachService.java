@@ -30,4 +30,6 @@ public interface CoachService {
 
     public float getCoachIncomePct(Integer cnt,String para_id);
 
+    public List<Map<Object,Object>> getMyMemberId(String coachId);
+
 }

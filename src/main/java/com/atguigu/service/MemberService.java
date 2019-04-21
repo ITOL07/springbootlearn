@@ -15,7 +15,11 @@ public interface MemberService {
 
     public List<Map<Object,Object>> getMemberLessByIdS(String memId,String status);
 
-    public List<Map<Object,Object>> getMemberLessByView(String memId,String status);
+    public List<Map<Object,Object>> getMemberLessByView(String memId,String coachId,String status);
+    public List<Map<Object,Object>> getMemberLessByCoachId(String coachId,String status);
+
+    public List<Map<Object,Object>> getMemberLessByViewDate(String memId,String coachId,String status,String reg_date);
+    public List<Map<Object,Object>> getMemberLessByCoachIdDate(String coachId,String status,String reg_date);
 
     boolean addMemberLes(MemberLesson mem);
 
@@ -24,5 +28,7 @@ public interface MemberService {
 //    public int updateMemberLes(MemberLesson mem,String mem_id,String sale_id,Byte seq_no);
 
     public int updateMemberLes(MemberLesson mem);
+
+    public Map<Object,Object> getMemCourseSum(String mem_id);
 
 }

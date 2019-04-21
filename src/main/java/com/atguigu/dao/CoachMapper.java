@@ -3,6 +3,7 @@ package com.atguigu.dao;
 import com.atguigu.entity.Coach;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CoachMapper {
     int deleteByPrimaryKey(String coachId);
@@ -18,4 +19,6 @@ public interface CoachMapper {
     int updateByPrimaryKeySelective(Coach record);
 
     int updateByPrimaryKey(Coach record);
+
+    List<Map<Object,Object>> selectMyMemId(String coachId);
 }
