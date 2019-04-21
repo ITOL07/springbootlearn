@@ -23,7 +23,7 @@ public class MemberLesson {
 
     private String coachId;
 
-    private Integer realClub;
+    private String realClub;
 
     private String realCoach;
 
@@ -32,6 +32,8 @@ public class MemberLesson {
     private String bz2;
 
     private Date chTime;
+
+    private String kcId;
 
     public String getMemId() {
         return memId;
@@ -113,11 +115,11 @@ public class MemberLesson {
         this.coachId = coachId;
     }
 
-    public Integer getRealClub() {
+    public String getRealClub() {
         return realClub;
     }
 
-    public void setRealClub(Integer realClub) {
+    public void setRealClub(String realClub) {
         this.realClub = realClub;
     }
 
@@ -151,5 +153,13 @@ public class MemberLesson {
 
     public void setChTime(Date chTime) {
         this.chTime = chTime;
+    }
+
+    public String getKcId() {
+        return kcId;
+    }
+
+    public void setKcId(String kcId) {
+        this.kcId = kcId;
     }
 }

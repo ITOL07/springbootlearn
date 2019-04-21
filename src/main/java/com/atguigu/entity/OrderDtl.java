@@ -22,6 +22,8 @@ public class OrderDtl {
 
     private Date recvTime;
 
+    private String try_flag;
+
     public String getOrderNo() {
         return orderNo;
     }
@@ -92,5 +94,13 @@ public class OrderDtl {
 
     public void setRecvTime(Date recvTime) {
         this.recvTime = recvTime;
+    }
+
+    public String getTry_flag() {
+        return try_flag;
+    }
+
+    public void setTry_flag(String try_flag) {
+        this.try_flag = try_flag;
     }
 }

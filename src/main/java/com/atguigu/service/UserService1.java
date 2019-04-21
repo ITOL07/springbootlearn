@@ -9,11 +9,12 @@ public interface UserService1 {
     public User getUserById(String userId);
     public User getUserByOpenId(String openId);
     public Map<Object,Object> getUserByName(String userId);
-    public String getMaxId();
+    public String getMaxId(Integer type);
 
     boolean addUser(User record);
 
     boolean updateUser(User user);
     boolean updateUser1(User user);
+    boolean updateUserByOpenid(User record);
 
 }

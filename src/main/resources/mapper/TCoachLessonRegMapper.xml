@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.dao.TCoachLessonRegMapper" >
+  <resultMap id="BaseResultMap" type="com.atguigu.entity.TCoachLessonReg" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="coach_id" property="coachId" jdbcType="VARCHAR" />
+    <result column="les_count" property="lesCount" jdbcType="INTEGER" />
+    <result column="les_price" property="lesPrice" jdbcType="DECIMAL" />
+    <result column="sold_count" property="soldCount" jdbcType="INTEGER" />
+    <result column="sold_price" property="soldPrice" jdbcType="DECIMAL" />
+    <result column="reg_date" property="regDate" jdbcType="DATE" />
+    <result column="reg_time" property="regTime" jdbcType="TIMESTAMP" />
+    <result column="ch_time" property="chTime" jdbcType="TIMESTAMP" />
+    <result column="course_type" property="courseType" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, coach_id, les_count, les_price, sold_count, sold_price, reg_date, reg_time, ch_time, 
+    course_type
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_coach_lesson_reg
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <select id="selectByCoachId" resultType="map"  >
+    select * from v_coach_lesson_reg
+    where coach_id=#{coachId,jdbcType=VARCHAR}
+    and reg_date=#{reg_date,jdbcType=DATE}
+  </select>
+
+  <select id="selectSumByCoachId" resultType="map">
+    select sum(les_count) les_count_sum,sum(les_count*les_price) les_total_amt ,
+    sum(sold_count) sold_count_sum,sum(sold_count*sold_price) sold_total_amt
+    from v_coach_lesson_reg
+    where coach_id=#{coachId,jdbcType=VARCHAR}
+    and reg_date&lt;=#{reg_date,jdbcType=DATE}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_coach_lesson_reg
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.atguigu.entity.TCoachLessonReg" >
+    insert into t_coach_lesson_reg (id, coach_id, les_count, 
+      les_price, sold_count, sold_price, 
+      reg_date, reg_time, ch_time, 
+      course_type)
+    values (#{id,jdbcType=INTEGER}, #{coachId,jdbcType=VARCHAR}, #{lesCount,jdbcType=INTEGER}, 
+      #{lesPrice,jdbcType=DECIMAL}, #{soldCount,jdbcType=INTEGER}, #{soldPrice,jdbcType=DECIMAL}, 
+      #{regDate,jdbcType=DATE}, #{regTime,jdbcType=TIMESTAMP}, #{chTime,jdbcType=TIMESTAMP}, 
+      #{courseType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.atguigu.entity.TCoachLessonReg" >
+    insert into t_coach_lesson_reg
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="coachId != null" >
+        coach_id,
+      </if>
+      <if test="lesCount != null" >
+        les_count,
+      </if>
+      <if test="lesPrice != null" >
+        les_price,
+      </if>
+      <if test="soldCount != null" >
+        sold_count,
+      </if>
+      <if test="soldPrice != null" >
+        sold_price,
+      </if>
+      <if test="regDate != null" >
+        reg_date,
+      </if>
+      <if test="regTime != null" >
+        reg_time,
+      </if>
+      <if test="chTime != null" >
+        ch_time,
+      </if>
+      <if test="courseType != null" >
+        course_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="coachId != null" >
+        #{coachId,jdbcType=VARCHAR},
+      </if>
+      <if test="lesCount != null" >
+        #{lesCount,jdbcType=INTEGER},
+      </if>
+      <if test="lesPrice != null" >
+        #{lesPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="soldCount != null" >
+        #{soldCount,jdbcType=INTEGER},
+      </if>
+      <if test="soldPrice != null" >
+        #{soldPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="regDate != null" >
+        #{regDate,jdbcType=DATE},
+      </if>
+      <if test="regTime != null" >
+        #{regTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chTime != null" >
+        #{chTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseType != null" >
+        #{courseType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.TCoachLessonReg" >
+    update t_coach_lesson_reg
+    <set >
+      <if test="coachId != null" >
+        coach_id = #{coachId,jdbcType=VARCHAR},
+      </if>
+      <if test="lesCount != null" >
+        les_count = #{lesCount,jdbcType=INTEGER},
+      </if>
+      <if test="lesPrice != null" >
+        les_price = #{lesPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="soldCount != null" >
+        sold_count = #{soldCount,jdbcType=INTEGER},
+      </if>
+      <if test="soldPrice != null" >
+        sold_price = #{soldPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="regDate != null" >
+        reg_date = #{regDate,jdbcType=DATE},
+      </if>
+      <if test="regTime != null" >
+        reg_time = #{regTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chTime != null" >
+        ch_time = #{chTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseType != null" >
+        course_type = #{courseType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.TCoachLessonReg" >
+    update t_coach_lesson_reg
+    set coach_id = #{coachId,jdbcType=VARCHAR},
+      les_count = #{lesCount,jdbcType=INTEGER},
+      les_price = #{lesPrice,jdbcType=DECIMAL},
+      sold_count = #{soldCount,jdbcType=INTEGER},
+      sold_price = #{soldPrice,jdbcType=DECIMAL},
+      reg_date = #{regDate,jdbcType=DATE},
+      reg_time = #{regTime,jdbcType=TIMESTAMP},
+      ch_time = #{chTime,jdbcType=TIMESTAMP},
+      course_type = #{courseType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

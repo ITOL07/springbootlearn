@@ -80,7 +80,8 @@ public class Userlogin {
     @RequestMapping("/signup")
     public JSONObject getphone(
             @RequestParam("phoneNo") String phoneNo,
-            @RequestParam("passwd") String passwd
+            @RequestParam("passwd") String passwd,
+            @RequestParam("type") Integer type
     ){
 
         Map<String, String> param = new HashMap<>();
@@ -97,12 +98,12 @@ public class Userlogin {
             User insert_user = new User();
             insert_user.setLastLogin(new Date());
 
-            String maxId=userService.getMaxId();
+            String maxId=userService.getMaxId(type);
             System.out.println("maxId==="+maxId);
             if(maxId!=null) {
                 index = Integer.parseInt(maxId.substring(8));
             }
-            String id= getSeqNo.getId(12,index);
+            String id= getSeqNo.getId(12,index,type);
             insert_user.setId(id);
             insert_user.setUserName(phoneNo);
             insert_user.setPassword(passwd);
@@ -205,6 +206,98 @@ public class Userlogin {
 
 //        return crp.sendMsgCode(phoneNo,optCode);
         return jsono;
+    }
+
+    /**
+     *
+     * @param phoneNo
+     * @param open_id
+     * @return
+     * 用手机号登录的用户，绑定微信号
+     */
+    @RequestMapping("/bindWx")
+    public JSONObject bindWx(
+            @RequestParam("phoneNo") String phoneNo,
+            @RequestParam("open_id") String open_id
+    ){
+
+        Map<String, String> param = new HashMap<>();
+        JSONObject result= new JSONObject();
+        // 根据返回的user实体类，判断用户是否注册过，不是的话，提示先注册，是的话，将用户信息存到数据库
+        System.out.println("username ===="+phoneNo+"========open_id====="+open_id);
+        Map<Object,Object> map = userService.getUserByName(phoneNo);
+
+
+        if(map == null){
+            result.put("errono","-1");  //用户不存在
+            result.put("errocode","用户不存在,请先注册");
+        }else{
+            User user = new User();
+            user.setLastLogin(new Date());
+
+            user.setUserName(phoneNo);
+            user.setOpenId(open_id);
+            System.out.println("user======"+user.toString()+"+++++++open_id====="+open_id);
+            // 添加到数据库
+
+            Boolean flag = userService.updateUser1(user);
+            result.put("errocode","绑定微信账号成功");
+
+        }
+        // 封装返回小程序
+//        Map<String, String> result = new HashMap<>();
+////        result.put("session_key", session_key);
+//        result.put("open_id", open_id);
+        return result;
+    }
+
+    /**
+     *
+     * @param phoneNo
+     * @param open_id
+     * @return
+     * 用微信登录的用户，绑定手机号
+     */
+    @RequestMapping("/bindPhone")
+    public JSONObject bindPhone(
+            @RequestParam("phoneNo") String phoneNo,
+            @RequestParam("open_id") String open_id
+    ){
+
+        Map<String, String> param = new HashMap<>();
+        JSONObject result= new JSONObject();
+        // 根据返回的user实体类，判断用户是否注册过，不是的话，提示先注册，是的话，将用户信息存到数据库
+        System.out.println("username ===="+phoneNo+"========open_id====="+open_id);
+        User user = userService.getUserByOpenId(open_id);
+
+
+        if(user == null){
+            result.put("errono","-1");  //用户不存在
+            result.put("errocode","用户不存在,请先注册");
+        }else if (user.getUserName()!=null){
+            result.put("errono","-2");  //用户不存在
+            result.put("errocode","手机号已被绑定,无须重复绑定");
+        }
+        else{
+            User user_tmp = new User();
+            user_tmp.setLastLogin(new Date());
+
+            user_tmp.setUserName(phoneNo);
+            //初始密码6个0
+            user_tmp.setPassword("670b14728ad9902aecba32e22fa4f6bd");
+            user_tmp.setOpenId(open_id);
+            System.out.println("user======"+user_tmp.toString()+"+++++++open_id====="+open_id);
+            // 添加到数据库
+
+            Boolean flag = userService.updateUserByOpenid(user_tmp);
+            result.put("errocode","您现在可以通过手机号登录，初始密码为000000");
+
+        }
+        // 封装返回小程序
+//        Map<String, String> result = new HashMap<>();
+////        result.put("session_key", session_key);
+//        result.put("open_id", open_id);
+        return result;
     }
 
 

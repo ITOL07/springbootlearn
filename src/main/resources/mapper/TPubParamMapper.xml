@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.dao.TPubParamMapper">
+  <resultMap id="BaseResultMap" type="com.atguigu.entity.TPubParam">
+    <result column="para_id" jdbcType="VARCHAR" property="paraId" />
+    <result column="para_name" jdbcType="VARCHAR" property="paraName" />
+    <result column="min_val" jdbcType="INTEGER" property="minVal" />
+    <result column="max_val" jdbcType="INTEGER" property="maxVal" />
+    <result column="pct" jdbcType="DECIMAL" property="pct" />
+    <result column="cur_time" jdbcType="TIMESTAMP" property="curTime" />
+    <result column="bz1" jdbcType="VARCHAR" property="bz1" />
+    <result column="up_time" jdbcType="TIMESTAMP" property="upTime" />
+  </resultMap>
+  <select id="selectPct" resultType="java.lang.Float">
+    select pct from t_pub_param
+    where min_val &lt;= #{cnt,jdbcType=INTEGER}
+    and max_val &gt; #{cnt,jdbcType=INTEGER}
+    and para_id=#{paraId,jdbcType=VARCHAR}
+  </select>
+  <insert id="insert" parameterType="com.atguigu.entity.TPubParam">
+    insert into t_pub_param (para_id, para_name, min_val, 
+      max_val, pct, cur_time, 
+      bz1, up_time)
+    values (#{paraId,jdbcType=VARCHAR}, #{paraName,jdbcType=VARCHAR}, #{minVal,jdbcType=INTEGER}, 
+      #{maxVal,jdbcType=INTEGER}, #{pct,jdbcType=DECIMAL}, #{curTime,jdbcType=TIMESTAMP}, 
+      #{bz1,jdbcType=VARCHAR}, #{upTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.atguigu.entity.TPubParam">
+    insert into t_pub_param
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="paraId != null">
+        para_id,
+      </if>
+      <if test="paraName != null">
+        para_name,
+      </if>
+      <if test="minVal != null">
+        min_val,
+      </if>
+      <if test="maxVal != null">
+        max_val,
+      </if>
+      <if test="pct != null">
+        pct,
+      </if>
+      <if test="curTime != null">
+        cur_time,
+      </if>
+      <if test="bz1 != null">
+        bz1,
+      </if>
+      <if test="upTime != null">
+        up_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="paraId != null">
+        #{paraId,jdbcType=VARCHAR},
+      </if>
+      <if test="paraName != null">
+        #{paraName,jdbcType=VARCHAR},
+      </if>
+      <if test="minVal != null">
+        #{minVal,jdbcType=INTEGER},
+      </if>
+      <if test="maxVal != null">
+        #{maxVal,jdbcType=INTEGER},
+      </if>
+      <if test="pct != null">
+        #{pct,jdbcType=DECIMAL},
+      </if>
+      <if test="curTime != null">
+        #{curTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bz1 != null">
+        #{bz1,jdbcType=VARCHAR},
+      </if>
+      <if test="upTime != null">
+        #{upTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>

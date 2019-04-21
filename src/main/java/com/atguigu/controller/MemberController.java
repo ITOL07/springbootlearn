@@ -109,17 +109,16 @@ public class MemberController {
             @RequestParam("mem_id") String mem_id,
             @RequestParam("status") String status
     ){
-        System.out.println("mem_id ===="+mem_id);
-//        List<Map<Object,Object>> list= new ArrayList<Map<Object,Object>>();
-//        List<Map<Object,Object>> list_res= new ArrayList<Map<Object,Object>>();
-//        list=memberService.getMemberLessByIdS(mem_id,status);
+        System.out.println("mem_id ===="+mem_id+"status===="+status);
 
-//        for(Map<Object,Object> map:list){
-//            String sale_id=map.get("sale_id").toString();
-//            System.out.println("sale_id====="+sale_id);
-//            Course course  = courseService.getCourseById(sale_id);
-//            map.put("")
-//        }
+        List<Map<Object,Object>> list= new ArrayList<Map<Object,Object>>();
+//        List<Map<Object,Object>> list_res= new ArrayList<Map<Object,Object>>();
+        list=memberService.getMemberLessByIdS(mem_id,status);
+
+        for(Map<Object,Object> map:list){
+            String sale_id=map.get("mem_id").toString();
+            System.out.println("start_time====="+map.get("end_time_1"));
+        }
 //        return memberService.getMemberLessByIdS(mem_id,status);
         return memberService.getMemberLessByView(mem_id,status);
     }

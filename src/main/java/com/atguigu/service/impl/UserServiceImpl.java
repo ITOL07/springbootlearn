@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService1 {
         return userDao.selectbyUsername(userId);
     }
 
-    public String getMaxId(){ return userDao.selectMaxId(); }
+    public String getMaxId(Integer type){ return userDao.selectMaxId(type); }
     public boolean addUser(User record){
         boolean result = false;
         try {
@@ -57,6 +57,18 @@ public class UserServiceImpl implements UserService1 {
         boolean result = false;
         try {
             userDao.updateByUserName(record);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public boolean updateUserByOpenid(User record){
+        boolean result = false;
+        try {
+            userDao.updateByOpenId(record);
             result = true;
         } catch (Exception e) {
             e.printStackTrace();

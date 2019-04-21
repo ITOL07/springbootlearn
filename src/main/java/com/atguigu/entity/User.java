@@ -15,6 +15,18 @@ public class User {
 
     private String openId;
 
+    private String try_flag;
+
+    private Integer type;
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
     public String getId() {
         return id;
     }
@@ -62,4 +74,13 @@ public class User {
     public void setOpenId(String openId) {
         this.openId = openId;
     }
+    public String getTry_flag() {
+        return try_flag;
+    }
+
+    public void setTry_flag(String try_flag) {
+        this.try_flag = try_flag;
+    }
+
+
 }

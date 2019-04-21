@@ -22,7 +22,8 @@ public class UserController {
 
     @RequestMapping("/getUsers")
     public List<Map<String, Object>> getDbType() {
-        String sql = "select * from member";
+//        String sql = "select * from member";
+        String sql = "select distinct sale_id from order_dtl where mem_id='201904050002'";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
         for (Map<String, Object> map : list) {
             Set<Entry<String, Object>> entries = map.entrySet();

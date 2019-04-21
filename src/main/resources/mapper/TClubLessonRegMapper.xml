@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.dao.TClubLessonRegMapper" >
+  <resultMap id="BaseResultMap" type="com.atguigu.entity.TClubLessonReg" >
+    <result column="id" property="id" jdbcType="INTEGER" />
+    <result column="club_id" property="clubId" jdbcType="VARCHAR" />
+    <result column="les_count" property="lesCount" jdbcType="INTEGER" />
+    <result column="les_price" property="lesPrice" jdbcType="DECIMAL" />
+    <result column="sold_count" property="soldCount" jdbcType="INTEGER" />
+    <result column="sold_price" property="soldPrice" jdbcType="DECIMAL" />
+    <result column="reg_date" property="regDate" jdbcType="DATE" />
+    <result column="reg_time" property="regTime" jdbcType="TIMESTAMP" />
+    <result column="ch_time" property="chTime" jdbcType="TIMESTAMP" />
+    <result column="course_type" property="courseType" jdbcType="VARCHAR" />
+  </resultMap>
+  <select id="selectByClubId" resultType="map"  >
+    select * from v_club_lesson_reg
+    where club_id=#{clubId,jdbcType=VARCHAR}
+    and reg_date=#{reg_date,jdbcType=DATE}
+  </select>
+
+  <select id="selectSumByClubId" resultType="map">
+    select sum(les_count) les_count_sum,sum(les_count*les_price) les_total_amt ,
+    sum(sold_count) sold_count_sum,sum(sold_count*sold_price) sold_total_amt
+    from v_club_lesson_reg
+    where club_id=#{clubId,jdbcType=VARCHAR}
+    and reg_date&lt;=#{reg_date,jdbcType=DATE}
+  </select>
+
+  <insert id="insert" parameterType="com.atguigu.entity.TClubLessonReg" >
+    insert into t_club_lesson_reg (id, club_id, les_count,
+      les_price, sold_count, sold_price,
+      reg_date, reg_time, ch_time,
+      course_type)
+    values (#{id,jdbcType=INTEGER}, #{clubId,jdbcType=VARCHAR}, #{lesCount,jdbcType=INTEGER},
+      #{lesPrice,jdbcType=DECIMAL}, #{soldCount,jdbcType=INTEGER}, #{soldPrice,jdbcType=DECIMAL},
+      #{regDate,jdbcType=DATE}, #{regTime,jdbcType=TIMESTAMP}, #{chTime,jdbcType=TIMESTAMP},
+      #{courseType,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.atguigu.entity.TClubLessonReg" >
+    insert into t_club_lesson_reg
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="clubId != null" >
+        club_id,
+      </if>
+      <if test="lesCount != null" >
+        les_count,
+      </if>
+      <if test="lesPrice != null" >
+        les_price,
+      </if>
+      <if test="soldCount != null" >
+        sold_count,
+      </if>
+      <if test="soldPrice != null" >
+        sold_price,
+      </if>
+      <if test="regDate != null" >
+        reg_date,
+      </if>
+      <if test="regTime != null" >
+        reg_time,
+      </if>
+      <if test="chTime != null" >
+        ch_time,
+      </if>
+      <if test="courseType != null" >
+        course_type,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="clubId != null" >
+        #{clubId,jdbcType=VARCHAR},
+      </if>
+      <if test="lesCount != null" >
+        #{lesCount,jdbcType=INTEGER},
+      </if>
+      <if test="lesPrice != null" >
+        #{lesPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="soldCount != null" >
+        #{soldCount,jdbcType=INTEGER},
+      </if>
+      <if test="soldPrice != null" >
+        #{soldPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="regDate != null" >
+        #{regDate,jdbcType=DATE},
+      </if>
+      <if test="regTime != null" >
+        #{regTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chTime != null" >
+        #{chTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseType != null" >
+        #{courseType,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+</mapper>

@@ -23,7 +23,7 @@ public class getSeqNo {
      * @param length 长度
      * @return 返回8位时间戳+3位递增数
      */
-    public synchronized static String getId(int length,int startIndex) {
+    public synchronized static String getId(int length,int startIndex,int type) {
         //获取时间部分字符串
         Date now = new Date();
         String nowStr = sdf.format(now);
@@ -39,6 +39,7 @@ public class getSeqNo {
             System.out.println("222222222222");
         }
 
+        //CD201904200001
         if (length > 8) {
             result = nowStr+new DecimalFormat("0000").format(startIndex);
         } else {
@@ -46,7 +47,13 @@ public class getSeqNo {
         }
         System.out.println("nowStr===="+nowStr+"--------startIndex="+startIndex);
 
-        return result;
+        String prefix="";
+        switch (type){
+            case 1: prefix="HY"; break;
+            case 2: prefix="JL"; break;
+            case 3: prefix="CD"; break;
+        }
+        return prefix+result;
     }
 
     /**

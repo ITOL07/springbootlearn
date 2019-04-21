@@ -1,5 +1,9 @@
 package com.atguigu.controller;
 
+import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,7 +15,10 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * 万能的helloWorld，入门
  */
-@Controller
+//@Controller
+@Component
+@Configuration
+@EnableScheduling
 public class helloController {
 
     @ResponseBody
@@ -20,6 +27,11 @@ public class helloController {
         //int userId = Integer.parseInt(request.getParameter("id"));
         System.out.println("request====="+request.getQueryString());
 
+    }
+
+    @Scheduled(cron = "* * 1 * * ?")
+    private void configureTasks() {
+        System.err.println("执行静态定时任务时间: ");
     }
 }
 

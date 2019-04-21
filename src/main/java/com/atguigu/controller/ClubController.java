@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.Map.Entry;
 
@@ -59,9 +61,9 @@ public class ClubController {
 
     @RequestMapping("/showClub")
     @ResponseBody
-    public Club getUserById(HttpServletRequest request, Model model){
+    public Club getUserById(HttpServletRequest request, Model model) {
         String userId = request.getParameter("id");
-        System.out.println("id====="+userId);
+        System.out.println("id=====" + userId);
         Club club = this.clubService.getClubById(userId);
         return club;
     }
@@ -69,13 +71,13 @@ public class ClubController {
     @RequestMapping("/qry")
     public Club qryClub(
             @RequestParam("club_id") String club_id
-    ){
-        Club c= new Club();
+    ) {
+        Club c = new Club();
 
         Map<String, String> param = new HashMap<>();
-        JSONObject result= new JSONObject();
+        JSONObject result = new JSONObject();
 
-        System.out.println("club_id ===="+club_id);
+        System.out.println("club_id ====" + club_id);
         c = clubService.getClubById(club_id);
 
         return c;
@@ -88,29 +90,30 @@ public class ClubController {
             @RequestParam("lo") BigDecimal lo,
             @RequestParam("addr") String addr,
             @RequestParam("tel") String tel
-    ){
-        Club c= new Club();
+    ) {
+        Club c = new Club();
         c.setName(name);
         c.setLa(la);
         c.setLo(lo);
         c.setAddress(addr);
         c.setTel(tel);
 
-        String s=clubService.getMaxId();
-        int i=Integer.parseInt(s);
+        String s = clubService.getMaxId();
+        int i = Integer.parseInt(s);
         c.setClubId(String.valueOf(++i));
 
-        System.out.println("name ===="+name);
+        System.out.println("name ====" + name);
         return clubService.addUser(c);
 
     }
 
     @RequestMapping("/qryCourse")
     public List<Course> qryClubCourse(
-            @RequestParam("club_id") String club_id
-    ){
-        List<Course> list = courseService.getCourseByClubId(club_id);
-        System.out.println("club_id ===="+club_id);
+            @RequestParam("club_id") String club_id,
+            @RequestParam("bz1") String bz1
+    ) {
+        List<Course> list = courseService.getCourseByClubId(club_id, bz1);
+        System.out.println("club_id ====" + club_id);
 
         return list;
     }
@@ -118,10 +121,98 @@ public class ClubController {
     @RequestMapping("/qryCoach")
     public List<Coach> qryCoachCourse(
             @RequestParam("club_id") String club_id
-    ){
+    ) {
         List<Coach> list = coachService.getCoachByClubId(club_id);
-        System.out.println("club_id ===="+club_id);
+        System.out.println("club_id ====" + club_id);
 
         return list;
+    }
+
+    @RequestMapping("/qryLesson")
+    public List<Map<Object, Object>> qryLesson(
+            @RequestParam("club_id") String club_id,
+            @RequestParam("status") Integer status,
+            @RequestParam("start_time") String startTime
+    )
+    {
+        System.out.println("mem_id ====" + club_id + "status=====" + status);
+//        List<Map<Object,Object>> list= new ArrayList<Map<Object,Object>>();
+//        List<Map<Object,Object>> list_res= new ArrayList<Map<Object,Object>>();
+//        list=memberService.getMemberLessByIdS(mem_id,status);
+
+//        for(Map<Object,Object> map:list){
+//            String sale_id=map.get("sale_id").toString();
+//            System.out.println("sale_id====="+sale_id);
+//            Course course  = courseService.getCourseById(sale_id);
+//            map.put("")
+//        }
+//        return memberService.getMemberLessByIdS(mem_id,status);
+        if (status != null) {
+            return clubService.getClubLessByViewTime(club_id, startTime,status);
+        } else {
+            return clubService.getClubLessByView_id(club_id,startTime);
+        }
+    }
+
+    @RequestMapping("/qryLessReg")
+    public List<Map<Object, Object>> qryLesson(
+            @RequestParam("club_id") String club_id,
+            @RequestParam("reg_date") String reg_date
+    ) {
+        System.out.println("club_id ====" + club_id + "reg_date=====" + reg_date);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = sdf.parse(reg_date);
+
+        } catch (ParseException e) {
+            System.out.println(e);
+        }
+        return clubService.getClubIncomeById(club_id, date);
+
+    }
+
+    @RequestMapping("/qrySum")
+    public Map<Object, Object> qrySum(
+            @RequestParam("club_id") String club_id,
+            @RequestParam("reg_date") String reg_date
+    ) {
+        System.out.println("club_id ====" + club_id + "reg_date=====" + reg_date);
+
+        Map<Object,Object> map= new HashMap<Object,Object>();
+        Map<Object,Object> resMap= new HashMap<Object,Object>();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        try {
+            date = sdf.parse(reg_date);
+
+        } catch (ParseException e) {
+            System.out.println(e);
+        }
+
+        map=clubService.getClubIncomeSumById(club_id, date);
+        System.out.println("map.get(\"les_count_sum\");==========="+map.get("les_count_sum"));
+
+        int les_count_sum=Integer.parseInt(map.get("les_count_sum").toString());
+        int sold_count_sum=Integer.parseInt(map.get("les_count_sum").toString());
+
+        float les_total_amt=Float.parseFloat(map.get("les_total_amt").toString());
+        float sold_total_amt=Float.parseFloat(map.get("sold_total_amt").toString());
+
+        float les_pct=0.10f;
+        float sold_pct=0.10f;
+
+        float les_amt=les_total_amt*les_pct;
+        float sold_amt=sold_total_amt*sold_pct;
+
+        resMap.put("les_total_amt",les_amt);
+        resMap.put("sold_total_amt",sold_amt);
+
+        System.out.println("les_count_sum=["+les_count_sum+"]\t les_pct=["+les_pct+"]\t les_amt=["+les_amt+"]\t les_total_amt=["+les_total_amt+"]");
+        System.out.println("sold_count_sum=["+sold_count_sum+"]\t sold_pct=["+sold_pct+"]\t sold_amt=["+sold_amt+"]\t sold_total_amt=["+sold_total_amt+"]");
+        return resMap;
+
     }
 }

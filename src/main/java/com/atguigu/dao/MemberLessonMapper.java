@@ -12,7 +12,7 @@ public interface MemberLessonMapper {
     int insertSelective(MemberLesson record);
 
     List<Map<Object, Object>> selectById(String memId);
-    List<Map<Object, Object>> selectByIdS(@Param("memId") String memId,@Param("status")String status);
+    List<Map<Object, Object>> selectByIdS(@Param("memId") String memId, @Param("status")String status);
 
     List<Map<Object, Object>> selectByView(@Param("memId") String memId,@Param("status")String status);
 

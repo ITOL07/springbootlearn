@@ -22,8 +22,8 @@ public class CourseServiceImpl implements CourseService {
         return course.selectByPrimaryKey(course_id);
     }
 
-    public List<Course> getCourseByClubId(String club_id) {
-        return course.selectByClubId(club_id);
+    public List<Course> getCourseByClubId(String club_id,String try_flag) {
+        return course.selectByClubId(club_id,try_flag);
     }
 
     public boolean addOrder(Course record){

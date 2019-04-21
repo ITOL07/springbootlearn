@@ -13,7 +13,7 @@ public interface UserMapper {
 
     User selectByPrimaryKey(String id);
     User selectByOpenid(String openID);
-    String selectMaxId();
+    String selectMaxId(Integer type);
 
     Map<Object,Object> selectbyUsername(String userName);
 
@@ -22,5 +22,6 @@ public interface UserMapper {
     int updateByPrimaryKey(User record);
 
     int updateByUserName(User record);
+    int updateByOpenId(User record);
 
 }

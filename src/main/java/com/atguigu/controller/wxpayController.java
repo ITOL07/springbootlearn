@@ -1,7 +1,9 @@
 package com.atguigu.controller;
 
 import com.atguigu.entity.OrderDtl;
+import com.atguigu.entity.User;
 import com.atguigu.service.OrderService;
+import com.atguigu.service.UserService1;
 import com.atguigu.wechatpay.app.UnifiedOrder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,15 +26,33 @@ public class wxpayController {
     @Resource
     private OrderService orderService;
 
+    @Resource
+    private UserService1 userService1 ;
+
     @PostMapping("/id")
     public  Map<String, Object> wxpay(
             @RequestParam("desc") String desc,
             @RequestParam("order_no") String order_no,
             @RequestParam("openid") String openid,
+            @RequestParam("sale_id") String sale_id,
+            @RequestParam("try_flag") String try_flag,
             @RequestParam("price") String price
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        String money = "0.01";//TODO 测试马路边捡到一分钱
+//        String money = "0.01";
+
+        //如果是体验课，先查询该用户是否购买过体验课
+        if(try_flag.equals("1")){
+            System.out.println("openid========="+openid);
+            User user=this.userService1.getUserByOpenId(openid);
+            String user_try_flag=user.getTry_flag();
+            System.out.println("user_try_flag====["+user_try_flag+"]");
+            if(user_try_flag.equals("1")){ //已体验过
+                resultMap.put("errcode","已体验过该课程，无法重复体验");
+                resultMap.put("errno","-1");
+                return resultMap;
+            }
+        }
         OrderDtl order = new OrderDtl();
 
         BigDecimal bigtotalAmount = new BigDecimal(price);
@@ -43,7 +63,11 @@ public class wxpayController {
         order.setOrderNo(order_no);
         order.setAmount(bigtotalAmount);
         order.setMemId(openid);
+        order.setSaleId(sale_id);
         order.setDes(desc);
+        order.setTry_flag(try_flag);
+
+        //体验课的话，需要关联更新用户表的try_flag字段为真
 
         boolean bool = this.orderService.addOrder(order);
 
@@ -79,6 +103,7 @@ public class wxpayController {
             trade_state="-1";
         }else if(trade_state.equals("SUCCESS")){
             trade_state="0";
+
         }
 
         order.setOrderNo(order_no);
@@ -87,7 +112,20 @@ public class wxpayController {
         order.setRecvTime(d);
 
         boolean bool = this.orderService.updateOrder(order);
-        System.out.println("更新数据库状态："+bool);
+        System.out.println("更新order数据库状态："+bool);
+
+        //更新用户状态
+        if(trade_state.equals("0")){
+            OrderDtl order_tmp=this.orderService.getOrderById(order_no);
+            String open_id=order_tmp.getMemId();
+            String try_flag=order_tmp.getTry_flag();
+            User user=this.userService1.getUserByOpenId(open_id);
+            user.setTry_flag(try_flag);
+
+            boolean bool1 =this.userService1.updateUserByOpenid(user);
+            System.out.println("更新user表数据库状态："+bool);
+        }
+
 
         return payMap;
     }

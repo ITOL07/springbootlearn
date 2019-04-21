@@ -23,6 +23,8 @@ public class Course {
 
     private Byte clubType;
 
+    private String try_flag;
+
     private String bz1;
 
     private String bz2;
@@ -121,5 +123,13 @@ public class Course {
 
     public void setBz2(String bz2) {
         this.bz2 = bz2;
+    }
+
+    public String getTry_flag() {
+        return try_flag;
+    }
+
+    public void setTry_flag(String try_flag) {
+        this.try_flag = try_flag;
     }
 }

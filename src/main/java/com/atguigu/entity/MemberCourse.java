@@ -1,6 +1,8 @@
 package com.atguigu.entity;
 
 public class MemberCourse {
+    private String kcId;
+
     private String memId;
 
     private String courseId;
@@ -14,6 +16,14 @@ public class MemberCourse {
     private Byte status;
 
     private String bz1;
+
+    public String getKcId() {
+        return kcId;
+    }
+
+    public void setKcId(String kcId) {
+        this.kcId = kcId;
+    }
 
     public String getMemId() {
         return memId;
