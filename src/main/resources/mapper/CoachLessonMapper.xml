@@ -14,6 +14,23 @@
     <result column="mem_id" property="memId" jdbcType="VARCHAR" />
     <result column="bz1" property="bz1" jdbcType="VARCHAR" />
   </resultMap>
+
+  <select id="selectByView" resultType="map" parameterType="java.lang.String" >
+    select *
+    from v_coach_lesson
+    where coach_Id = #{coach_id,jdbcType=VARCHAR}
+    <if test="status != null and status !=  '' or status == 0" >
+      and status=#{status,jdbcType=TINYINT}
+    </if>
+
+  </select>
+
+  <select id="selectByView_id" resultType="map" parameterType="java.lang.String" >
+    select *
+    from v_coach_lesson
+    where coach_Id = #{coach_id,jdbcType=VARCHAR}
+
+  </select>
   <insert id="insert" parameterType="com.atguigu.entity.CoachLesson" >
     insert into coach_lesson (coach_id, course_id, seq_no, 
       club_id, status, start_time_1, 

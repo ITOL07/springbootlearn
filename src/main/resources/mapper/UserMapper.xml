@@ -8,9 +8,11 @@
     <result column="chn" property="chn" jdbcType="TINYINT" />
     <result column="last_login" property="lastLogin" jdbcType="TIMESTAMP" />
     <result column="open_id" property="openId" jdbcType="VARCHAR" />
+    <result column="try_flag" property="try_flag" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_name, password, chn, last_login, open_id
+    id, user_name, password, chn, last_login, open_id,try_flag
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -22,7 +24,7 @@
     select
     <include refid="Base_Column_List" />
     from user
-    where open_id = #{id,jdbcType=VARCHAR}
+    where open_id = #{openId,jdbcType=VARCHAR}
   </select>
 
   <select id="selectbyUsername" resultType="map" parameterType="java.lang.String">
@@ -34,6 +36,7 @@
     select max(id)
     from user
     where id like CONCAT('%',date_format(now(), '%Y%m%d'),'%')
+    and type=#{type,jdbcType=INTEGER}
     </select>
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -69,6 +72,9 @@
       <if test="openId != null" >
         open_id,
       </if>
+      <if test="type !=null">
+        type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -89,36 +95,39 @@
       <if test="openId != null" >
         #{openId,jdbcType=VARCHAR},
       </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.User" >
-    update user
-    <set >
-      <if test="userName != null" >
-        user_name = #{userName,jdbcType=VARCHAR},
+  update user
+  <set >
+    <if test="userName != null" >
+      user_name = #{userName,jdbcType=VARCHAR},
+    </if>
+    <if test="password != null" >
+      password = #{password,jdbcType=CHAR},
+    </if>
+    <if test="chn != null" >
+      chn = #{chn,jdbcType=TINYINT},
+    </if>
+    <if test="lastLogin != null" >
+      last_login = #{lastLogin,jdbcType=TIMESTAMP},
+    </if>
+    <if test="openId != null" >
+      open_id = #{openId,jdbcType=VARCHAR},
+    </if>
+      <if test="try_flag != null" >
+        try_flag = #{try_flag,jdbcType=VARCHAR},
       </if>
-      <if test="password != null" >
-        password = #{password,jdbcType=CHAR},
-      </if>
-      <if test="chn != null" >
-        chn = #{chn,jdbcType=TINYINT},
-      </if>
-      <if test="lastLogin != null" >
-        last_login = #{lastLogin,jdbcType=TIMESTAMP},
-      </if>
-      <if test="openId != null" >
-        open_id = #{openId,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=VARCHAR}
-  </update>
+  </set>
+  where id = #{id,jdbcType=VARCHAR}
+</update>
 
   <update id="updateByUserName" parameterType="com.atguigu.entity.User" >
     update user
     <set >
-      <if test="userName != null" >
-        user_name = #{userName,jdbcType=VARCHAR},
-      </if>
       <if test="password != null" >
         password = #{password,jdbcType=CHAR},
       </if>
@@ -131,16 +140,43 @@
       <if test="openId != null" >
         open_id = #{openId,jdbcType=VARCHAR},
       </if>
+        <if test="try_flag != null" >
+          try_flag = #{try_flag,jdbcType=VARCHAR},
+        </if>
     </set>
     where user_name = #{userName,jdbcType=VARCHAR}
   </update>
+
+  <update id="updateByOpenId" parameterType="com.atguigu.entity.User" >
+    update user
+    <set >
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=CHAR},
+      </if>
+      <if test="chn != null" >
+        chn = #{chn,jdbcType=TINYINT},
+      </if>
+      <if test="lastLogin != null" >
+        last_login = #{lastLogin,jdbcType=TIMESTAMP},
+      </if>
+        <if test="try_flag != null" >
+          try_flag = #{try_flag,jdbcType=VARCHAR},
+        </if>
+    </set>
+    where open_id = #{openId,jdbcType=VARCHAR}
+  </update>
+
   <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.User" >
     update user
     set user_name = #{userName,jdbcType=VARCHAR},
       password = #{password,jdbcType=CHAR},
       chn = #{chn,jdbcType=TINYINT},
       last_login = #{lastLogin,jdbcType=TIMESTAMP},
-      open_id = #{openId,jdbcType=VARCHAR}
+      open_id = #{openId,jdbcType=VARCHAR},
+      try_flag = #{try_flag,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

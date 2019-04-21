@@ -13,11 +13,12 @@
     <result column="club_id" property="clubId" jdbcType="VARCHAR" />
     <result column="club_type" property="clubType" jdbcType="TINYINT" />
     <result column="bz1" property="bz1" jdbcType="VARCHAR" />
+    <result column="try_flag" property="try_flag" jdbcType="VARCHAR" />
     <result column="bz2" property="bz2" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     course_id, type, name, price, discount, status, coach_id, coach_type, club_id, club_type, 
-    bz1, bz2
+    bz1,try_flag, bz2
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -30,6 +31,7 @@
     <include refid="Base_Column_List" />
     from course
     where club_id = #{clubId,jdbcType=VARCHAR}
+    and try_flag=#{try_flag,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from course

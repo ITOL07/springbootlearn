@@ -21,6 +21,37 @@
     from club
     where club_Id = #{clubId,jdbcType=VARCHAR}
   </select>
+
+  <select id="selectLessByView" resultType="map" parameterType="java.lang.String" >
+    select *
+    from v_coach_lesson
+    where club_Id = #{clubId,jdbcType=VARCHAR}
+    and start_time_1 like CONCAT('%',#{startTime,jdbcType=VARCHAR},'%')
+    <if test="status != null and status !=  '' or status == 0" >
+      and status=#{status,jdbcType=TINYINT}
+    </if>
+
+  </select>
+  <select id="selectByView" resultType="map" parameterType="java.lang.String" >
+    select *
+    from v_coach_lesson
+    where club_Id = #{clubId,jdbcType=VARCHAR}
+    <if test="startTime != null " >
+    and start_time_1 like CONCAT('%',#{startTime,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="status != null and status !=  '' or status == 0" >
+      and status=#{status,jdbcType=TINYINT}
+    </if>
+
+  </select>
+  <select id="selectByView_id" resultType="map" parameterType="java.lang.String" >
+    select *
+    from v_coach_lesson
+    where club_Id = #{clubId,jdbcType=VARCHAR}
+    <if test="startTime != null " >
+    and start_time_1 like CONCAT('%',#{startTime,jdbcType=VARCHAR},'%')
+     </if>
+  </select>
   <select id="selectCoachById" resultType="map" parameterType="java.lang.String" >
   select *
   from coach a ,course b

@@ -10,6 +10,7 @@
     <result column="trade_state" property="tradeState" jdbcType="VARCHAR" />
     <result column="des" property="des" jdbcType="VARCHAR" />
     <result column="trade_state_desc" property="tradeStateDesc" jdbcType="VARCHAR" />
+    <result column="try_flag" property="try_flag" jdbcType="VARCHAR" />
     <result column="recv_time" property="recvTime" jdbcType="TIMESTAMP" />
   </resultMap>
   <sql id="Base_Column_List" >
@@ -68,6 +69,9 @@
       <if test="tradeStateDesc != null" >
         trade_state_desc,
       </if>
+      <if test="try_flag != null" >
+        try_flag,
+      </if>
       <if test="recvTime != null" >
         recv_time,
       </if>
@@ -97,6 +101,9 @@
       <if test="tradeStateDesc != null" >
         #{tradeStateDesc,jdbcType=VARCHAR},
       </if>
+      <if test="try_flag != null" >
+        #{try_flag,jdbcType=VARCHAR},
+      </if>
       <if test="recvTime != null" >
         #{recvTime,jdbcType=TIMESTAMP},
       </if>
@@ -119,6 +126,9 @@
       </if>
       <if test="tradeState != null" >
         trade_state = #{tradeState,jdbcType=VARCHAR},
+      </if>
+      <if test="try_flag != null" >
+        try_flag = #{try_flag,jdbcType=VARCHAR},
       </if>
       <if test="des != null" >
         des = #{des,jdbcType=VARCHAR},
@@ -150,6 +160,9 @@
       <if test="tradeState != null" >
         trade_state = #{tradeState,jdbcType=VARCHAR},
       </if>
+      <if test="try_flag != null" >
+        try_flag = #{try_flag,jdbcType=VARCHAR},
+      </if>
       <if test="des != null" >
         des = #{des,jdbcType=VARCHAR},
       </if>
@@ -169,6 +182,7 @@
       amount = #{amount,jdbcType=DECIMAL},
       count = #{count,jdbcType=INTEGER},
       trade_state = #{tradeState,jdbcType=VARCHAR},
+      try_flag = #{try_flag,jdbcType=VARCHAR},
       des = #{des,jdbcType=VARCHAR},
       trade_state_desc = #{tradeStateDesc,jdbcType=VARCHAR},
       recv_time = #{recvTime,jdbcType=TIMESTAMP}

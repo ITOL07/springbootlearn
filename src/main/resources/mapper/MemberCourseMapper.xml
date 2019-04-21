@@ -1,29 +1,154 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.atguigu.dao.MemberCourseMapper" >
-  <resultMap id="BaseResultMap" type="com.atguigu.entity.MemberCourse" >
-    <id column="mem_Id" property="memId" jdbcType="VARCHAR" />
-    <result column="course_id" property="courseId" jdbcType="VARCHAR" />
-    <result column="total_lesson" property="totalLesson" jdbcType="TINYINT" />
-    <result column="used" property="used" jdbcType="TINYINT" />
-    <result column="rem" property="rem" jdbcType="TINYINT" />
-    <result column="status" property="status" jdbcType="TINYINT" />
-    <result column="bz1" property="bz1" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.dao.MemberCourseMapper">
+  <resultMap id="BaseResultMap" type="com.atguigu.entity.MemberCourse">
+    <id column="kc_id" jdbcType="VARCHAR" property="kcId" />
+    <result column="mem_Id" jdbcType="VARCHAR" property="memId" />
+    <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="total_lesson" jdbcType="TINYINT" property="totalLesson" />
+    <result column="used" jdbcType="TINYINT" property="used" />
+    <result column="rem" jdbcType="TINYINT" property="rem" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="bz1" jdbcType="VARCHAR" property="bz1" />
   </resultMap>
-  <sql id="Base_Column_List" >
+  <sql id="Base_Column_List">
+    kc_id, mem_Id, course_id, total_lesson, used, rem, status, bz1
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from member_course
+    where kc_id = #{kcId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from member_course
+    where kc_id = #{kcId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.atguigu.entity.MemberCourse">
+    insert into member_course (kc_id, mem_Id, course_id, 
+      total_lesson, used, rem, 
+      status, bz1)
+    values (#{kcId,jdbcType=VARCHAR}, #{memId,jdbcType=VARCHAR}, #{courseId,jdbcType=VARCHAR}, 
+      #{totalLesson,jdbcType=TINYINT}, #{used,jdbcType=TINYINT}, #{rem,jdbcType=TINYINT}, 
+      #{status,jdbcType=TINYINT}, #{bz1,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.atguigu.entity.MemberCourse">
+    insert into member_course
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="kcId != null">
+        kc_id,
+      </if>
+      <if test="memId != null">
+        mem_Id,
+      </if>
+      <if test="courseId != null">
+        course_id,
+      </if>
+      <if test="totalLesson != null">
+        total_lesson,
+      </if>
+      <if test="used != null">
+        used,
+      </if>
+      <if test="rem != null">
+        rem,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="bz1 != null">
+        bz1,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="kcId != null">
+        #{kcId,jdbcType=VARCHAR},
+      </if>
+      <if test="memId != null">
+        #{memId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="totalLesson != null">
+        #{totalLesson,jdbcType=TINYINT},
+      </if>
+      <if test="used != null">
+        #{used,jdbcType=TINYINT},
+      </if>
+      <if test="rem != null">
+        #{rem,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="bz1 != null">
+        #{bz1,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.MemberCourse">
+    update member_course
+    <set>
+      <if test="memId != null">
+        mem_Id = #{memId,jdbcType=VARCHAR},
+      </if>
+      <if test="courseId != null">
+        course_id = #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="totalLesson != null">
+        total_lesson = #{totalLesson,jdbcType=TINYINT},
+      </if>
+      <if test="used != null">
+        used = #{used,jdbcType=TINYINT},
+      </if>
+      <if test="rem != null">
+        rem = #{rem,jdbcType=TINYINT},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="bz1 != null">
+        bz1 = #{bz1,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where kc_id = #{kcId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.MemberCourse">
+    update member_course
+    set mem_Id = #{memId,jdbcType=VARCHAR},
+      course_id = #{courseId,jdbcType=VARCHAR},
+      total_lesson = #{totalLesson,jdbcType=TINYINT},
+      used = #{used,jdbcType=TINYINT},
+      rem = #{rem,jdbcType=TINYINT},
+      status = #{status,jdbcType=TINYINT},
+      bz1 = #{bz1,jdbcType=VARCHAR}
+    where kc_id = #{kcId,jdbcType=VARCHAR}
+  </update>
+  <resultMap id="BaseResultMap" type="com.atguigu.entity.MemberCourse">
+    <id column="mem_Id" jdbcType="VARCHAR" property="memId" />
+    <result column="course_id" jdbcType="VARCHAR" property="courseId" />
+    <result column="total_lesson" jdbcType="TINYINT" property="totalLesson" />
+    <result column="used" jdbcType="TINYINT" property="used" />
+    <result column="rem" jdbcType="TINYINT" property="rem" />
+    <result column="status" jdbcType="TINYINT" property="status" />
+    <result column="bz1" jdbcType="VARCHAR" property="bz1" />
+    <result column="kc_id" jdbcType="VARCHAR" property="kcId" />
+  </resultMap>
+  <sql id="Base_Column_List">
     mem_Id, course_id, total_lesson, used, rem, status, bz1
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from member_course
     where mem_Id = #{memId,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from member_course
     where mem_Id = #{memId,jdbcType=VARCHAR}
   </delete>
-  <insert id="insert" parameterType="com.atguigu.entity.MemberCourse" >
+  <insert id="insert" parameterType="com.atguigu.entity.MemberCourse">
     insert into member_course (mem_Id, course_id, total_lesson, 
       used, rem, status, 
       bz1)
@@ -31,80 +156,80 @@
       #{used,jdbcType=TINYINT}, #{rem,jdbcType=TINYINT}, #{status,jdbcType=TINYINT}, 
       #{bz1,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.atguigu.entity.MemberCourse" >
+  <insert id="insertSelective" parameterType="com.atguigu.entity.MemberCourse">
     insert into member_course
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="memId != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="memId != null">
         mem_Id,
       </if>
-      <if test="courseId != null" >
+      <if test="courseId != null">
         course_id,
       </if>
-      <if test="totalLesson != null" >
+      <if test="totalLesson != null">
         total_lesson,
       </if>
-      <if test="used != null" >
+      <if test="used != null">
         used,
       </if>
-      <if test="rem != null" >
+      <if test="rem != null">
         rem,
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         status,
       </if>
-      <if test="bz1 != null" >
+      <if test="bz1 != null">
         bz1,
       </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="memId != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="memId != null">
         #{memId,jdbcType=VARCHAR},
       </if>
-      <if test="courseId != null" >
+      <if test="courseId != null">
         #{courseId,jdbcType=VARCHAR},
       </if>
-      <if test="totalLesson != null" >
+      <if test="totalLesson != null">
         #{totalLesson,jdbcType=TINYINT},
       </if>
-      <if test="used != null" >
+      <if test="used != null">
         #{used,jdbcType=TINYINT},
       </if>
-      <if test="rem != null" >
+      <if test="rem != null">
         #{rem,jdbcType=TINYINT},
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         #{status,jdbcType=TINYINT},
       </if>
-      <if test="bz1 != null" >
+      <if test="bz1 != null">
         #{bz1,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.MemberCourse" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.MemberCourse">
     update member_course
-    <set >
-      <if test="courseId != null" >
+    <set>
+      <if test="courseId != null">
         course_id = #{courseId,jdbcType=VARCHAR},
       </if>
-      <if test="totalLesson != null" >
+      <if test="totalLesson != null">
         total_lesson = #{totalLesson,jdbcType=TINYINT},
       </if>
-      <if test="used != null" >
+      <if test="used != null">
         used = #{used,jdbcType=TINYINT},
       </if>
-      <if test="rem != null" >
+      <if test="rem != null">
         rem = #{rem,jdbcType=TINYINT},
       </if>
-      <if test="status != null" >
+      <if test="status != null">
         status = #{status,jdbcType=TINYINT},
       </if>
-      <if test="bz1 != null" >
+      <if test="bz1 != null">
         bz1 = #{bz1,jdbcType=VARCHAR},
       </if>
     </set>
     where mem_Id = #{memId,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.MemberCourse" >
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.MemberCourse">
     update member_course
     set course_id = #{courseId,jdbcType=VARCHAR},
       total_lesson = #{totalLesson,jdbcType=TINYINT},
