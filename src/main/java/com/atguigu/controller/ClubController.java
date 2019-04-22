@@ -83,27 +83,47 @@ public class ClubController {
         return c;
     }
 
-    @RequestMapping("/add")
+    @RequestMapping("/update")
     public boolean addClub(
+            @RequestParam("club_id") String club_id,
             @RequestParam("name") String name,
             @RequestParam("la") BigDecimal la,
             @RequestParam("lo") BigDecimal lo,
             @RequestParam("addr") String addr,
-            @RequestParam("tel") String tel
+            @RequestParam("tel") String tel,
+            @RequestParam("area") String area,
+            @RequestParam("open_time") String open_time,
+            @RequestParam("close_time") String close_time,
+            @RequestParam("jcss") String jcss
     ) {
         Club c = new Club();
+        c.setClubId(club_id);
         c.setName(name);
         c.setLa(la);
         c.setLo(lo);
         c.setAddress(addr);
         c.setTel(tel);
+        c.setArea(Float.parseFloat(area));
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:MM:SS");
+        Date time1 = null;
+        Date time2 = null;
+        try {
+            time1 = sdf.parse(open_time);
+            time2 = sdf.parse(close_time);
 
-        String s = clubService.getMaxId();
-        int i = Integer.parseInt(s);
-        c.setClubId(String.valueOf(++i));
+        } catch (ParseException e) {
+            System.out.println(e);
+        }
+        c.setOpenTime(time1);
+        c.setCloseTime(time2);
+        c.setJcss(jcss);
 
-        System.out.println("name ====" + name);
-        return clubService.addUser(c);
+//        String s = clubService.getMaxId();
+//        int i = Integer.parseInt(s);
+//        c.setClubId(String.valueOf(++i));
+
+        System.out.println("club_id ====" + club_id);
+        return clubService.updateClub(c);
 
     }
 

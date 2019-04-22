@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -58,6 +59,40 @@ public class CoachController {
         return coachService.getCoachById(coach_id);
     }
 
+    @RequestMapping("/update")
+    public boolean updateCoach(
+            @RequestParam("coach_id") String coach_id,
+            @RequestParam("nickName") String nickName,
+            @RequestParam("sex") String sex,
+            @RequestParam("birthday")  String birth,
+            @RequestParam("height") BigDecimal height
+    ) {
+
+        System.out.println("coach_id===" + coach_id);
+        Coach coach=coachService.getCoachById(coach_id);
+        if(nickName!=null){
+            coach.setNickName(nickName);
+        }
+        if(sex!=null){
+            coach.setSex(sex);
+        }
+        if(birth!=null){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = null;
+            try {
+                date = sdf.parse(birth);
+
+            } catch (ParseException e) {
+                System.out.println(e);
+            }
+            coach.setBirthday(date);
+        }
+
+        if(height!=null){
+            coach.setHeight(height);
+        }
+        return coachService.updateCoach(coach);
+    }
     @RequestMapping("/qryLesson")
     public List<Map<Object, Object>> qryLesson(
             @RequestParam("coach_id") String coach_id,

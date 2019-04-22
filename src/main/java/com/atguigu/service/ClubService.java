@@ -21,4 +21,5 @@ public interface ClubService {
         public List<Map<Object,Object>> getClubIncomeById(String coachId,Date reg_date);
 
         public Map<Object,Object> getClubIncomeSumById(String coachId,Date reg_date);
+        public boolean updateClub(Club record);
 }

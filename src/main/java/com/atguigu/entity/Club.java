@@ -1,6 +1,7 @@
 package com.atguigu.entity;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class Club {
     private String clubId;
@@ -20,6 +21,14 @@ public class Club {
     private String photo;
 
     private Byte type;
+
+    private Float area;
+
+    private Date openTime;
+
+    private Date closeTime;
+
+    private String jcss;
 
     public String getClubId() {
         return clubId;
@@ -91,5 +100,37 @@ public class Club {
 
     public void setType(Byte type) {
         this.type = type;
+    }
+
+    public Float getArea() {
+        return area;
+    }
+
+    public void setArea(Float area) {
+        this.area = area;
+    }
+
+    public Date getOpenTime() {
+        return openTime;
+    }
+
+    public void setOpenTime(Date openTime) {
+        this.openTime = openTime;
+    }
+
+    public Date getCloseTime() {
+        return closeTime;
+    }
+
+    public void setCloseTime(Date closeTime) {
+        this.closeTime = closeTime;
+    }
+
+    public String getJcss() {
+        return jcss;
+    }
+
+    public void setJcss(String jcss) {
+        this.jcss = jcss;
     }
 }

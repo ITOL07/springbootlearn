@@ -3,6 +3,7 @@ package com.atguigu.controller;
 
 import com.atguigu.entity.UserIcons;
 import com.atguigu.service.UserIconsService;
+import com.atguigu.util.CommParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -42,8 +43,14 @@ public class FileUploadController {
         System.out.println("执行upload");
         request.setCharacterEncoding("UTF-8");
         logger.info("执行图片上传");
-        String user = request.getParameter("user");
-        logger.info("user:"+user);
+
+        String user_id = request.getParameter("user_id");
+        /**
+         * photo_type 1--头像  2--证书  3--相册  4--
+         */
+        String photo_type = request.getParameter("type");
+
+        logger.info("user_id:"+user_id+"   photo_type:"+photo_type);
         String path = null;
         String trueFileName = null;
         if(!file.isEmpty()) {
@@ -54,16 +61,18 @@ public class FileUploadController {
             type = fileName.indexOf(".") != -1 ? fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length()) : null;
             logger.info("图片初始名称为：" + fileName + " 类型为：" + type);
             if (type != null) {
-                if ("GIF".equals(type.toUpperCase())||"PNG".equals(type.toUpperCase())||"JPG".equals(type.toUpperCase())) {
+                if ("JPEG".equals(type.toUpperCase())||"GIF".equals(type.toUpperCase())||"PNG".equals(type.toUpperCase())||"JPG".equals(type.toUpperCase())) {
                     // 项目在容器中实际发布运行的根路径
-                    String realPath = request.getSession().getServletContext().getRealPath("/");
+//                    String realPath = request.getSession().getServletContext().getRealPath("/");
+                    String realPath= CommParams.IMG_LOCATION_TEST;
                     // 自定义的文件名称
-                    trueFileName = String.valueOf(System.currentTimeMillis()) + fileName;
+                    trueFileName = String.valueOf(System.currentTimeMillis()) +(int)(1+Math.random()*100)+ "."+type;
                     //创建存储上传图片的文件
-                    String pathbefore = realPath+"/uploads/";
+                    String pathbefore = realPath+"/"+user_id+"/"+photo_type+"/";
                     File filebefore = new File(pathbefore);
                     if(!filebefore.exists()){
-                        filebefore.mkdir();
+                        logger.info("创建目录。。。。");
+                        filebefore.mkdirs();
                     }
                     // 设置存放图片文件的路径
                     path = pathbefore + trueFileName;
@@ -93,7 +102,7 @@ public class FileUploadController {
         map.put("imgUrl",path);
         //文件上传成功后将图片信息保存到数据库
         UserIcons userIcons = new UserIcons();
-        userIcons.setUserId(user);
+        userIcons.setUserId(user_id);
         userIcons.setIconName(trueFileName);
         userIcons.setIconUrl(path);
         boolean flag = userIconsService.insertUserIcon(userIcons);

@@ -11,9 +11,14 @@
     <result column="tel" jdbcType="VARCHAR" property="tel" />
     <result column="photo" jdbcType="VARCHAR" property="photo" />
     <result column="type" jdbcType="TINYINT" property="type" />
+    <result column="area" jdbcType="REAL" property="area" />
+    <result column="open_time" jdbcType="TIME" property="openTime" />
+    <result column="close_time" jdbcType="TIME" property="closeTime" />
+    <result column="jcss" jdbcType="VARCHAR" property="jcss" />
   </resultMap>
   <sql id="Base_Column_List">
-    club_Id, name, la, lo, icon, address, tel, photo, type
+    club_Id, name, la, lo, icon, address, tel, photo, type, area, open_time, close_time, 
+    jcss
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -21,47 +26,47 @@
     from club
     where club_Id = #{clubId,jdbcType=VARCHAR}
   </select>
-
-  <select id="selectLessByView" resultType="map" parameterType="java.lang.String" >
+  <select id="selectByView" parameterType="java.lang.String" resultType="map">
     select *
     from v_coach_lesson
     where club_Id = #{clubId,jdbcType=VARCHAR}
-    and start_time_1 like CONCAT('%',#{startTime,jdbcType=VARCHAR},'%')
-    <if test="status != null and status !=  '' or status == 0" >
+    <if test="startTime != null ">
+      and start_time_1 like CONCAT('%',#{startTime,jdbcType=VARCHAR},'%')
+    </if>
+    <if test="status != null and status !=  '' or status == 0">
       and status=#{status,jdbcType=TINYINT}
     </if>
 
   </select>
-  <select id="selectByView" resultType="map" parameterType="java.lang.String" >
+  <select id="selectByView_id" parameterType="java.lang.String" resultType="map">
     select *
     from v_coach_lesson
     where club_Id = #{clubId,jdbcType=VARCHAR}
-    <if test="startTime != null " >
-    and start_time_1 like CONCAT('%',#{startTime,jdbcType=VARCHAR},'%')
+    <if test="startTime != null ">
+      and start_time_1 like CONCAT('%',#{startTime,jdbcType=VARCHAR},'%')
     </if>
-    <if test="status != null and status !=  '' or status == 0" >
+  </select>
+  <select id="selectCoachById" parameterType="java.lang.String" resultType="map">
+    select *
+    from coach a ,course b
+    where a.coach_id=b.coach_id and
+    b.club_id = #{clubId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectMaxId" resultType="java.lang.String">
+    select max(club_id)
+    from club
+  </select>
+  <select id="selectLessByView" parameterType="java.lang.String" resultType="map">
+    select *
+    from v_coach_lesson
+    where club_Id = #{clubId,jdbcType=VARCHAR}
+    and start_time_1 like CONCAT('%',#{startTime,jdbcType=VARCHAR},'%')
+    <if test="status != null and status !=  '' or status == 0">
       and status=#{status,jdbcType=TINYINT}
     </if>
 
   </select>
-  <select id="selectByView_id" resultType="map" parameterType="java.lang.String" >
-    select *
-    from v_coach_lesson
-    where club_Id = #{clubId,jdbcType=VARCHAR}
-    <if test="startTime != null " >
-    and start_time_1 like CONCAT('%',#{startTime,jdbcType=VARCHAR},'%')
-     </if>
-  </select>
-  <select id="selectCoachById" resultType="map" parameterType="java.lang.String" >
-  select *
-  from coach a ,course b
-  where a.coach_id=b.coach_id and
-  b.club_id = #{clubId,jdbcType=VARCHAR}
-  </select>
-    <select id="selectMaxId" resultType="java.lang.String">
-        select max(club_id)
-        from club
-    </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from club
     where club_Id = #{clubId,jdbcType=VARCHAR}
@@ -69,10 +74,14 @@
   <insert id="insert" parameterType="com.atguigu.entity.Club">
     insert into club (club_Id, name, la, 
       lo, icon, address, 
-      tel, photo, type)
+      tel, photo, type, area, 
+      open_time, close_time, jcss
+      )
     values (#{clubId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{la,jdbcType=DECIMAL}, 
       #{lo,jdbcType=DECIMAL}, #{icon,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{tel,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT})
+      #{tel,jdbcType=VARCHAR}, #{photo,jdbcType=VARCHAR}, #{type,jdbcType=TINYINT}, #{area,jdbcType=REAL}, 
+      #{openTime,jdbcType=TIME}, #{closeTime,jdbcType=TIME}, #{jcss,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.atguigu.entity.Club">
     insert into club
@@ -104,6 +113,18 @@
       <if test="type != null">
         type,
       </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="openTime != null">
+        open_time,
+      </if>
+      <if test="closeTime != null">
+        close_time,
+      </if>
+      <if test="jcss != null">
+        jcss,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="clubId != null">
@@ -132,6 +153,18 @@
       </if>
       <if test="type != null">
         #{type,jdbcType=TINYINT},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=REAL},
+      </if>
+      <if test="openTime != null">
+        #{openTime,jdbcType=TIME},
+      </if>
+      <if test="closeTime != null">
+        #{closeTime,jdbcType=TIME},
+      </if>
+      <if test="jcss != null">
+        #{jcss,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -162,6 +195,18 @@
       <if test="type != null">
         type = #{type,jdbcType=TINYINT},
       </if>
+      <if test="area != null">
+        area = #{area,jdbcType=REAL},
+      </if>
+      <if test="openTime != null">
+        open_time = #{openTime,jdbcType=TIME},
+      </if>
+      <if test="closeTime != null">
+        close_time = #{closeTime,jdbcType=TIME},
+      </if>
+      <if test="jcss != null">
+        jcss = #{jcss,jdbcType=VARCHAR},
+      </if>
     </set>
     where club_Id = #{clubId,jdbcType=VARCHAR}
   </update>
@@ -174,7 +219,11 @@
       address = #{address,jdbcType=VARCHAR},
       tel = #{tel,jdbcType=VARCHAR},
       photo = #{photo,jdbcType=VARCHAR},
-      type = #{type,jdbcType=TINYINT}
+      type = #{type,jdbcType=TINYINT},
+      area = #{area,jdbcType=REAL},
+      open_time = #{openTime,jdbcType=TIME},
+      close_time = #{closeTime,jdbcType=TIME},
+      jcss = #{jcss,jdbcType=VARCHAR}
     where club_Id = #{clubId,jdbcType=VARCHAR}
   </update>
 </mapper>
