@@ -2,6 +2,8 @@ package com.atguigu.controller;
 
 import com.atguigu.entity.User;
 import com.atguigu.service.UserService1;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 @RequestMapping("/user")
 public class UseController {
+    
+    private Logger logger = LoggerFactory.getLogger(UseController.class);
     @Resource
     private UserService1 userService;
 
@@ -20,19 +24,19 @@ public class UseController {
     @ResponseBody
     public User getUserById(HttpServletRequest request, Model model){
         String userId = request.getParameter("id");
-        System.out.println("id====="+userId);
+        logger.info("id====="+userId);
         User user = this.userService.getUserById(userId);
         return user;
     }
     @RequestMapping("/updateUser")
     @ResponseBody
     public User toIndex2(HttpServletRequest request, Model model){
-        System.out.println("request.getParameterMap()"+request.getParameterMap());
+        logger.info("request.getParameterMap()"+request.getParameterMap());
         String userId = request.getParameter("id");
         int age=Integer.parseInt(request.getParameter("age"));
         String username=request.getParameter("username");
         String passwd= request.getParameter("passwd");
-        System.out.println("id====="+userId+"username"+username);
+        logger.info("id====="+userId+"username"+username);
         User user= new User();
         user.setId(userId);
 //        user.setAge(age);

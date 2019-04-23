@@ -29,4 +29,8 @@ public interface MemberLessonMapper {
 
     int update(MemberLesson record);
 
+    boolean updatelesson(MemberLesson record);
+
+    boolean updateStatus(MemberLesson record);
+
 }

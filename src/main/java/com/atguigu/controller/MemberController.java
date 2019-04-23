@@ -9,6 +9,8 @@ import com.atguigu.service.CoachCourseService;
 import com.atguigu.service.CourseService;
 import com.atguigu.service.MemberService;
 import com.atguigu.service.OrderService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,6 +26,8 @@ import java.util.*;
 @RestController
 @RequestMapping("/member")
 public class MemberController {
+
+    private Logger logger = LoggerFactory.getLogger(MemberController.class);
 
     @Resource
     private MemberService memberService;
@@ -48,7 +52,7 @@ public class MemberController {
         Map<String, String> param = new HashMap<>();
         JSONObject result= new JSONObject();
 
-        System.out.println("username ===="+mem_id);
+        logger.info("username ===="+mem_id);
         mem = memberService.getMemberById(mem_id);
 
         return mem;
@@ -63,7 +67,7 @@ public class MemberController {
     public List<OrderDtl> qryMemOrder(
             @RequestParam("mem_id") String mem_id
     ){
-        System.out.println("username ===="+mem_id);
+        logger.info("username ===="+mem_id);
 
         return orderService.getOrderByMemId(mem_id);
     }
@@ -83,16 +87,16 @@ public class MemberController {
 
         Map<String, String> param = new HashMap<>();
 
-        System.out.println("username ===="+mem_id);
+        logger.info("username ===="+mem_id);
 
         orderList=orderService.getOrderByMemId(mem_id);
         for(OrderDtl order:orderList ){
             String sale_id=order.getSaleId();
-            System.out.println("sale_id====="+sale_id);
+            logger.info("sale_id====="+sale_id);
             Course course  = courseService.getCourseById(sale_id);
 
             courseList.add(course);
-            System.out.println("id return ====:"+course);
+            logger.info("id return ====:"+course);
         }
 
         return courseList;
@@ -109,7 +113,7 @@ public class MemberController {
             @RequestParam("mem_id") String mem_id,
             @RequestParam("status") String status
     ){
-        System.out.println("mem_id ===="+mem_id+"status===="+status);
+        logger.info("mem_id ===="+mem_id+"status===="+status);
 
         List<Map<Object,Object>> list= new ArrayList<Map<Object,Object>>();
 //        List<Map<Object,Object>> list_res= new ArrayList<Map<Object,Object>>();
@@ -117,7 +121,7 @@ public class MemberController {
 
         for(Map<Object,Object> map:list){
             String sale_id=map.get("mem_id").toString();
-            System.out.println("start_time====="+map.get("end_time_1"));
+            logger.info("start_time====="+map.get("end_time_1"));
         }
 //        return memberService.getMemberLessByIdS(mem_id,status);
         return memberService.getMemberLessByView(mem_id,"",status);
@@ -144,7 +148,7 @@ public class MemberController {
     ){
         MemberLesson m= new MemberLesson();
         String maxSeqno=memberService.getMaxId(mem_id,sale_id);
-        System.out.println("maxSeqno===="+maxSeqno);
+        logger.info("maxSeqno===="+maxSeqno);
         m.setMemId(mem_id);
         m.setSaleId(sale_id);
         m.setClubId(club_id);
@@ -165,7 +169,7 @@ public class MemberController {
         Date d = new Date();
         m.setChTime(d);
 
-        System.out.println("mem_id ===="+mem_id);
+        logger.info("mem_id ===="+mem_id);
 
         return memberService.addMemberLes(m);
     }
@@ -214,7 +218,7 @@ public class MemberController {
         Date d = new Date();
         m.setChTime(d);
 
-        System.out.println("mem_id ===="+mem_id);
+        logger.info("mem_id ===="+mem_id);
 
         return memberService.updateMemberLes(m);
     }

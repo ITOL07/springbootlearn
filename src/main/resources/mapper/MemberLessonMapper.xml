@@ -274,5 +274,31 @@
     and sale_id=#{saleId,jdbcType=VARCHAR}
     and seq_no=#{seqNo,jdbcType=TINYINT}
   </update>
-
+    <update id="updatelesson" parameterType="com.atguigu.entity.MemberLesson">
+        update member_lesson
+        <set>
+            <if test="realClub != null" >
+                real_club = #{realClub,jdbcType=VARCHAR},
+            </if>
+            <if test="realCoach != null" >
+                real_coach = #{realCoach,jdbcType=VARCHAR},
+            </if>
+            <if test="startTime2 != null" >
+                start_time_2 = #{startTime2,jdbcType=VARCHAR},
+            </if>
+            <if test="endTime2 != null" >
+                end_time_2 = #{endTime2,jdbcType=VARCHAR},
+            </if>
+            <if test="bz1 != null" >
+                bz1 = #{bz1,jdbcType=VARCHAR},
+            </if>
+        </set>
+        where mem_Id = #{memId,jdbcType=VARCHAR}
+        and sale_id=#{saleId,jdbcType=VARCHAR}
+        and seq_no=#{seqNo,jdbcType=TINYINT}
+    </update>
+    <update id="updateStatus" parameterType="com.atguigu.entity.MemberLesson">
+        update member_lesson set status=#{status,jdbcType=TINYINT}
+        where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=TINYINT}
+    </update>
 </mapper>
