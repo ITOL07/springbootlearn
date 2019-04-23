@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -105,6 +106,9 @@ public class FileUploadController {
         userIcons.setUserId(user_id);
         userIcons.setIconName(trueFileName);
         userIcons.setIconUrl(path);
+        userIcons.setType(Integer.parseInt(photo_type));
+        userIcons.setUptime(new Date());
+
         boolean flag = userIconsService.insertUserIcon(userIcons);
         logger.info("=-=--=-=-=-=-=-=- flag is: "+flag);
         map.put("insert_flag",""+flag);

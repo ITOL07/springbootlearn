@@ -32,4 +32,5 @@ public interface CoachService {
 
     public List<Map<Object,Object>> getMyMemberId(String coachId);
 
+    public List<Course> getCourseByCoachId(String coachId,String try_flag);
 }

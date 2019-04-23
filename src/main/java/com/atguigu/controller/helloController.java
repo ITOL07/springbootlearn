@@ -29,9 +29,9 @@ public class helloController {
 
     }
 
-    @Scheduled(cron = "* * 1 * * ?")
-    private void configureTasks() {
-        System.err.println("执行静态定时任务时间: ");
-    }
+//    @Scheduled(cron = "* * 1 * * ?")
+//    private void configureTasks() {
+//        System.err.println("执行静态定时任务时间: ");
+//    }
 }
 

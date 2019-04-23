@@ -2,10 +2,14 @@ package com.atguigu.controller;
 
 
 import com.atguigu.entity.Coach;
+import com.atguigu.entity.Course;
 import com.atguigu.entity.Member;
 import com.atguigu.service.CoachService;
+import com.atguigu.service.CourseService;
 import com.atguigu.service.MemberService;
 import org.apache.ibatis.annotations.Param;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -23,12 +28,16 @@ import java.util.Map.Entry;
 @RequestMapping("/coach")
 public class CoachController {
 
+    private Logger logger = LoggerFactory.getLogger(CoachController.class);
+
     @Autowired
     private JdbcTemplate jdbcTemplate;
     @Resource
     private CoachService coachService;
     @Resource
     private MemberService memberService;
+    @Resource
+    private CourseService courseService;
 
     @RequestMapping("/getCoach")
     public List<Map<String, Object>> getDbType() {
@@ -43,7 +52,7 @@ public class CoachController {
                     Entry<String, Object> entry = (Entry<String, Object>) iterator.next();
                     Object key = entry.getKey();
                     Object value = entry.getValue();
-                    System.out.println(key + ":" + value);
+                    logger.info(key + ":" + value);
                 }
             }
         }
@@ -54,8 +63,8 @@ public class CoachController {
     public Coach getCoach(
             @RequestParam("coach_id") String coach_id
     ) {
-        System.out.println("coach_id===" + coach_id);
-        System.out.println(coachService.getCoachById(coach_id));
+        logger.info("coach_id===" + coach_id);
+        logger.info(coachService.getCoachById(coach_id).toString());
         return coachService.getCoachById(coach_id);
     }
 
@@ -68,7 +77,7 @@ public class CoachController {
             @RequestParam("height") BigDecimal height
     ) {
 
-        System.out.println("coach_id===" + coach_id);
+        logger.info("coach_id===" + coach_id);
         Coach coach=coachService.getCoachById(coach_id);
         if(nickName!=null){
             coach.setNickName(nickName);
@@ -83,7 +92,7 @@ public class CoachController {
                 date = sdf.parse(birth);
 
             } catch (ParseException e) {
-                System.out.println(e);
+                logger.info("抛出异常");
             }
             coach.setBirthday(date);
         }
@@ -93,13 +102,98 @@ public class CoachController {
         }
         return coachService.updateCoach(coach);
     }
+
+    /**
+     *
+     * @param coach_id
+     * @param try_flag
+     * @return 教练的课程信息（售课）
+     */
+    @RequestMapping("/qryCourse")
+    public List<Course> qryCourse(
+            @RequestParam("coach_id") String coach_id,
+            @RequestParam("try_flag") String try_flag
+
+    ) {
+        logger.info("coach_id===" + coach_id+"try_flag===="+try_flag);
+        if(!try_flag.equals("")) {
+            List<Course> list=coachService.getCourseByCoachId(coach_id,try_flag);
+            logger.info("here");
+            return list;
+        }else{
+            List<Course> list=coachService.getCourseByCoachId(coach_id,null);
+            logger.info("there");
+            return list;
+        }
+    }
+
+    @RequestMapping("/addCourse")
+    public boolean addCourse(
+            @RequestParam("coach_id") String coach_id,
+            @RequestParam("try_flag") String try_flag,
+            @RequestParam("type") String type,
+            @RequestParam("name") String name,
+            @RequestParam("price") BigDecimal price,
+            @RequestParam("discount") BigDecimal discount,
+            @RequestParam("status") String status,
+            @RequestParam("club_id") String club_id
+
+    ) {
+        logger.info("coach_id===" + coach_id+"try_flag===="+try_flag);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        Course course= new Course();
+        Date date=new Date();
+        String course_id=new DecimalFormat("0000").format(Integer.parseInt(courseService.getMaxId().substring(8))+1);
+
+        course_id=sdf.format(date)+course_id;
+        logger.info("insert course ----- course_id=="+course_id);
+        course.setCourseId(course_id)
+                .setCoachId(coach_id)
+                .setTry_flag(try_flag)
+                .setType(Integer.parseInt(type))
+                .setName(name)
+                .setStatus(Byte.parseByte(status))
+                .setClubId(club_id)
+                .setPrice(price)
+                .setDiscount(discount);
+        return courseService.addCourse(course);
+    }
+
+    @RequestMapping("/updateCourse")
+    public boolean updateCourse(
+            @RequestParam("course_id") String course_id,
+            @RequestParam("coach_id") String coach_id,
+            @RequestParam("try_flag") String try_flag,
+            @RequestParam("type") String type,
+            @RequestParam("name") String name,
+            @RequestParam("price") BigDecimal price,
+            @RequestParam("discount") BigDecimal discount,
+            @RequestParam("status") String status,
+            @RequestParam("club_id") String club_id
+
+    ) {
+        logger.info("coach_id===" + coach_id+"try_flag===="+try_flag);
+        Course course= new Course();
+        logger.info("update course ----- course_id=="+course_id);
+        course.setCourseId(course_id)
+                .setCoachId(coach_id)
+                .setTry_flag(try_flag)
+                .setType(Integer.parseInt(type))
+                .setName(name)
+                .setStatus(Byte.parseByte(status))
+                .setClubId(club_id)
+                .setPrice(price)
+                .setDiscount(discount);
+        return courseService.updateCourse(course);
+    }
+
     @RequestMapping("/qryLesson")
     public List<Map<Object, Object>> qryLesson(
             @RequestParam("coach_id") String coach_id,
             @RequestParam("reg_date") String reg_date,
             @RequestParam("status") Integer status
     ) {
-        System.out.println("mem_id ====" + coach_id + "status=====" + status);
+        logger.info("mem_id ====" + coach_id + "status=====" + status);
 
 //        if (status != null) {
 //            return coachService.getCoachLessByView(coach_id, status);
@@ -107,7 +201,7 @@ public class CoachController {
 //        else {
 //            return coachService.getCoachLessByView_id(coach_id);
 //        }
-        System.out.println("reg_date===="+reg_date);
+        logger.info("reg_date===="+reg_date);
 
         if (status != null) {
             return memberService.getMemberLessByViewDate("",coach_id, status.toString(),reg_date);
@@ -131,7 +225,7 @@ public class CoachController {
             @RequestParam("coach_id") String coach_id,
             @RequestParam("reg_date") String reg_date
     ) {
-        System.out.println("mem_id ====" + coach_id + "reg_date=====" + reg_date);
+        logger.info("mem_id ====" + coach_id + "reg_date=====" + reg_date);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
@@ -139,7 +233,7 @@ public class CoachController {
             date = sdf.parse(reg_date);
 
         } catch (ParseException e) {
-            System.out.println(e);
+            logger.info("抛出异常");
         }
         return coachService.getCoachIncomeById(coach_id, date);
 
@@ -150,7 +244,7 @@ public class CoachController {
             @RequestParam("coach_id") String coach_id,
             @RequestParam("reg_date") String reg_date
     ) {
-        System.out.println("mem_id ====" + coach_id + "reg_date=====" + reg_date);
+        logger.info("mem_id ====" + coach_id + "reg_date=====" + reg_date);
 
         Map<Object,Object> map= new HashMap<Object,Object>();
         Map<Object,Object> resMap= new HashMap<Object,Object>();
@@ -161,12 +255,12 @@ public class CoachController {
             date = sdf.parse(reg_date);
 
         } catch (ParseException e) {
-            System.out.println(e);
+            logger.info("抛出异常");
         }
 
         map=coachService.getCoachIncomeSumById(coach_id, date);
         if(map!=null){
-            System.out.println("map.get(\"les_count_sum\");==========="+map.get("les_count_sum"));
+            logger.info("map.get(\"les_count_sum\");==========="+map.get("les_count_sum"));
 
             int les_count_sum=Integer.parseInt(map.get("les_count_sum").toString());
             int sold_count_sum=Integer.parseInt(map.get("les_count_sum").toString());
@@ -183,8 +277,8 @@ public class CoachController {
             resMap.put("les_total_amt",les_amt);
             resMap.put("sold_total_amt",sold_amt);
 
-            System.out.println("les_count_sum=["+les_count_sum+"]\t les_pct=["+les_pct+"]\t les_amt=["+les_amt+"]\t les_total_amt=["+les_total_amt+"]");
-            System.out.println("sold_count_sum=["+sold_count_sum+"]\t sold_pct=["+sold_pct+"]\t sold_amt=["+sold_amt+"]\t sold_total_amt=["+sold_total_amt+"]");
+            logger.info("les_count_sum=["+les_count_sum+"]\t les_pct=["+les_pct+"]\t les_amt=["+les_amt+"]\t les_total_amt=["+les_total_amt+"]");
+            logger.info("sold_count_sum=["+sold_count_sum+"]\t sold_pct=["+sold_pct+"]\t sold_amt=["+sold_amt+"]\t sold_total_amt=["+sold_total_amt+"]");
             return resMap;
         }else{
             resMap.put("errorNo","-1");
@@ -199,7 +293,7 @@ public class CoachController {
     public List<Object> qryMyMember(
             @RequestParam("coach_id") String coach_id
     ) {
-        System.out.println("mem_id ====" + coach_id );
+        logger.info("mem_id ====" + coach_id );
         List<Map<Object,Object>> list = new ArrayList<>();
 
         List<Object> resList = new ArrayList<>();
@@ -214,7 +308,7 @@ public class CoachController {
 //            resList.add(memberService.getMemberById(mem_id));
 //            map=qryMyMemSum(mem_id);
             resList.add(map);
-            System.out.println(mem_id);
+            logger.info(mem_id);
         }
         return resList;
 
@@ -226,7 +320,7 @@ public class CoachController {
             @RequestParam("coach_id") String coach_id,
             @RequestParam("status") String status
     ){
-        System.out.println("mem_id ===="+mem_id+"coachId==="+coach_id+"status===="+status);
+        logger.info("mem_id ===="+mem_id+"coachId==="+coach_id+"status===="+status);
 
         List<Map<Object,Object>> list = new ArrayList<>();
         list= memberService.getMemberLessByView(mem_id,coach_id,status);
@@ -244,15 +338,15 @@ public class CoachController {
     public Map<Object,Object> qryMyMemSum(
             @RequestParam("mem_id") String mem_id
     ){
-        System.out.println("mem_id ===="+mem_id);
+        logger.info("mem_id ===="+mem_id);
         Map<Object,Object> map = new HashMap<>();
         map=memberService.getMemCourseSum(mem_id);
-        System.out.println("map.get(rem)==="+map.get("rem"));
+        logger.info("map.get(rem)==="+map.get("rem"));
 
         //获取已预约的课时数
         List<Map<Object,Object>> list=new ArrayList<>();
         list=memberService.getMemberLessByView(mem_id,"","0");
-        System.out.println("list.size()"+list.size());
+        logger.info("list.size()"+list.size());
         map.put("ordered",list.size());
         map.put("ordering",Integer.parseInt(map.get("rem").toString())-list.size());
         return map;

@@ -26,7 +26,7 @@ public class CourseServiceImpl implements CourseService {
         return course.selectByClubId(club_id,try_flag);
     }
 
-    public boolean addOrder(Course record){
+    public boolean addCourse(Course record){
         boolean result = false;
         try {
             course.insertSelective(record);
@@ -38,7 +38,7 @@ public class CourseServiceImpl implements CourseService {
         return result;
     }
 
-    public boolean updateOrder(Course record) {
+    public boolean updateCourse(Course record) {
         boolean result = false;
         try {
             course.updateByPrimaryKeySelective(record);
@@ -48,6 +48,10 @@ public class CourseServiceImpl implements CourseService {
         }
 
         return result;
+    }
+
+    public String getMaxId(){
+        return course.selectMaxCourseId();
     }
 
 }
