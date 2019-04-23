@@ -13,8 +13,13 @@ public interface MemberLessonMapper {
 
     List<Map<Object, Object>> selectById(String memId);
     List<Map<Object, Object>> selectByIdS(@Param("memId") String memId, @Param("status")String status);
+
     List<Map<Object, Object>> selectByCoachId(@Param("coachId") String coachId, @Param("status")String status);
     List<Map<Object, Object>> selectByCoachIdDate(@Param("coachId") String coachId, @Param("status")String status,@Param("reg_date") String reg_date);
+
+    List<Map<Object, Object>> selectByClubId(@Param("clubId") String clubId, @Param("status")String status);
+    List<Map<Object, Object>> selectByClubIdDate(@Param("clubId") String clubId, @Param("status")String status,@Param("reg_date") String reg_date);
+
     List<Map<Object, Object>> selectByView(@Param("memId") String memId,@Param("coachId") String coachId,@Param("status")String status);
     List<Map<Object, Object>> selectByViewDate(@Param("memId") String memId,@Param("coachId") String coachId,@Param("status")String status,@Param("reg_date") String reg_date);
 

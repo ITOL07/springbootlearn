@@ -38,6 +38,18 @@ public class CourseServiceImpl implements CourseService {
         return result;
     }
 
+    public boolean delCourse(String course_id){
+        boolean result = false;
+        try {
+            course.deleteByPrimaryKey(course_id);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
     public boolean updateCourse(Course record) {
         boolean result = false;
         try {

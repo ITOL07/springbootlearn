@@ -18,6 +18,6 @@ public interface CourseService {
 
     public String getMaxId();
 
-
+    public boolean delCourse(String course_id);
 
 }

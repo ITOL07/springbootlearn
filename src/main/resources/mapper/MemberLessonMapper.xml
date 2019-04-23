@@ -90,6 +90,29 @@
     </if>
     order by start_time_1 desc
   </select>
+    <select id="selectByClubId" parameterType="java.lang.String" resultType="map">
+        select *
+        from v_member_lesson
+        where
+        club_id = #{clubId,jdbcType=VARCHAR}
+        <if test="status !=''">
+            and status = #{status,jdbcType=TINYINT}
+        </if>
+        order by start_time_1 desc
+    </select>
+    <select id="selectByClubIdDate" parameterType="java.lang.String" resultType="map">
+        select *
+        from v_member_lesson
+        where
+        club_id = #{clubId,jdbcType=VARCHAR}
+        <if test="status !=''">
+            and status = #{status,jdbcType=TINYINT}
+        </if>
+        <if test="reg_date !=''">
+            and start_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%')
+        </if>
+        order by start_time_1 desc
+    </select>
   <insert id="insert" parameterType="com.atguigu.entity.MemberLesson">
     insert into member_lesson (mem_id, sale_id, seq_no, 
       club_id, status, start_time_1, 

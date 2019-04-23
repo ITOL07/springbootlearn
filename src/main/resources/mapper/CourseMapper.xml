@@ -185,6 +185,9 @@
       <if test="bz1 != null" >
         bz1 = #{bz1,jdbcType=VARCHAR},
       </if>
+      <if test="try_flag != null" >
+        try_flag = #{try_flag,jdbcType=VARCHAR},
+      </if>
       <if test="bz2 != null" >
         bz2 = #{bz2,jdbcType=VARCHAR},
       </if>

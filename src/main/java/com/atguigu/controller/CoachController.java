@@ -127,6 +127,27 @@ public class CoachController {
         }
     }
 
+    @RequestMapping("/delCourse")
+    public boolean delCourse(
+            @RequestParam("course_id") String course_id
+
+    ) {
+        logger.info("coach_id===" + course_id);
+        return courseService.delCourse(course_id);
+    }
+
+    /**
+     * 新增课程信息（售课）
+     * @param coach_id
+     * @param try_flag
+     * @param type
+     * @param name
+     * @param price
+     * @param discount
+     * @param status
+     * @param club_id
+     * @return
+     */
     @RequestMapping("/addCourse")
     public boolean addCourse(
             @RequestParam("coach_id") String coach_id,
@@ -159,6 +180,19 @@ public class CoachController {
         return courseService.addCourse(course);
     }
 
+    /**
+     * 修改课程信息（售课）
+     * @param course_id
+     * @param coach_id
+     * @param try_flag
+     * @param type
+     * @param name
+     * @param price
+     * @param discount
+     * @param status
+     * @param club_id
+     * @return
+     */
     @RequestMapping("/updateCourse")
     public boolean updateCourse(
             @RequestParam("course_id") String course_id,
