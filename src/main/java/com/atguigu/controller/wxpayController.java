@@ -1,10 +1,16 @@
 package com.atguigu.controller;
 
-import com.atguigu.entity.OrderDtl;
-import com.atguigu.entity.User;
+import com.atguigu.dao.TClubLessonRegMapper;
+import com.atguigu.dao.TCoachLessonRegMapper;
+import com.atguigu.entity.*;
+import com.atguigu.service.CourseService;
+import com.atguigu.service.MemberService;
 import com.atguigu.service.OrderService;
 import com.atguigu.service.UserService1;
+import com.atguigu.util.getSeqNo;
 import com.atguigu.wechatpay.app.UnifiedOrder;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,11 +29,24 @@ import java.util.Map;
 @RequestMapping("/pay")
 public class wxpayController {
 
+    private Logger logger = LoggerFactory.getLogger(CoachController.class);
     @Resource
     private OrderService orderService;
 
     @Resource
     private UserService1 userService1 ;
+
+    @Resource
+    private MemberService memberService;
+
+    @Resource
+    private CourseService courseService;
+
+    @Resource
+    private TCoachLessonRegMapper tCoachLessonRegMapper;
+
+    @Resource
+    private TClubLessonRegMapper tClubLessonRegMapper;
 
     @PostMapping("/id")
     public  Map<String, Object> wxpay(
@@ -124,9 +143,116 @@ public class wxpayController {
 
             boolean bool1 =this.userService1.updateUserByOpenid(user);
             System.out.println("更新user表数据库状态："+bool);
+
+
+            String course_id=order_tmp.getSaleId();
+            int total_lesson=order_tmp.getCount();
+            step1(open_id,course_id,total_lesson);
+            step2(course_id,total_lesson);
+
         }
 
 
         return payMap;
+    }
+
+    //step1 插入member_course表
+    public boolean step1(String open_id,String course_id,int total){
+
+        int index=0;
+        boolean bool=false;
+        MemberCourse mc=new MemberCourse();
+        logger.info("open_id==="+open_id);
+        //根据open_id获取user_id
+        User user=userService1.getUserByOpenId(open_id);
+        String user_id=user.getId();
+        logger.info("user_id==="+user_id);
+        String maxId=memberService.getMaxKcId();
+        logger.info("maxId==="+maxId);
+        if(maxId!=null) {
+            index = Integer.parseInt(maxId.substring(10));
+        }
+        String id= getSeqNo.getId(12,index,4);
+        logger.info("kcid==="+id);
+        mc.setKcId(id).setMemId(user_id)
+                .setCourseId(course_id)
+                .setTotalLesson(total)
+                .setUsed(0)
+                .setRem(total)
+                .setBuy_time(new Date())
+                ;
+        logger.info("open_id=["+open_id+"user_id=="+user_id+"    course_id==="+course_id);
+        memberService.addMemberCourse(mc);
+
+        return bool;
+    }
+
+    //step2 关联更新教练日记表 t_coach_lesson_reg
+    //入参 course_id
+    public boolean step2(String course_id,int sold_count){
+        boolean bool=false;
+        //根据课程id找教练信息
+        Course c=courseService.getCourseById(course_id);
+        String club_id=c.getClubId();
+        String coach_id=c.getCoachId();
+        String course_type=c.getType();
+        BigDecimal price=c.getPrice();
+        Date reg_time=new Date();
+
+        //教练日记表
+        //先查询有无记录，无则插入，有则更新
+        TCoachLessonReg tclr=new TCoachLessonReg();
+        tclr.setCoachId(coach_id)
+                .setCourseType(course_type)
+                .setSoldPrice(price)
+                .setRegDate(reg_time)
+                .setRegTime(reg_time)
+                .setSoldCount(sold_count);
+        Map<Object,Object> map=tCoachLessonRegMapper.selectByCoachIdS(coach_id,reg_time,course_type);
+        if(map!=null){
+            //更新
+            int sold_before= (Integer) map.get("sold_count");
+            int id=(Integer) map.get("id");
+            logger.info("已有记录，原售课数为"+sold_before+"新增售课数为："+sold_count);
+            int sum=sold_before+sold_count;
+            logger.info("更新售课数为："+sum);
+            TCoachLessonReg tc_new=new TCoachLessonReg();
+            tc_new.setId(id)
+                .setSoldCount(sum)
+                .setRegTime(new Date());
+            orderService.updateCoachReg(tc_new);
+        }else{
+            //插入
+            orderService.insertCoachReg(tclr);
+        }
+        logger.info("更新教练日计表完成");
+
+//        店面日记表
+        TClubLessonReg tClubLessonReg=new TClubLessonReg();
+        tClubLessonReg.setClubId(club_id)
+                .setCourseType(course_type)
+                .setSoldPrice(price)
+                .setRegDate(reg_time)
+                .setRegTime(reg_time)
+                .setSoldCount(sold_count);
+        Map<Object,Object> map_club=tClubLessonRegMapper.selectByClubIdS(club_id,reg_time,course_type);
+        if(map_club!=null) {
+            //更新
+            int sold_before = (Integer) map_club.get("sold_count");
+            int id = (Integer) map_club.get("id");
+            logger.info("已有记录，原售课数为" + sold_before + "新增售课数为：" + sold_count);
+            int sum = sold_before + sold_count;
+            logger.info("更新售课数为：" + sum);
+            TClubLessonReg tclub_new = new TClubLessonReg();
+            tclub_new.setId(id)
+                    .setSoldCount(sum)
+                    .setRegTime(new Date());
+            orderService.updateClubReg(tclub_new);
+        }
+        else{
+            orderService.insertClubReg(tClubLessonReg);
+        }
+        logger.info("更新场地日计表完成");
+        return bool;
     }
 }

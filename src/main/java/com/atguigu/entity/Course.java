@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 public class Course {
     private String courseId;
 
-    private Integer type;
+    private String type;
 
     private String name;
 

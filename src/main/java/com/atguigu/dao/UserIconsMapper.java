@@ -19,4 +19,7 @@ public interface UserIconsMapper {
     int updateByPrimaryKey(UserIcons record);
 
     List<UserIcons> selectByUser(String userid);
+
+    List<UserIcons> selectByType(Integer type);
+
 }

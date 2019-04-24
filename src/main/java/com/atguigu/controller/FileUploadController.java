@@ -17,10 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Controller
 @RequestMapping(value = "/img")
@@ -65,7 +62,8 @@ public class FileUploadController {
                 if ("JPEG".equals(type.toUpperCase())||"GIF".equals(type.toUpperCase())||"PNG".equals(type.toUpperCase())||"JPG".equals(type.toUpperCase())) {
                     // 项目在容器中实际发布运行的根路径
 //                    String realPath = request.getSession().getServletContext().getRealPath("/");
-                    String realPath= CommParams.IMG_LOCATION_TEST;
+//                    String realPath= CommParams.IMG_LOCATION_TEST;
+                    String realPath= CommParams.IMG_LOCATION;
                     // 自定义的文件名称
                     trueFileName = String.valueOf(System.currentTimeMillis()) +(int)(1+Math.random()*100)+ "."+type;
                     //创建存储上传图片的文件
@@ -107,7 +105,7 @@ public class FileUploadController {
         userIcons.setIconName(trueFileName);
         userIcons.setIconUrl(path);
         userIcons.setType(Integer.parseInt(photo_type));
-        userIcons.setUptime(new Date());
+        userIcons.setUp_time(new Date());
 
         boolean flag = userIconsService.insertUserIcon(userIcons);
         logger.info("=-=--=-=-=-=-=-=- flag is: "+flag);
@@ -120,5 +118,24 @@ public class FileUploadController {
     public List<UserIcons> load(@RequestParam("userid") String userid, HttpServletResponse response){
         List<UserIcons> userIconsList = userIconsService.selectByUser(userid);
         return userIconsList;
+    }
+
+    @ResponseBody
+    @RequestMapping("/load1")
+    public List<Map<Object,Object>> load(@RequestParam("type") Integer type, HttpServletResponse response){
+        List<UserIcons> list = userIconsService.selectByType(type);
+        List<Map<Object,Object>> resList=new ArrayList<>();
+        for(UserIcons u :list){
+            UserIcons  ui=(UserIcons)u;
+            String img_url=CommParams.WEB_URL+ui.getIconUrl().replaceAll("/app/test","");
+            Map<Object,Object> map=new HashMap<>();
+            map.put("img_url",img_url);
+
+//            resList.add(memberService.getMemberById(mem_id));
+//            map=qryMyMemSum(mem_id);
+            resList.add(map);
+            logger.info(img_url);
+        }
+        return resList;
     }
 }

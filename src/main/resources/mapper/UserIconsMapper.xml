@@ -24,7 +24,13 @@
     <include refid="Base_Column_List" />
     from user_icons
     where user_Id = #{userid,jdbcType=VARCHAR}
-  </select>
+</select>
+    <select id="selectByType" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from user_icons
+        where type = #{type,jdbcType=INTEGER}
+    </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from user_icons
     where icon_name = #{iconName,jdbcType=VARCHAR}

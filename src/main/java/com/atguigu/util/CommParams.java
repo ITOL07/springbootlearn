@@ -19,6 +19,8 @@ public class CommParams {
     //图片存放根路径
     public static final String IMG_LOCATION="/app/test/images/";
     public static final String IMG_LOCATION_TEST="/tmp/";
+
+    public static final String WEB_URL="https://www.guyueyundong.com";
     // 统一支付地址
     public static final String WX_LOGIN_URL="https://api.weixin.qq.com/sns/jscode2session";
 

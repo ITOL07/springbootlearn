@@ -29,6 +29,13 @@
     and reg_date=#{reg_date,jdbcType=DATE}
   </select>
 
+  <select id="selectByCoachIdS" resultType="map"  >
+    select * from t_coach_lesson_reg
+    where coach_id=#{coachId,jdbcType=VARCHAR}
+    and reg_date=#{reg_date,jdbcType=DATE}
+    and course_type=#{course_type,jdbcType=VARCHAR}
+  </select>
+
   <select id="selectSumByCoachId" resultType="map">
     select sum(les_count) les_count_sum,sum(les_count*les_price) les_total_amt ,
     sum(sold_count) sold_count_sum,sum(sold_count*sold_price) sold_total_amt

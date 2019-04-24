@@ -35,5 +35,9 @@ public class UserIconsServiceImpl implements UserIconsService {
         List<UserIcons> userIconsList = userIconsMapper.selectByUser(userid);
         return userIconsList;
     }
+    public List<UserIcons> selectByType(Integer type) {
 
+        List<UserIcons> userIconsList = userIconsMapper.selectByType(type);
+        return userIconsList;
+    }
 }

@@ -14,9 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.ParseException;
@@ -171,7 +173,7 @@ public class CoachController {
         course.setCourseId(course_id)
                 .setCoachId(coach_id)
                 .setTry_flag(try_flag)
-                .setType(Integer.parseInt(type))
+                .setType(type)
                 .setName(name)
                 .setStatus(Byte.parseByte(status))
                 .setClubId(club_id)
@@ -212,7 +214,7 @@ public class CoachController {
         course.setCourseId(course_id)
                 .setCoachId(coach_id)
                 .setTry_flag(try_flag)
-                .setType(Integer.parseInt(type))
+                .setType(type)
                 .setName(name)
                 .setStatus(Byte.parseByte(status))
                 .setClubId(club_id)
@@ -386,4 +388,61 @@ public class CoachController {
         return map;
     }
 
+    @ResponseBody
+    @RequestMapping("/getMemberInfo")
+    public List<Map<Object,Object>> list(@RequestParam("coachid") String coachid){
+        logger.info("coachid is :"+coachid);
+        List<Map<Object,Object>> list = memberService.selectMemberInfo(coachid);
+        return  list;
+    }
+
+    @ResponseBody
+    @RequestMapping("/course_info")
+    public Map<String,List<String>> selectLessonList(@RequestParam("mem_id") String mem_id, HttpServletResponse response){
+        List<Map<String,String>> list = memberService.selectLessonList(mem_id);
+        logger.info(list.size()+"");
+        List<String> list1 = new ArrayList<>();
+        List<String> list2 = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            list1.add(list.get(i).get("name"));
+            list2.add(list.get(i).get("course_id"));
+        }
+        Map<String,List<String>> map = new HashMap<>();
+        map.put("course_name",list1);
+        map.put("course_id",list2);
+        return map;
+    }
+    @ResponseBody
+    @RequestMapping("/lesson")
+    public List<Map<Object,String>> load(@RequestParam("select_type") String select_type,
+                                         @RequestParam("mem_id") String mem_id,
+                                         @RequestParam("course_id") String course_id,
+                                         @RequestParam("club_id") String club_id,
+                                         @RequestParam("coach_id") String coach_id,
+                                         HttpServletResponse response){
+        logger.info("传入查询类型为："+select_type);
+        //查询类型暂前端处理
+        //Map map = new HashMap();
+//        map.put("select_type",select_type);
+
+        List<Map<Object,String>> userIconsList = memberService.selectByLesson(mem_id,course_id,club_id,coach_id);
+        return userIconsList;
+    }
+    @ResponseBody
+    @RequestMapping("/getClubInfo")
+    public Map<String,List<String>> getClubInfo(@RequestParam("course_id") String course_id, HttpServletResponse response){
+        logger.info("course_id :" +course_id);
+        List<Map<String,String>> list = memberService.selectClubList(course_id);
+        logger.info(list.size()+"");
+        List<String> list1 = new ArrayList<>();
+        List<String> list2 = new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            list1.add(list.get(i).get("club_name"));
+            list2.add(list.get(i).get("club_id"));
+        }
+        Map<String,List<String>> map = new HashMap<>();
+        map.put("club_name",list1);
+        map.put("club_id",list2);
+        return map;
+    }
 }

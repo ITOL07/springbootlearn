@@ -18,6 +18,12 @@
     where club_id=#{clubId,jdbcType=VARCHAR}
     and reg_date=#{reg_date,jdbcType=DATE}
   </select>
+  <select id="selectByClubIdS" resultType="map"  >
+    select * from t_club_lesson_reg
+    where club_id=#{clubId,jdbcType=VARCHAR}
+    and reg_date=#{reg_date,jdbcType=DATE}
+    and course_type=#{course_type,jdbcType=VARCHAR}
+  </select>
 
   <select id="selectSumByClubId" resultType="map">
     select sum(les_count) les_count_sum,sum(les_count*les_price) les_total_amt ,
@@ -104,4 +110,38 @@
       </if>
     </trim>
   </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.TClubLessonReg" >
+    update t_club_lesson_reg
+    <set >
+      <if test="clubId != null" >
+        club_id = #{clubId,jdbcType=VARCHAR},
+      </if>
+      <if test="lesCount != null" >
+        les_count = #{lesCount,jdbcType=INTEGER},
+      </if>
+      <if test="lesPrice != null" >
+        les_price = #{lesPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="soldCount != null" >
+        sold_count = #{soldCount,jdbcType=INTEGER},
+      </if>
+      <if test="soldPrice != null" >
+        sold_price = #{soldPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="regDate != null" >
+        reg_date = #{regDate,jdbcType=DATE},
+      </if>
+      <if test="regTime != null" >
+        reg_time = #{regTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chTime != null" >
+        ch_time = #{chTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseType != null" >
+        course_type = #{courseType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
 </mapper>
