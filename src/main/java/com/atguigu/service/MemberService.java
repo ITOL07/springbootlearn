@@ -38,5 +38,5 @@ public interface MemberService {
 
     public int addMemberCourse(MemberCourse m);
     public String getMaxKcId();
-
+    public int addLess(MemberLesson ml);
 }

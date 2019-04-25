@@ -147,8 +147,10 @@ public class wxpayController {
 
             String course_id=order_tmp.getSaleId();
             int total_lesson=order_tmp.getCount();
-            step1(open_id,course_id,total_lesson);
+
+            MemberCourse mc=step1(open_id,course_id,total_lesson);
             step2(course_id,total_lesson);
+            step3(mc);
 
         }
 
@@ -157,10 +159,10 @@ public class wxpayController {
     }
 
     //step1 插入member_course表
-    public boolean step1(String open_id,String course_id,int total){
+    public MemberCourse step1(String open_id,String course_id,int total){
 
         int index=0;
-        boolean bool=false;
+
         MemberCourse mc=new MemberCourse();
         logger.info("open_id==="+open_id);
         //根据open_id获取user_id
@@ -184,7 +186,7 @@ public class wxpayController {
         logger.info("open_id=["+open_id+"user_id=="+user_id+"    course_id==="+course_id);
         memberService.addMemberCourse(mc);
 
-        return bool;
+        return mc;
     }
 
     //step2 关联更新教练日记表 t_coach_lesson_reg
@@ -253,6 +255,33 @@ public class wxpayController {
             orderService.insertClubReg(tClubLessonReg);
         }
         logger.info("更新场地日计表完成");
+        return bool;
+    }
+
+    //step3 新增对应的课时，插入member_lesson表
+    public boolean step3(MemberCourse mem){
+        boolean bool = false;
+        String mem_id=mem.getMemId();
+        String course_id=mem.getCourseId();
+        int total_lesson=mem.getTotalLesson();
+        String kc_id=mem.getKcId();
+
+        Course c=courseService.getCourseById(course_id);
+        String club_id=c.getClubId();
+        String coach_id=c.getCoachId();
+        MemberLesson ml = new MemberLesson();
+        for(int i=0;i<total_lesson;){
+            ml.setMemId(mem_id)
+                    .setSaleId(course_id)
+                    .setKcId(kc_id)
+                    .setClubId(club_id)
+                    .setCoachId(coach_id)
+                    .setChTime(new Date())
+                    .setSeqNo(++i);
+            memberService.addMemberLes(ml);
+            logger.info("第"+i+"节课插入lesson表成功");
+        }
+
         return bool;
     }
 }

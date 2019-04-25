@@ -142,4 +142,9 @@ public class MemberServiceImpl implements MemberService {
     public String getMaxKcId(){
         return memberCourseMapper.selectMaxKcId();
     }
+
+    //课时
+    public int addLess(MemberLesson ml){
+        return mem_les.insertSelective(ml);
+    }
 }

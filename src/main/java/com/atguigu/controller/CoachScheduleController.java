@@ -29,7 +29,7 @@ public class CoachScheduleController {
                                 @RequestParam("real_club") String real_club,
                                 @RequestParam("real_coach") String real_coach,
                                 @RequestParam("sale_id") String sale_id,
-                                @RequestParam("seq_no") Byte seq_no,
+                                @RequestParam("seq_no") Integer seq_no,
                                 @RequestParam("start_time_2") String start_time,
                                 @RequestParam("end_time_2") String end_time,
                                 @RequestParam("bz1") String bz1,

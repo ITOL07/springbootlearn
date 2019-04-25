@@ -141,7 +141,7 @@ public class MemberController {
     public boolean addLesson(
             @RequestParam("mem_id") String mem_id,
             @RequestParam("sale_id") String sale_id,
-            @RequestParam("club_id") int club_id,
+            @RequestParam("club_id") String club_id,
             @RequestParam("coach_id") String coach_id,
             @RequestParam("st_time") String st_time,
             @RequestParam("end_time") String end_time
@@ -163,7 +163,7 @@ public class MemberController {
         }catch(ParseException e){
             e.printStackTrace();
         }
-        Byte b=Byte.parseByte(maxSeqno);
+        Integer b=Integer.parseInt(maxSeqno);
         m.setSeqNo(++b);
 
         Date d = new Date();
@@ -190,8 +190,8 @@ public class MemberController {
     public int updateLesson(
             @RequestParam("mem_id") String mem_id,
             @RequestParam("sale_id") String sale_id,
-            @RequestParam("seq_no") Byte seq_no,
-            @RequestParam("club_id") int club_id,
+            @RequestParam("seq_no") Integer seq_no,
+            @RequestParam("club_id") String club_id,
             @RequestParam("coach_id") String coach_id,
             @RequestParam("st_time") String st_time,
             @RequestParam("end_time") String end_time
