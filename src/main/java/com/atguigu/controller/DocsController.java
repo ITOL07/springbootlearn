@@ -1,7 +1,9 @@
 package com.atguigu.controller;
 
 
+import com.atguigu.entity.TPubDocs;
 import com.atguigu.entity.UserIcons;
+import com.atguigu.service.DocsService;
 import com.atguigu.service.UserIconsService;
 import com.atguigu.util.CommParams;
 import org.slf4j.Logger;
@@ -20,12 +22,12 @@ import java.io.IOException;
 import java.util.*;
 
 @Controller
-@RequestMapping(value = "/img")
-public class FileUploadController {
+@RequestMapping(value = "/doc")
+public class DocsController {
 
-    private Logger logger = LoggerFactory.getLogger(FileUploadController.class);
+    private Logger logger = LoggerFactory.getLogger(DocsController.class);
    @Resource
-    private UserIconsService userIconsService;
+    private DocsService docsService;
 
     /**
      * @createtime 2017年8月20日17:15:41
@@ -40,7 +42,7 @@ public class FileUploadController {
         Map<String,String> map = new HashMap<String,String>();
         System.out.println("执行upload");
         request.setCharacterEncoding("UTF-8");
-        logger.info("执行图片上传");
+        logger.info("执行文件上传");
 
         String user_id = request.getParameter("user_id");
         /**
@@ -100,43 +102,27 @@ public class FileUploadController {
         map.put("message","文件上传成功");
         map.put("imgUrl",path);
         //文件上传成功后将图片信息保存到数据库
-        UserIcons userIcons = new UserIcons();
-        userIcons.setUserId(user_id);
-        userIcons.setIconName(trueFileName);
-        userIcons.setIconUrl(path);
-        userIcons.setType(Integer.parseInt(photo_type));
-        userIcons.setUp_time(new Date());
-
-        boolean flag = userIconsService.insertUserIcon(userIcons);
-        logger.info("=-=--=-=-=-=-=-=- flag is: "+flag);
-        map.put("insert_flag",""+flag);
+//        UserIcons userIcons = new UserIcons();
+//        userIcons.setUserId(user_id);
+//        userIcons.setIconName(trueFileName);
+//        userIcons.setIconUrl(path);
+//        userIcons.setType(Integer.parseInt(photo_type));
+//        userIcons.setUp_time(new Date());
+//
+//        boolean flag = userIconsService.insertUserIcon(userIcons);
+//        logger.info("=-=--=-=-=-=-=-=- flag is: "+flag);
+//        map.put("insert_flag",""+flag);
         return map;
     }
 
     @ResponseBody
     @RequestMapping("/load")
-    public List<UserIcons> load(@RequestParam("userid") String userid, HttpServletResponse response){
-        List<UserIcons> userIconsList = userIconsService.selectByUser(userid);
-        logger.info("userIconsList :"+ userIconsList.size());
-        return userIconsList;
+    public TPubDocs load(@RequestParam("name") String name,@RequestParam("type") String type){
+        TPubDocs res = docsService.getDocByName(type,name);
+        logger.info("name==="+name+"    type===="+type);
+        String img_url=CommParams.WEB_URL+res.getUrl().replaceAll("/app/test","");
+        res.setUrl(img_url);
+        return res;
     }
 
-    @ResponseBody
-    @RequestMapping("/load1")
-    public List<Map<Object,Object>> load(@RequestParam("type") Integer type, HttpServletResponse response){
-        List<UserIcons> list = userIconsService.selectByType(type);
-        List<Map<Object,Object>> resList=new ArrayList<>();
-        for(UserIcons u :list){
-            UserIcons  ui=(UserIcons)u;
-            String img_url=CommParams.WEB_URL+ui.getIconUrl().replaceAll("/app/test","");
-            Map<Object,Object> map=new HashMap<>();
-            map.put("img_url",img_url);
-
-//            resList.add(memberService.getMemberById(mem_id));
-//            map=qryMyMemSum(mem_id);
-            resList.add(map);
-            logger.info(img_url);
-        }
-        return resList;
-    }
 }

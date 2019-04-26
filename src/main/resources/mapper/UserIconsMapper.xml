@@ -5,9 +5,13 @@
     <id column="icon_name" property="iconName" jdbcType="VARCHAR" />
     <result column="user_Id" property="userId" jdbcType="VARCHAR" />
     <result column="icon_url" property="iconUrl" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+    <result column="up_time" property="up_time" jdbcType="TIMESTAMP" />
+    <result column="bz1" property="bz1" jdbcType="VARCHAR" />
+    <result column="bz2" property="bz2" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    icon_name, user_Id, icon_url
+    icon_name, user_Id, icon_url,type,up_time,bz1,bz2
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -20,19 +24,30 @@
     <include refid="Base_Column_List" />
     from user_icons
     where user_Id = #{userid,jdbcType=VARCHAR}
+
   </select>
   <select id="queryCoachInfoIcons" resultType="map" >
     select icon_name icon_name,icon_url icon_url from user_icons where user_id=#{coach_id,jdbcType=VARCHAR}
      and type=#{type,jdbcType=VARCHAR} order by up_time desc
   </select>
+
+</select>
+    <select id="selectByType" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List" />
+        from user_icons
+        where type = #{type,jdbcType=INTEGER}
+    </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from user_icons
     where icon_name = #{iconName,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="com.atguigu.entity.UserIcons" >
-    insert into user_icons (icon_name, user_Id, icon_url
+    insert into user_icons (icon_name, user_Id, icon_url,type,up_time,bz1,bz2
       )
     values (#{iconName,jdbcType=VARCHAR}, #{userId,jdbcType=VARCHAR}, #{iconUrl,jdbcType=VARCHAR}
+    ,#{type,jdbcType=INTEGER},#{up_time,jdbcType=TIMESTAMP},#{bz1,jdbcType=VARCHAR},#{bz2,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.atguigu.entity.UserIcons" >
@@ -47,6 +62,18 @@
       <if test="iconUrl != null" >
         icon_url,
       </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="up_time != null" >
+        up_time,
+      </if>
+      <if test="bz1 != null" >
+        bz1,
+      </if>
+      <if test="bz2 != null" >
+        bz2,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="iconName != null" >
@@ -57,6 +84,18 @@
       </if>
       <if test="iconUrl != null" >
         #{iconUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="up_time != null" >
+        #{up_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bz1 != null" >
+        #{bz1,jdbcType=VARCHAR},
+      </if>
+      <if test="bz2 != null" >
+        #{bz2,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

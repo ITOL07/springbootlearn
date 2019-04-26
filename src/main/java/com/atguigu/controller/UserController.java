@@ -1,6 +1,8 @@
 package com.atguigu.controller;
 
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import java.util.Set;
 @RestController
 @RequestMapping("/mydb")
 public class UserController {
+    private Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -33,7 +36,7 @@ public class UserController {
                     Entry<String, Object> entry = (Entry<String, Object>) iterator.next();
                     Object key = entry.getKey();
                     Object value = entry.getValue();
-                    System.out.println(key + ":" + value);
+                    logger.info(key + ":" + value);
                 }
             }
         }

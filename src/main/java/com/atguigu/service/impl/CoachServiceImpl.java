@@ -25,6 +25,8 @@ public class CoachServiceImpl implements CoachService {
     TCoachLessonRegMapper tCoachLessonRegMapper;
     @Resource
     TPubParamMapper tPubParamMapper;
+    @Resource
+    CourseMapper courseMapper;
 
 
     public Coach getCoachById(String coach_id) {
@@ -89,4 +91,16 @@ public class CoachServiceImpl implements CoachService {
     public List<Map<Object,Object>> getMyMemberId(String coachId){
         return coach.selectMyMemId(coachId);
     }
+
+    /**
+     *
+     * @param coachId
+     * @param try_flag
+     * @return 教练维护的课程信息（售课）
+     */
+    public List<Course> getCourseByCoachId(String coachId,String try_flag){
+        return courseMapper.selectByCoachId(coachId,try_flag);
+    }
+
+
 }

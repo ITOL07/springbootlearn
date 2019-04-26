@@ -24,5 +24,6 @@ public interface TCoachLessonRegMapper {
     Map<Object,Object> selectSumByCoachId(@Param("coachId") String coachId,@Param("reg_date") Date reg_date);
 
     TCoachLessonReg seletNumByDate(TCoachLessonReg record);
+    Map<Object,Object> selectByCoachIdS(@Param("coachId") String coachId,@Param("reg_date") Date reg_date,@Param("course_type") String course_type);
 
 }

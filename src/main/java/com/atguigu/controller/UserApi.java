@@ -4,6 +4,8 @@ import com.atguigu.entity.User;
 import com.atguigu.service.UserService1;
 import com.atguigu.util.CommParams;
 import com.atguigu.util.getSeqNo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,8 @@ import com.alibaba.fastjson.*;
 @RestController
 @RequestMapping("/wxuser")
 public class UserApi {
+
+    private Logger logger = LoggerFactory.getLogger(UserApi.class);
 
     @Autowired
     private UserService1 userService;
@@ -43,7 +47,7 @@ public class UserApi {
 
         String appid="";
         String app_secret="";
-        System.out.println("login type======"+type);
+        logger.info("login type======"+type);
         switch (type){
             case 1:
                     appid=CommParams.APPID_MEM;
@@ -64,14 +68,14 @@ public class UserApi {
         param.put("js_code", code);
         param.put("grant_type", "authorization_code");
         // 发送请求
-        System.out.println("code is ===="+code);
+        logger.info("code is ===="+code);
 //        String wxResult = wxLogin.doGet("https://api.weixin.qq.com/sns/jscode2session", param);
         String wxResult = wxLogin.doGet(CommParams.WX_LOGIN_URL, param);
 
         Map<Object,Object> resMap=new HashMap<>();
 
 
-        System.out.println("wxResult is ===="+wxResult);
+        logger.info("wxResult is ===="+wxResult);
 
         JSONObject jsonObject = JSONObject.parseObject(wxResult);
         // 获取参数返回的
@@ -79,7 +83,7 @@ public class UserApi {
         String open_id = jsonObject.get("openid").toString();
         resMap.put("openid",open_id);
         // 根据返回的user实体类，判断用户是否是新用户，不是的话，更新最新登录时间，是的话，将用户信息存到数据库
-       System.out.println("openid is ===="+open_id+"sessio_key====="+session_key);
+       logger.info("openid is ===="+open_id+"sessio_key====="+session_key);
         User user = userService.getUserByOpenId(open_id);
         if(user != null){
             user.setLastLogin(new Date());
@@ -92,7 +96,7 @@ public class UserApi {
             insert_user.setLastLogin(new Date());
 
             String maxId=userService.getMaxId(type);
-            System.out.println("maxId==="+maxId);
+            logger.info("maxId==="+maxId);
             String id="";
             if(maxId==null){
                 id= getSeqNo.getId(12,0,type);
@@ -104,7 +108,7 @@ public class UserApi {
 
             insert_user.setId(id);
             insert_user.setType(type);
-            System.out.println("insert_user:"+insert_user.toString());
+            logger.info("insert_user:"+insert_user.toString());
             // 添加到数据库
             Boolean flag = userService.addUser(insert_user);
 //            if(!flag){

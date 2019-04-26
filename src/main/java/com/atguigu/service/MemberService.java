@@ -1,6 +1,7 @@
 package com.atguigu.service;
 
 import com.atguigu.entity.Member;
+import com.atguigu.entity.MemberCourse;
 import com.atguigu.entity.MemberLesson;
 
 import java.util.List;
@@ -43,4 +44,14 @@ public interface MemberService {
     public Map<String,String> selecctInfoByKcid(MemberLesson record);
 
     public byte selectseqno(MemberLesson record);
+
+    public List<Map<String, String>> selectClubList(String course_id);
+    public List<Map<Object, String>> selectByLesson(String mem_id, String course_id, String club_id, String coach_id);
+    public List<Map<String,String>> selectLessonList(String mem_id);
+    public List<Map<Object, Object>> selectMemberInfo(String coachid);
+
+    public int addMemberCourse(MemberCourse m);
+    public String getMaxKcId();
+    public int addLess(MemberLesson ml);
+
 }

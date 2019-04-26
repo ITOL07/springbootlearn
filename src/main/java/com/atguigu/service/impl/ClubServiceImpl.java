@@ -37,6 +37,16 @@ public class ClubServiceImpl implements ClubService {
         return result;
     }
 
+    public boolean updateClub(Club record){
+        boolean result=false;
+        try{
+            clubMapper.updateByPrimaryKeySelective(record);
+            result=true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return result;
+    }
     public String getMaxId(){
         return clubMapper.selectMaxId();
     }

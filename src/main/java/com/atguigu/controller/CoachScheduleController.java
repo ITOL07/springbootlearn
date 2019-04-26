@@ -22,8 +22,10 @@ public class CoachScheduleController {
 
     @Resource
     private CoachScheduleService scheduleService;
+
     @Resource
     private MemberService memberService;
+
     private static final Logger logger = LoggerFactory.getLogger(CoachScheduleController.class);
 
 

@@ -52,6 +52,7 @@ public class getSeqNo {
             case 1: prefix="HY"; break;
             case 2: prefix="JL"; break;
             case 3: prefix="CD"; break;
+            case 4: prefix="KC"; break;
         }
         return prefix+result;
     }
@@ -60,17 +61,8 @@ public class getSeqNo {
      * 获取当天最大的id
      */
 
-//    public String getMaxId(){
-//        @Resource
-//        private UserService1 userService;
-//
-//        String tmp=userService.getMaxId();
-//
-//        return tmp;
-//    }
+    public static String getDate8(Date date){
+        return sdf.format(date);
+    }
 
-//    public static void main(String[] args) {
-//        System.out.println(Integer.parseInt("0001"));
-////        System.out.println(getSeqNo.getId(12));
-//    }
 }

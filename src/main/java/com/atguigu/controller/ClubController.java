@@ -9,6 +9,8 @@ import com.atguigu.entity.Member;
 import com.atguigu.service.ClubService;
 import com.atguigu.service.CoachService;
 import com.atguigu.service.CourseService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.ui.Model;
@@ -29,6 +31,8 @@ import java.util.Map.Entry;
 //@RequestMapping("/mydb")
 @RequestMapping("/club")
 public class ClubController {
+
+    private Logger logger = LoggerFactory.getLogger(ClubController.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -52,7 +56,7 @@ public class ClubController {
                     Entry<String, Object> entry = (Entry<String, Object>) iterator.next();
                     Object key = entry.getKey();
                     Object value = entry.getValue();
-                    System.out.println(key + ":" + value);
+//                    logger.info(key + ":" + value);
                 }
             }
         }
@@ -63,7 +67,7 @@ public class ClubController {
     @ResponseBody
     public Club getUserById(HttpServletRequest request, Model model) {
         String userId = request.getParameter("id");
-        System.out.println("id=====" + userId);
+        logger.info("id=====" + userId);
         Club club = this.clubService.getClubById(userId);
         return club;
     }
@@ -77,33 +81,53 @@ public class ClubController {
         Map<String, String> param = new HashMap<>();
         JSONObject result = new JSONObject();
 
-        System.out.println("club_id ====" + club_id);
+        logger.info("club_id ====" + club_id);
         c = clubService.getClubById(club_id);
 
         return c;
     }
 
-    @RequestMapping("/add")
+    @RequestMapping("/update")
     public boolean addClub(
+            @RequestParam("club_id") String club_id,
             @RequestParam("name") String name,
             @RequestParam("la") BigDecimal la,
             @RequestParam("lo") BigDecimal lo,
             @RequestParam("addr") String addr,
-            @RequestParam("tel") String tel
+            @RequestParam("tel") String tel,
+            @RequestParam("area") String area,
+            @RequestParam("open_time") String open_time,
+            @RequestParam("close_time") String close_time,
+            @RequestParam("jcss") String jcss
     ) {
         Club c = new Club();
+        c.setClubId(club_id);
         c.setName(name);
         c.setLa(la);
         c.setLo(lo);
         c.setAddress(addr);
         c.setTel(tel);
+        c.setArea(Float.parseFloat(area));
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:MM:SS");
+        Date time1 = null;
+        Date time2 = null;
+        try {
+            time1 = sdf.parse(open_time);
+            time2 = sdf.parse(close_time);
 
-        String s = clubService.getMaxId();
-        int i = Integer.parseInt(s);
-        c.setClubId(String.valueOf(++i));
+        } catch (ParseException e) {
+            logger.info("抛出异常");
+        }
+        c.setOpenTime(time1);
+        c.setCloseTime(time2);
+        c.setJcss(jcss);
 
-        System.out.println("name ====" + name);
-        return clubService.addUser(c);
+//        String s = clubService.getMaxId();
+//        int i = Integer.parseInt(s);
+//        c.setClubId(String.valueOf(++i));
+
+        logger.info("club_id ====" + club_id);
+        return clubService.updateClub(c);
 
     }
 
@@ -113,7 +137,7 @@ public class ClubController {
             @RequestParam("bz1") String bz1
     ) {
         List<Course> list = courseService.getCourseByClubId(club_id, bz1);
-        System.out.println("club_id ====" + club_id);
+        logger.info("club_id ====" + club_id);
 
         return list;
     }
@@ -123,7 +147,7 @@ public class ClubController {
             @RequestParam("club_id") String club_id
     ) {
         List<Coach> list = coachService.getCoachByClubId(club_id);
-        System.out.println("club_id ====" + club_id);
+        logger.info("club_id ====" + club_id);
 
         return list;
     }
@@ -135,14 +159,14 @@ public class ClubController {
             @RequestParam("start_time") String startTime
     )
     {
-        System.out.println("mem_id ====" + club_id + "status=====" + status);
+        logger.info("mem_id ====" + club_id + "status=====" + status);
 //        List<Map<Object,Object>> list= new ArrayList<Map<Object,Object>>();
 //        List<Map<Object,Object>> list_res= new ArrayList<Map<Object,Object>>();
 //        list=memberService.getMemberLessByIdS(mem_id,status);
 
 //        for(Map<Object,Object> map:list){
 //            String sale_id=map.get("sale_id").toString();
-//            System.out.println("sale_id====="+sale_id);
+//            logger.info("sale_id====="+sale_id);
 //            Course course  = courseService.getCourseById(sale_id);
 //            map.put("")
 //        }
@@ -159,7 +183,7 @@ public class ClubController {
             @RequestParam("club_id") String club_id,
             @RequestParam("reg_date") String reg_date
     ) {
-        System.out.println("club_id ====" + club_id + "reg_date=====" + reg_date);
+        logger.info("club_id ====" + club_id + "reg_date=====" + reg_date);
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
@@ -167,7 +191,7 @@ public class ClubController {
             date = sdf.parse(reg_date);
 
         } catch (ParseException e) {
-            System.out.println(e);
+            logger.info("抛出异常");
         }
         return clubService.getClubIncomeById(club_id, date);
 
@@ -178,7 +202,7 @@ public class ClubController {
             @RequestParam("club_id") String club_id,
             @RequestParam("reg_date") String reg_date
     ) {
-        System.out.println("club_id ====" + club_id + "reg_date=====" + reg_date);
+        logger.info("club_id ====" + club_id + "reg_date=====" + reg_date);
 
         Map<Object,Object> map= new HashMap<Object,Object>();
         Map<Object,Object> resMap= new HashMap<Object,Object>();
@@ -189,11 +213,11 @@ public class ClubController {
             date = sdf.parse(reg_date);
 
         } catch (ParseException e) {
-            System.out.println(e);
+            logger.info("抛出异常");
         }
 
         map=clubService.getClubIncomeSumById(club_id, date);
-        System.out.println("map.get(\"les_count_sum\");==========="+map.get("les_count_sum"));
+        logger.info("map.get(\"les_count_sum\");==========="+map.get("les_count_sum"));
 
         int les_count_sum=Integer.parseInt(map.get("les_count_sum").toString());
         int sold_count_sum=Integer.parseInt(map.get("les_count_sum").toString());
@@ -210,8 +234,8 @@ public class ClubController {
         resMap.put("les_total_amt",les_amt);
         resMap.put("sold_total_amt",sold_amt);
 
-        System.out.println("les_count_sum=["+les_count_sum+"]\t les_pct=["+les_pct+"]\t les_amt=["+les_amt+"]\t les_total_amt=["+les_total_amt+"]");
-        System.out.println("sold_count_sum=["+sold_count_sum+"]\t sold_pct=["+sold_pct+"]\t sold_amt=["+sold_amt+"]\t sold_total_amt=["+sold_total_amt+"]");
+        logger.info("les_count_sum=["+les_count_sum+"]\t les_pct=["+les_pct+"]\t les_amt=["+les_amt+"]\t les_total_amt=["+les_total_amt+"]");
+        logger.info("sold_count_sum=["+sold_count_sum+"]\t sold_pct=["+sold_pct+"]\t sold_amt=["+sold_amt+"]\t sold_total_amt=["+sold_total_amt+"]");
         return resMap;
 
     }

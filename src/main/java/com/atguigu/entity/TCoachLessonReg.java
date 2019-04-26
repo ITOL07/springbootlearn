@@ -28,6 +28,4 @@ public class TCoachLessonReg {
     private Date chTime;
 
     private String courseType;
-
-
 }

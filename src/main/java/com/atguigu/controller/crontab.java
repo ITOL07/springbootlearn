@@ -8,13 +8,13 @@ import org.springframework.stereotype.Component;
 //@Component
 //@Configuration
 //@EnableScheduling
-public class crontab {
-    /**
-     * 每天凌晨一点执行
-     */
-
-    @Scheduled(cron = "* * 1 * * ?")
-    private void configureTasks() {
-        System.err.println("执行静态定时任务时间: ");
-    }
-}
+//public class crontab {
+//    /**
+//     * 每天凌晨一点执行
+//     */
+//
+//    @Scheduled(cron = "* 0 1 * * ?")
+//    private void configureTasks() {
+//        System.err.println("执行静态定时任务时间: ");
+//    }
+//}

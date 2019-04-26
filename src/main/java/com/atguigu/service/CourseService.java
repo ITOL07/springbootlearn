@@ -12,9 +12,13 @@ public interface CourseService {
 
 //    public Course getOrderByMemId(String memId);
 
-    boolean addOrder(Course record);
+    boolean addCourse(Course record);
 
-    boolean updateOrder(Course record);
+    boolean updateCourse(Course record);
+
+    public String getMaxId();
+
+    public boolean delCourse(String course_id);
 
     Course selectByPrimaryKey(String course_id);
 

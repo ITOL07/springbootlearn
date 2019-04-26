@@ -5,14 +5,16 @@
     <id column="kc_id" jdbcType="VARCHAR" property="kcId" />
     <result column="mem_Id" jdbcType="VARCHAR" property="memId" />
     <result column="course_id" jdbcType="VARCHAR" property="courseId" />
-    <result column="total_lesson" jdbcType="TINYINT" property="totalLesson" />
-    <result column="used" jdbcType="TINYINT" property="used" />
-    <result column="rem" jdbcType="TINYINT" property="rem" />
+    <result column="total_lesson" jdbcType="INTEGER" property="totalLesson" />
+    <result column="used" jdbcType="INTEGER" property="used" />
+    <result column="rem" jdbcType="INTEGER" property="rem" />
     <result column="status" jdbcType="TINYINT" property="status" />
     <result column="bz1" jdbcType="VARCHAR" property="bz1" />
+    <result column="buy_time" jdbcType="TIMESTAMP" property="buy_time" />
+    <result column="buy_count" jdbcType="VARCHAR" property="buy_count" />
   </resultMap>
   <sql id="Base_Column_List">
-    kc_id, mem_Id, course_id, total_lesson, used, rem, status, bz1
+    kc_id, mem_Id, course_id, total_lesson, used, rem, status, bz1,buy_time,buy_count
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -31,6 +33,12 @@
         from member_course
         where mem_Id = #{memId,jdbcType=VARCHAR}
     </select>
+
+  <select id="selectMaxKcId" resultType="java.lang.String">
+    select max(kc_id)
+    from member_course
+    where kc_id like CONCAT('%',date_format(now(), '%Y%m%d'),'%')
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from member_course
     where kc_id = #{kcId,jdbcType=VARCHAR}
@@ -70,6 +78,12 @@
       <if test="bz1 != null">
         bz1,
       </if>
+      <if test="buy_time != null">
+        buy_time,
+      </if>
+      <if test="buy_count != null">
+        buy_count,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="kcId != null">
@@ -96,6 +110,12 @@
       <if test="bz1 != null">
         #{bz1,jdbcType=VARCHAR},
       </if>
+      <if test="buy_time != null">
+        #{buy_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buy_count != null">
+        #{buy_count,jdbcType=INTEGER},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.MemberCourse">
@@ -121,6 +141,12 @@
       </if>
       <if test="bz1 != null">
         bz1 = #{bz1,jdbcType=VARCHAR},
+      </if>
+      <if test="buy_time != null">
+        buy_time= #{buy_time,jdbcType=TIMESTAMP},
+      </if>
+      <if test="buy_count != null">
+        buy_count= #{buy_count,jdbcType=INTEGER},
       </if>
     </set>
     where kc_id = #{kcId,jdbcType=VARCHAR}

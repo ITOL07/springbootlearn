@@ -18,6 +18,12 @@
     where club_id=#{clubId,jdbcType=VARCHAR}
     and reg_date=#{reg_date,jdbcType=DATE}
   </select>
+  <select id="selectByClubIdS" resultType="map"  >
+    select * from t_club_lesson_reg
+    where club_id=#{clubId,jdbcType=VARCHAR}
+    and reg_date=#{reg_date,jdbcType=DATE}
+    and course_type=#{course_type,jdbcType=VARCHAR}
+  </select>
 
   <select id="selectSumByClubId" resultType="map">
     select sum(les_count) les_count_sum,sum(les_count*les_price) les_total_amt ,
@@ -155,4 +161,5 @@
   <select id="seletNumByDate"  resultMap="BaseResultMap"  parameterType="com.atguigu.entity.TClubLessonReg">
     select * from t_club_lesson_reg where reg_date=#{regDate,jdbcType=DATE} and course_type=#{courseType,jdbcType=VARCHAR}
   </select>
+
 </mapper>

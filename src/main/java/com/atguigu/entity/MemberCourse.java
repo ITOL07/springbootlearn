@@ -1,5 +1,12 @@
 package com.atguigu.entity;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+import java.util.Date;
+
+@Data
+@Accessors(chain=true)
 public class MemberCourse {
     private String kcId;
 
@@ -7,77 +14,17 @@ public class MemberCourse {
 
     private String courseId;
 
-    private Byte totalLesson;
+    private Integer totalLesson;
 
-    private Byte used;
+    private Integer used;
 
-    private Byte rem;
+    private Integer rem;
 
     private Byte status;
 
     private String bz1;
 
-    public String getKcId() {
-        return kcId;
-    }
+    private Date buy_time;
 
-    public void setKcId(String kcId) {
-        this.kcId = kcId;
-    }
-
-    public String getMemId() {
-        return memId;
-    }
-
-    public void setMemId(String memId) {
-        this.memId = memId;
-    }
-
-    public String getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
-    }
-
-    public Byte getTotalLesson() {
-        return totalLesson;
-    }
-
-    public void setTotalLesson(Byte totalLesson) {
-        this.totalLesson = totalLesson;
-    }
-
-    public Byte getUsed() {
-        return used;
-    }
-
-    public void setUsed(Byte used) {
-        this.used = used;
-    }
-
-    public Byte getRem() {
-        return rem;
-    }
-
-    public void setRem(Byte rem) {
-        this.rem = rem;
-    }
-
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
-
-    public String getBz1() {
-        return bz1;
-    }
-
-    public void setBz1(String bz1) {
-        this.bz1 = bz1;
-    }
+    private Date buy_count;
 }

@@ -1,5 +1,10 @@
 package com.atguigu.entity;
 
+import lombok.Data;
+
+import java.util.Date;
+
+@Data
 public class UserIcons {
     private String iconName;
 
@@ -7,27 +12,12 @@ public class UserIcons {
 
     private String iconUrl;
 
-    public String getIconName() {
-        return iconName;
-    }
+    private Integer type;
 
-    public void setIconName(String iconName) {
-        this.iconName = iconName;
-    }
+    private Date up_time;
 
-    public String getUserId() {
-        return userId;
-    }
+    private String bz1;
 
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
+    private String bz2;
 
-    public String getIconUrl() {
-        return iconUrl;
-    }
-
-    public void setIconUrl(String iconUrl) {
-        this.iconUrl = iconUrl;
-    }
 }

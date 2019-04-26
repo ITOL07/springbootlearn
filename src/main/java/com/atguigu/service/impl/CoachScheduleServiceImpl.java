@@ -18,6 +18,7 @@ public class CoachScheduleServiceImpl implements CoachScheduleService {
     public boolean updatelesson(String mem_id, String real_club, String real_coach,
                                 String sale_id,String kc_id, Byte seq_no, Date start_time_1,
                                 Date end_time_1,String bz1) {
+
         MemberLesson memberLesson = new MemberLesson();
         memberLesson.setMemId(mem_id);
         memberLesson.setRealClub(real_club);

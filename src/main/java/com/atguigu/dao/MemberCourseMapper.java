@@ -14,6 +14,8 @@ public interface MemberCourseMapper {
     MemberCourse selectByPrimaryKey(String kcId);
     MemberCourse selectByMemId(String memId);
 
+    String selectMaxKcId();
+
     int updateByPrimaryKeySelective(MemberCourse record);
 
     int updateByPrimaryKey(MemberCourse record);

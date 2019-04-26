@@ -12,9 +12,9 @@ public class MemberLesson {
 
     private String saleId;
 
-    private Byte seqNo;
+    private Integer seqNo;
 
-    private Integer clubId;
+    private String clubId;
 
     private Byte status;
 
@@ -39,5 +39,4 @@ public class MemberLesson {
     private Date chTime;
 
     private String kcId;
-
 }

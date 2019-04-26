@@ -31,8 +31,28 @@
     <include refid="Base_Column_List" />
     from course
     where club_id = #{clubId,jdbcType=VARCHAR}
-    and try_flag=#{try_flag,jdbcType=VARCHAR}
+    <if test="try_flag!=null">
+      and try_flag=#{try_flag,jdbcType=VARCHAR}
+    </if>
   </select>
+  <select id="selectByCoachId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from course
+    where coach_id = #{coachId,jdbcType=VARCHAR}
+    <if test="try_flag!=null">
+      and try_flag=#{try_flag,jdbcType=VARCHAR}
+    </if>
+
+  </select>
+
+  <select id="selectMaxCourseId" resultType="String"  >
+    select
+    max(course_id)
+    from course
+    where course_id like CONCAT('%',date_format(now(), '%Y%m%d'),'%')
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from course
     where course_id = #{courseId,jdbcType=VARCHAR}
@@ -83,6 +103,9 @@
       <if test="bz1 != null" >
         bz1,
       </if>
+      <if test="try_flag != null" >
+        try_flag,
+      </if>
       <if test="bz2 != null" >
         bz2,
       </if>
@@ -121,6 +144,9 @@
       <if test="bz1 != null" >
         #{bz1,jdbcType=VARCHAR},
       </if>
+      <if test="try_flag != null" >
+        #{try_flag,jdbcType=VARCHAR},
+      </if>
       <if test="bz2 != null" >
         #{bz2,jdbcType=VARCHAR},
       </if>
@@ -158,6 +184,9 @@
       </if>
       <if test="bz1 != null" >
         bz1 = #{bz1,jdbcType=VARCHAR},
+      </if>
+      <if test="try_flag != null" >
+        try_flag = #{try_flag,jdbcType=VARCHAR},
       </if>
       <if test="bz2 != null" >
         bz2 = #{bz2,jdbcType=VARCHAR},
