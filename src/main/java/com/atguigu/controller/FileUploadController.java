@@ -41,7 +41,7 @@ public class FileUploadController {
         Map<String,String> map = new HashMap<String,String>();
         System.out.println("执行upload");
         request.setCharacterEncoding("UTF-8");
-        logger.info("执行图片上传");
+        logger.info("执行图片上传"+request.toString());
         String user = request.getParameter("user");
         logger.info("user:"+user);
         String path = null;
@@ -106,6 +106,7 @@ public class FileUploadController {
     @RequestMapping("/load")
     public List<UserIcons> load(@RequestParam("userid") String userid, HttpServletResponse response){
         List<UserIcons> userIconsList = userIconsService.selectByUser(userid);
+        logger.info("userIconsList :"+ userIconsList.size());
         return userIconsList;
     }
 }

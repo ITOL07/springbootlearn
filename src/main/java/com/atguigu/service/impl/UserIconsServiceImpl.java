@@ -3,11 +3,11 @@ package com.atguigu.service.impl;
 import com.atguigu.dao.UserIconsMapper;
 import com.atguigu.entity.UserIcons;
 import com.atguigu.service.UserIconsService;
-import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 
 @Service("userIconsService")
@@ -34,6 +34,11 @@ public class UserIconsServiceImpl implements UserIconsService {
 
         List<UserIcons> userIconsList = userIconsMapper.selectByUser(userid);
         return userIconsList;
+    }
+
+    @Override
+    public List<Map<String, String>> queryCoachInfoIcons(String coach_id, String type) {
+        return userIconsMapper.queryCoachInfoIcons(coach_id,type);
     }
 
 }

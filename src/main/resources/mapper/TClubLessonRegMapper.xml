@@ -104,4 +104,55 @@
       </if>
     </trim>
   </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.TClubLessonReg" >
+    update t_club_lesson_reg
+    <set >
+      <if test="clubId != null" >
+        club_id = #{clubId,jdbcType=VARCHAR},
+      </if>
+      <if test="lesCount != null" >
+        les_count = #{lesCount,jdbcType=INTEGER},
+      </if>
+      <if test="lesPrice != null" >
+        les_price = #{lesPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="soldCount != null" >
+        sold_count = #{soldCount,jdbcType=INTEGER},
+      </if>
+      <if test="soldPrice != null" >
+        sold_price = #{soldPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="regDate != null" >
+        reg_date = #{regDate,jdbcType=DATE},
+      </if>
+      <if test="regTime != null" >
+        reg_time = #{regTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chTime != null" >
+        ch_time = #{chTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="courseType != null" >
+        course_type = #{courseType,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.TClubLessonReg" >
+    update t_club_lesson_reg
+    set club_id = #{clubId,jdbcType=VARCHAR},
+      les_count = #{lesCount,jdbcType=INTEGER},
+      les_price = #{lesPrice,jdbcType=DECIMAL},
+      sold_count = #{soldCount,jdbcType=INTEGER},
+      sold_price = #{soldPrice,jdbcType=DECIMAL},
+      reg_date = #{regDate,jdbcType=DATE},
+      reg_time = #{regTime,jdbcType=TIMESTAMP},
+      ch_time = #{chTime,jdbcType=TIMESTAMP},
+      course_type = #{courseType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="seletNumByDate"  resultMap="BaseResultMap"  parameterType="com.atguigu.entity.TClubLessonReg">
+    select * from t_club_lesson_reg where reg_date=#{regDate,jdbcType=DATE} and course_type=#{courseType,jdbcType=VARCHAR}
+  </select>
 </mapper>

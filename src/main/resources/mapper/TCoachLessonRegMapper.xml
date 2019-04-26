@@ -28,7 +28,9 @@
     where coach_id=#{coachId,jdbcType=VARCHAR}
     and reg_date=#{reg_date,jdbcType=DATE}
   </select>
-
+  <select id="seletNumByDate" resultMap="BaseResultMap" parameterType="com.atguigu.entity.TCoachLessonReg">
+    select * from t_coach_lesson_reg where reg_date=#{regDate,jdbcType=DATE} and course_type=#{courseType,jdbcType=VARCHAR}
+  </select>
   <select id="selectSumByCoachId" resultType="map">
     select sum(les_count) les_count_sum,sum(les_count*les_price) les_total_amt ,
     sum(sold_count) sold_count_sum,sum(sold_count*sold_price) sold_total_amt

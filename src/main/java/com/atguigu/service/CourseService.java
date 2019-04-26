@@ -16,4 +16,6 @@ public interface CourseService {
 
     boolean updateOrder(Course record);
 
+    Course selectByPrimaryKey(String course_id);
+
 }

@@ -21,6 +21,10 @@
     from user_icons
     where user_Id = #{userid,jdbcType=VARCHAR}
   </select>
+  <select id="queryCoachInfoIcons" resultType="map" >
+    select icon_name icon_name,icon_url icon_url from user_icons where user_id=#{coach_id,jdbcType=VARCHAR}
+     and type=#{type,jdbcType=VARCHAR} order by up_time desc
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from user_icons
     where icon_name = #{iconName,jdbcType=VARCHAR}

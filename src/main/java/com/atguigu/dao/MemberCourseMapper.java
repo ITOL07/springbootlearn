@@ -18,4 +18,8 @@ public interface MemberCourseMapper {
 
     int updateByPrimaryKey(MemberCourse record);
     Map<Object,Object> selectMemCourseSum(String mem_id);
+
+    boolean updateStatus(MemberCourse record);
+
+    boolean updateMemberNum(MemberCourse record);
 }
