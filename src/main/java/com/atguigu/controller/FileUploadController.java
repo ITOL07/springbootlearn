@@ -117,6 +117,7 @@ public class FileUploadController {
     @RequestMapping("/load")
     public List<UserIcons> load(@RequestParam("userid") String userid, HttpServletResponse response){
         List<UserIcons> userIconsList = userIconsService.selectByUser(userid);
+        logger.info("userIconsList :"+ userIconsList.size());
         return userIconsList;
     }
 

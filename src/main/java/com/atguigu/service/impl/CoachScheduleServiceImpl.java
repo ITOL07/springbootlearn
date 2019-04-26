@@ -16,17 +16,19 @@ public class CoachScheduleServiceImpl implements CoachScheduleService {
 
     @Override
     public boolean updatelesson(String mem_id, String real_club, String real_coach,
-                                String sale_id, Integer seq_no, Date start_time_2,
-                                Date end_time_2,String bz1,String kc_id) {
+                                String sale_id,String kc_id, Byte seq_no, Date start_time_1,
+                                Date end_time_1,String bz1) {
+
         MemberLesson memberLesson = new MemberLesson();
         memberLesson.setMemId(mem_id);
         memberLesson.setRealClub(real_club);
         memberLesson.setRealCoach(real_coach);
         memberLesson.setSaleId(sale_id);
-        memberLesson.setSeqNo(seq_no);
-        memberLesson.setStartTime2(start_time_2);
-        memberLesson.setEndTime2(end_time_2);
         memberLesson.setKcId(kc_id);
+        memberLesson.setSeqNo(seq_no);
+        memberLesson.setStartTime1(start_time_1);
+        memberLesson.setEndTime1(end_time_1);
+
         Boolean flag = memberLessonMapper.updatelesson(memberLesson);
         return flag;
     }

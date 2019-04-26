@@ -1,9 +1,10 @@
 package com.atguigu.dao;
 
 import com.atguigu.entity.UserIcons;
+import org.apache.ibatis.annotations.Param;
 
-import javax.validation.constraints.Size;
 import java.util.List;
+import java.util.Map;
 
 public interface UserIconsMapper {
     int deleteByPrimaryKey(String iconName);
@@ -20,6 +21,7 @@ public interface UserIconsMapper {
 
     List<UserIcons> selectByUser(String userid);
 
+    List<Map<String,String>> queryCoachInfoIcons(@Param("coach_id") String coach_id,@Param("type") String type);
     List<UserIcons> selectByType(Integer type);
 
 }

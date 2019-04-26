@@ -20,4 +20,6 @@ public interface CourseService {
 
     public boolean delCourse(String course_id);
 
+    Course selectByPrimaryKey(String course_id);
+
 }

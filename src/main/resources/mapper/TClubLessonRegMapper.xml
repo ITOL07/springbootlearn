@@ -144,4 +144,22 @@
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.TClubLessonReg" >
+    update t_club_lesson_reg
+    set club_id = #{clubId,jdbcType=VARCHAR},
+      les_count = #{lesCount,jdbcType=INTEGER},
+      les_price = #{lesPrice,jdbcType=DECIMAL},
+      sold_count = #{soldCount,jdbcType=INTEGER},
+      sold_price = #{soldPrice,jdbcType=DECIMAL},
+      reg_date = #{regDate,jdbcType=DATE},
+      reg_time = #{regTime,jdbcType=TIMESTAMP},
+      ch_time = #{chTime,jdbcType=TIMESTAMP},
+      course_type = #{courseType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+
+  <select id="seletNumByDate"  resultMap="BaseResultMap"  parameterType="com.atguigu.entity.TClubLessonReg">
+    select * from t_club_lesson_reg where reg_date=#{regDate,jdbcType=DATE} and course_type=#{courseType,jdbcType=VARCHAR}
+  </select>
+
 </mapper>

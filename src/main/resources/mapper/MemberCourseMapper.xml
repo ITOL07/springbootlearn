@@ -162,4 +162,8 @@
       bz1 = #{bz1,jdbcType=VARCHAR}
     where kc_id = #{kcId,jdbcType=VARCHAR}
   </update>
+  <update id="updateMemberNum" parameterType="com.atguigu.entity.MemberLesson">
+    update member_course set used=used+1,rem=rem-1
+    where kc_id=#{kcId,jdbcType=VARCHAR}
+  </update>
 </mapper>

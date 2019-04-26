@@ -13,6 +13,7 @@ public interface CourseMapper {
     int insertSelective(Course record);
 
     Course selectByPrimaryKey(String courseId);
+
     List<Course> selectByClubId(@Param("clubId") String clubId, @Param("try_flag") String try_flag);
     List<Course> selectByCoachId(@Param("coachId") String coachId, @Param("try_flag") String try_flag);
 

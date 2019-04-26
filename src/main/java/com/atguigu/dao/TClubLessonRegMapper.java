@@ -15,7 +15,12 @@ public interface TClubLessonRegMapper {
     List<Map<Object,Object>> selectByClubId(@Param("clubId") String clubId, @Param("reg_date") Date reg_date);
     Map<Object,Object> selectSumByClubId(@Param("clubId") String clubId,@Param("reg_date") Date reg_date);
 
-    Map<Object,Object> selectByClubIdS(@Param("clubId") String clubId, @Param("reg_date") Date reg_date,@Param("course_type") String course_type);
     int updateByPrimaryKeySelective(TClubLessonReg record);
+
+    int updateByPrimaryKey(TClubLessonReg record);
+
+    TClubLessonReg seletNumByDate(TClubLessonReg record);
+
+    Map<Object,Object> selectByClubIdS(@Param("clubId") String clubId, @Param("reg_date") Date reg_date,@Param("course_type") String course_type);
 
 }

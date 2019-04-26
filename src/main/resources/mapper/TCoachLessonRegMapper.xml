@@ -29,6 +29,10 @@
     and reg_date=#{reg_date,jdbcType=DATE}
   </select>
 
+  <select id="seletNumByDate" resultMap="BaseResultMap" parameterType="com.atguigu.entity.TCoachLessonReg">
+    select * from t_coach_lesson_reg where reg_date=#{regDate,jdbcType=DATE} and course_type=#{courseType,jdbcType=VARCHAR}
+  </select>
+
   <select id="selectByCoachIdS" resultType="map"  >
     select * from t_coach_lesson_reg
     where coach_id=#{coachId,jdbcType=VARCHAR}
