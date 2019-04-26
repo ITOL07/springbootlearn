@@ -50,7 +50,7 @@ public class AttendClassController {
         Map<String,String> map = new HashMap<>();
         String resultInfo = "";
         logger.info("kc_id ====" + kc_id + "；seq_no=====" + seq_no+": choose_flag===="+choose_flag);
-        byte f = (byte) Integer.parseInt(seq_no);
+        int f = Integer.parseInt(seq_no);
         byte status = 0;
         //前端传入课程行进状态，0：签到，1：签退
         if(choose_flag.equals("0")){

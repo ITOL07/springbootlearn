@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.atguigu.entity.MemberLesson" >
     <result column="mem_id" property="memId" jdbcType="VARCHAR" />
     <result column="sale_id" property="saleId" jdbcType="VARCHAR" />
-    <result column="seq_no" property="seqNo" jdbcType="TINYINT" />
+    <result column="seq_no" property="seqNo" jdbcType="INTEGER" />
     <result column="club_id" property="clubId" jdbcType="INTEGER" />
     <result column="status" property="status" jdbcType="TINYINT" />
     <result column="start_time_1" property="startTime1" jdbcType="TIMESTAMP" />
@@ -44,9 +44,7 @@
   <select id="selectLessonList" resultType="map" parameterType="java.lang.String">
     select distinct b.course_id,b.name,a.kc_id from member_lesson a,course b where a.mem_id=#{mem_id,jdbcType=VARCHAR} and b.course_id=a.sale_id and a.start_time_1 is  null and a.end_time_1 is  null
   </select>
-  <select id="selectClubList" resultType="map" parameterType="java.lang.String">
-    SELECT distinct a.name club_name,a.club_Id club_id from club a,member_lesson b where a.club_Id=b.club_id and b.sale_id=#{course_id,jdbcType=VARCHAR}
-  </select>
+
   <select id="selectByIdS" resultType="map" parameterType="java.lang.String" >
     select *
     from member_lesson
@@ -54,7 +52,7 @@
     and status=#{status,jdbcType=TINYINT}
   </select>
   <select id="selecctInfoByKcid" resultType="map" parameterType="com.atguigu.entity.MemberLesson">
-    select * from member_lesson where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=TINYINT}
+    select * from member_lesson where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=INTEGER}
   </select>
   <select id="selectByView" resultType="map" parameterType="java.lang.String" >
     select *
@@ -92,46 +90,10 @@
       </otherwise>
     </choose>
   </select>
-    <select id="selectMemberInfo" resultType="map" parameterType="java.lang.String">
-        select distinct a.nick_name name,a.mem_id mem_id,(case a.sex when '1' then '../../images/student/man.png' when '2' then '../../images/student/woman.png' end ) sex,
-        a.tel telephone from member a,member_lesson b where a.mem_Id = b.mem_Id and b.coach_id=#{coach_id,jdbcType=VARCHAR}
-    </select>
-    <select id="selectLessonList" resultType="map" parameterType="java.lang.String">
-        select distinct b.course_id,b.name from member_lesson a,course b where a.mem_id=#{mem_id,jdbcType=VARCHAR} and a.status=0 and b.course_id=a.sale_id
-    </select>
     <select id="selectClubList" resultType="map" parameterType="java.lang.String">
         SELECT distinct a.name club_name,a.club_Id club_id from club a,member_lesson b where a.club_Id=b.club_id and b.sale_id=#{course_id,jdbcType=VARCHAR}
     </select>
-    <select id="selectByLesson" resultType="map" >
-        select
-        <choose>
-            <when test="course_id!=''">
-                <choose>
-                    <when test="club_id!=''">
-                        <choose>
-                            <when test="coach_id!=''">
-                                start_time_1,end_time_1 from coach_lesson where course_id=#{course_id,jdbcType=VARCHAR}
-                                and club_id=#{club_id,jdbcType=VARCHAR}
-                                and coach_id=#{coach_id,jdbcType=VARCHAR}
-                            </when>
-                            <otherwise>
-                                b.coach_id,b.name from coach_lesson a,coach b where a.course_id=#{course_id,jdbcType=VARCHAR}
-                                and a.club_id=#{club_id,jdbcType=VARCHAR}
-                                and a.coach_id=b.coach_id
-                            </otherwise>
-                        </choose>
-                    </when>
-                    <otherwise>
-                        b.club_id,b.name from coach_lesson a,club b where a.course_id=#{course_id,jdbcType=VARCHAR}
-                        and a.club_id=b.club_id
-                    </otherwise>
-                </choose>
-            </when>
-            <otherwise>
-                distinct sale_id from member_lesson where mem_id=#{mem_id,jdbcType=VARCHAR} and status=0
-            </otherwise>
-        </choose>
-    </select>
+
     <select id="selectByClubId" parameterType="java.lang.String" resultType="map">
         select *
         from v_member_lesson
@@ -161,7 +123,7 @@
       end_time_1, start_time_2, end_time_2, 
       coach_id, real_club, real_coach, 
       bz1, bz2, ch_time)
-    values (#{memId,jdbcType=VARCHAR}, #{saleId,jdbcType=VARCHAR}, #{seqNo,jdbcType=TINYINT}, 
+    values (#{memId,jdbcType=VARCHAR}, #{saleId,jdbcType=VARCHAR}, #{seqNo,jdbcType=INTEGER},
       #{clubId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{startTime1,jdbcType=TIMESTAMP}, 
       #{endTime1,jdbcType=TIMESTAMP}, #{startTime2,jdbcType=TIMESTAMP}, #{endTime2,jdbcType=TIMESTAMP}, 
       #{coachId,jdbcType=VARCHAR}, #{realClub,jdbcType=INTEGER}, #{realCoach,jdbcType=VARCHAR}, 
@@ -224,7 +186,7 @@
         #{saleId,jdbcType=VARCHAR},
       </if>
       <if test="seqNo != null" >
-        #{seqNo,jdbcType=TINYINT},
+        #{seqNo,jdbcType=INTEGER},
       </if>
       <if test="clubId != null" >
         #{clubId,jdbcType=INTEGER},
@@ -307,7 +269,7 @@
     </set>
     where mem_Id = #{memId,jdbcType=VARCHAR}
     and sale_id=#{saleId,jdbcType=VARCHAR}
-    and seq_no=#{seqNo,jdbcType=TINYINT}
+    and seq_no=#{seqNo,jdbcType=INTEGER}
   </update>
   <update id="updatelesson" parameterType="com.atguigu.entity.MemberLesson">
     update member_lesson
@@ -330,7 +292,7 @@
     </set>
         where mem_Id = #{memId,jdbcType=VARCHAR}
         and sale_id=#{saleId,jdbcType=VARCHAR}
-        and seq_no=#{seqNo,jdbcType=TINYINT}
+        and seq_no=#{seqNo,jdbcType=INTEGER}
         and kc_id=#{kcId,jdbcType=VARCHAR}
   </update>
   <update id="updateStatus" parameterType="com.atguigu.entity.MemberLesson">
@@ -342,9 +304,9 @@
       end_time_2 = #{endTime2,jdbcType=TIMESTAMP},
     </if>
     status=#{status,jdbcType=TINYINT}
-    where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=TINYINT}
+    where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=INTEGER}
   </update>
-  <select id="selectseqno" resultType="byte" parameterType="com.atguigu.entity.MemberLesson">
+  <select id="selectseqno" resultType="int" parameterType="com.atguigu.entity.MemberLesson">
     select MIN(seq_no) from member_lesson where mem_Id = #{memId,jdbcType=VARCHAR}
         and sale_id=#{saleId,jdbcType=VARCHAR} and kc_id=#{kcId,jdbcType=VARCHAR} and start_time_1 is  null and end_time_1 is  null
   </select>

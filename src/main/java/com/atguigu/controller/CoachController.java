@@ -3,12 +3,10 @@ package com.atguigu.controller;
 
 import com.atguigu.entity.Coach;
 import com.atguigu.entity.Course;
-import com.atguigu.entity.Member;
 import com.atguigu.service.CoachService;
 import com.atguigu.service.CourseService;
 import com.atguigu.service.MemberService;
 import com.atguigu.util.CommParams;
-import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -395,9 +393,9 @@ public class CoachController {
 
     @ResponseBody
     @RequestMapping("/getMemberInfo")
-    public List<Map<Object,Object>> list(@RequestParam("coachid") String coachid){
+    public List<Map<Object,Object>> list(@RequestParam("coachid") String coachid, HttpServletResponse response){
         logger.info("coachid is :"+coachid);
-        List<Map<Object,Object>> list = memberService.selectMemberInfo(coachid);
+        List<Map<Object,Object>> list = memberService.selectMemberInfo_1(coachid);
         return  list;
     }
 
@@ -408,13 +406,17 @@ public class CoachController {
         logger.info(list.size()+"");
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
+        List<String> list3 = new ArrayList<>();
         for(int i=0;i<list.size();i++){
             list1.add(list.get(i).get("name"));
             list2.add(list.get(i).get("course_id"));
+            list3.add(list.get(i).get("kc_id"));
+
         }
         Map<String,List<String>> map = new HashMap<>();
         map.put("course_name",list1);
         map.put("course_id",list2);
+        map.put("kc_id",list3);
         return map;
     }
     @ResponseBody

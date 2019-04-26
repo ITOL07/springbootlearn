@@ -62,7 +62,8 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Course selectByPrimaryKey(String course_id) {
         return course.selectByPrimaryKey(course_id);
-
+    }
+    @Override
     public String getMaxId(){
         return course.selectMaxCourseId();
 

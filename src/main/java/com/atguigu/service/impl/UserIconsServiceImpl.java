@@ -35,14 +35,12 @@ public class UserIconsServiceImpl implements UserIconsService {
         List<UserIcons> userIconsList = userIconsMapper.selectByUser(userid);
         return userIconsList;
     }
-    public List<UserIcons> selectByType(Integer type) {
-
-
     @Override
     public List<Map<String, String>> queryCoachInfoIcons(String coach_id, String type) {
         return userIconsMapper.queryCoachInfoIcons(coach_id,type);
     }
-
+    @Override
+    public List<UserIcons> selectByType(Integer type) {
         List<UserIcons> userIconsList = userIconsMapper.selectByType(type);
         return userIconsList;
     }

@@ -1,8 +1,10 @@
 package com.atguigu.service.impl;
 
+import com.atguigu.dao.MemberCourseMapper;
 import com.atguigu.dao.MemberLessonMapper;
 import com.atguigu.dao.MemberMapper;
 import com.atguigu.entity.Member;
+import com.atguigu.entity.MemberCourse;
 import com.atguigu.entity.MemberLesson;
 import com.atguigu.service.MemberService;
 import org.springframework.stereotype.Service;
@@ -19,22 +21,12 @@ public class MemberServiceImpl implements MemberService {
     MemberMapper member;
     @Resource
     MemberLessonMapper mem_les;
+    @Resource
+    MemberCourseMapper memberCourseMapper;
 
     public Member getMemberById(String memId){
 
         return member.selectByPrimaryKey(memId);
-    }
-
-    @Override
-    public List<Map<String,String>> selectLessonList(String mem_id) {
-        List<Map<String,String>> list = mem_les.selectLessonList(mem_id);
-        return list;
-    }
-
-    @Override
-    public List<Map<String, String>> selectClubList(String course_id) {
-        List<Map<String,String>> list = mem_les.selectClubList(course_id);
-        return list;
     }
 
     public List<Map<Object, Object>> getMemberLessById(String memId){
@@ -43,41 +35,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<Map<Object, Object>> selectMemberInfo(String coachid) {
-        List<Map<Object, String>> list = mem_les.selectMemberInfo(coachid);
-        List<Map<Object, Object>> list1= new ArrayList<Map<Object, Object>>();
-        Map<String,String> map1 = new HashMap<>();
-        map1.put("cumulative","6");
-        map1.put("completed","6");
-        map1.put("ordering","6");
-        map1.put("unorder","6");
-        Map<String,Map<String,String>> map2 = new HashMap<String,Map<String,String>>();
-        map2.put("course",map1);
-        Map map3 = new HashMap();
-        for(Map<Object,String> map : list){
-            map.put("id","1");
-            map.put("photo","../../images/student/photo.png");
-            map.put("flag","取消置顶");
-            map3.putAll(map);
-            map3.putAll(map2);
-            list1.add(map3);
-        }
-
-
-        return list1;
-    }
-
-    @Override
     public List<Map<Object, Object>> selectMemberInfo_1(String coachid) {
         return  mem_les.selectMemberInfo_1(coachid);
-    }
-
-    @Override
-    public List<Map<Object, String>> selectByLesson(String mem_id, String course_id, String club_id, String coach_id) {
-
-        List<Map<Object, String>> mapList = mem_les.selectByLesson(mem_id,course_id,club_id,coach_id);
-
-        return mapList;
     }
 
     public List<Map<Object,Object>> getMemberLessByIdS(String memId,String status){
@@ -103,11 +62,6 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public List<Map<Object, Object>> getMemberLessByCoachIdDate(String coachId, String status, String reg_date) {
         return null;
-    }
-
-    public List<Map<Object,Object>> getMemberLessByView(String memId,String status){
-        List<Map<Object, Object>> map=mem_les.selectByView(memId,status);
-        return map;
     }
 
     public boolean addMemberLes(MemberLesson record){
@@ -141,7 +95,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public byte selectseqno(MemberLesson record) {
+    public int selectseqno(MemberLesson record) {
 
         return mem_les.selectseqno(record);
     }
@@ -194,15 +148,17 @@ public class MemberServiceImpl implements MemberService {
 
 
     //课程
-
+    @Override
     public int addMemberCourse(MemberCourse m){
         return memberCourseMapper.insertSelective(m);
     }
+    @Override
     public String getMaxKcId(){
         return memberCourseMapper.selectMaxKcId();
     }
 
     //课时
+    @Override
     public int addLess(MemberLesson ml){
         return mem_les.insertSelective(ml);
     }

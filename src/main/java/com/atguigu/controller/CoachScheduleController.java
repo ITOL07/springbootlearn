@@ -52,7 +52,7 @@ public class CoachScheduleController {
                // Byte sss = scheduleService.selectseqno(mem_id,sale_id);
         MemberLesson memberLesson = new MemberLesson();
         memberLesson.setMemId(mem_id).setSaleId(sale_id).setKcId(kc_id);
-        byte selectseqno = memberService.selectseqno(memberLesson);
+        int selectseqno = memberService.selectseqno(memberLesson);
         logger.info("查询当前课程节数号为："+selectseqno);
         Boolean flag1 = scheduleService.updatelesson(mem_id,real_club,real_coach,sale_id,kc_id,selectseqno,start_time_1,end_time_1,bz1);
         Boolean falg2 = true;

@@ -11,17 +11,10 @@ public interface MemberService {
 
     public Member getMemberById(String memId);
 
-    public List<Map<String,String>> selectLessonList(String mem_id);
-
-    public List<Map<String,String>> selectClubList(String course_id);
 
     public List<Map<Object,Object>> getMemberLessById(String memId);
 
-    public List<Map<Object,Object>> selectMemberInfo(String coachid);
-
     public List<Map<Object,Object>> selectMemberInfo_1(String coachid);
-
-    public List<Map<Object,String>> selectByLesson(String mem_id,String course_id,String club_id,String coach_id);
 
     public List<Map<Object,Object>> getMemberLessByIdS(String memId,String status);
 
@@ -43,12 +36,12 @@ public interface MemberService {
 
     public Map<String,String> selecctInfoByKcid(MemberLesson record);
 
-    public byte selectseqno(MemberLesson record);
+    public int selectseqno(MemberLesson record);
 
-    public List<Map<String, String>> selectClubList(String course_id);
-    public List<Map<Object, String>> selectByLesson(String mem_id, String course_id, String club_id, String coach_id);
     public List<Map<String,String>> selectLessonList(String mem_id);
+    public List<Map<String, String>> selectClubList(String course_id);
     public List<Map<Object, Object>> selectMemberInfo(String coachid);
+    public List<Map<Object, String>> selectByLesson(String mem_id, String course_id, String club_id, String coach_id);
 
     public int addMemberCourse(MemberCourse m);
     public String getMaxKcId();
