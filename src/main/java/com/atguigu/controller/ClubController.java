@@ -56,7 +56,7 @@ public class ClubController {
                     Entry<String, Object> entry = (Entry<String, Object>) iterator.next();
                     Object key = entry.getKey();
                     Object value = entry.getValue();
-                    logger.info(key + ":" + value);
+//                    logger.info(key + ":" + value);
                 }
             }
         }

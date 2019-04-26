@@ -33,13 +33,14 @@ public class CoachScheduleController {
                                 @RequestParam("start_time_2") String start_time,
                                 @RequestParam("end_time_2") String end_time,
                                 @RequestParam("bz1") String bz1,
+                                @RequestParam("kc_id") String kc_id,
                                 HttpServletResponse response) throws ParseException {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date start_time_2 = new Date(sdf.parse(start_time).getTime());
         Date end_time_2 = new Date(sdf.parse(end_time).getTime());
         logger.info("start_time_2 :"+start_time_2);
         logger.info("传入为："+mem_id);
-        Boolean flag1 = scheduleService.updatelesson(mem_id,real_club,real_coach,sale_id,seq_no,start_time_2,end_time_2,bz1);
+        Boolean flag1 = scheduleService.updatelesson(mem_id,real_club,real_coach,sale_id,seq_no,start_time_2,end_time_2,bz1,kc_id);
         Boolean falg2 = true;
         return flag1;
     }

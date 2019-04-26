@@ -77,13 +77,6 @@
             <version>1.1.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <scope>test</scope>
-            <version>4.12</version>
-        </dependency>
-
         <!-- https://mvnrepository.com/artifact/org.jdom/jdom -->
         <dependency>
             <groupId>org.jdom</groupId>

@@ -42,7 +42,7 @@
   </select>
   <select id="selectByClubId" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
-    a.*
+    distinct a.*
     from coach a ,course b
     where a.coach_id=b.coach_id and
     b.club_id = #{coachId,jdbcType=VARCHAR}

@@ -7,6 +7,7 @@ import com.atguigu.entity.Member;
 import com.atguigu.service.CoachService;
 import com.atguigu.service.CourseService;
 import com.atguigu.service.MemberService;
+import com.atguigu.util.CommParams;
 import org.apache.ibatis.annotations.Param;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +44,7 @@ public class CoachController {
 
     @RequestMapping("/getCoach")
     public List<Map<String, Object>> getDbType() {
-        String sql = "select * from coach where score>4 order by score desc ";
+        String sql = "select * from v_coach order by total_count desc limit 10 ";
 //        String sql = "select * from v_coach_lesson ";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
         for (Map<String, Object> map : list) {
@@ -66,7 +67,11 @@ public class CoachController {
             @RequestParam("coach_id") String coach_id
     ) {
         logger.info("coach_id===" + coach_id);
-        logger.info(coachService.getCoachById(coach_id).toString());
+        Coach coach= coachService.getCoachById(coach_id);
+        String icon= CommParams.WEB_URL+coach.getIcon().replaceAll("/app/test","");
+        coach.setIcon(icon);
+        logger.info(coach.toString());
+
         return coachService.getCoachById(coach_id);
     }
 
