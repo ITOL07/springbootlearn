@@ -28,7 +28,13 @@
   </select>
   <select id="queryCoachInfoIcons" resultType="map" >
     select icon_name icon_name,icon_url icon_url from user_icons where user_id=#{coach_id,jdbcType=VARCHAR}
-     and type=#{type,jdbcType=VARCHAR} order by up_time desc
+     and type=#{type,jdbcType=INTEGER} order by up_time desc
+  </select>
+  <select id="selectByIdType" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from user_icons where user_id=#{user_id,jdbcType=VARCHAR}
+    and type=#{type,jdbcType=INTEGER} order by up_time desc
   </select>
 
     <select id="selectByType" resultMap="BaseResultMap" >
@@ -117,10 +123,6 @@
     where icon_name = #{iconName,jdbcType=VARCHAR}
   </update>
   <select id="getCoachPapersNum" resultType="map" parameterType="java.lang.String">
-    select  a.type,count(1) num from user_icons a where a.user_id=#{coach_id,jdbcType=VARCHAR} and a.type=1
-    union all
-    select b.type,count(1) num from user_icons b where b.user_id=#{coach_id,jdbcType=VARCHAR} and b.type=2
-    union all
-    select c.type,count(1) num from user_icons c where c.user_id=#{coach_id,jdbcType=VARCHAR} and c.type=3
+    select type,count(*) from user_icons where user_id=#{coach_id,jdbcType=VARCHAR} group by type
   </select>
 </mapper>

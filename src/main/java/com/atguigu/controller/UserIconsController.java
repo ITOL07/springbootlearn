@@ -1,6 +1,7 @@
 package com.atguigu.controller;
 
 import com.atguigu.service.UserIconsService;
+import com.atguigu.util.CommParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +34,7 @@ public class UserIconsController {
     @RequestMapping("/queryCoachInfoIcons")
     public Map<String,List<String>> queryCoachInfoIcons(
             @RequestParam("coach_id") String coach_id,
-            @RequestParam("type") String type) {
+            @RequestParam("type") Integer type) {
         System.out.println("coach_id ====" + coach_id + "；type=====" + type);
         Map<String,List<String>> map = new HashMap<>();
         List<String> list1 = new ArrayList<>();
@@ -41,7 +42,7 @@ public class UserIconsController {
         List<Map<String, String>> list = userIconsService.queryCoachInfoIcons(coach_id, type);
         logger.info("list size :"+list.size());
         for(Map<String, String> map1 :list){
-            list1.add(map1.get("icon_url").replaceAll("/app/test/images/",""));
+            list1.add(CommParams.WEB_URL+map1.get("icon_url").replaceAll("/app/test",""));
             list2.add(map1.get("icon_name"));
         }
         map.put("icons_url",list1);

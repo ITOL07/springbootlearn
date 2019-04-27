@@ -311,4 +311,28 @@
         and sale_id=#{saleId,jdbcType=VARCHAR} and kc_id=#{kcId,jdbcType=VARCHAR} and start_time_1 is  null and end_time_1 is  null
   </select>
 
+  <select id="selectByCoachId" parameterType="java.lang.String" resultType="map">
+    select *
+    from v_member_lesson
+    where
+    coach_id = #{coachId,jdbcType=VARCHAR}
+    <if test="status !=''">
+      and status = #{status,jdbcType=TINYINT}
+    </if>
+    order by start_time_1 desc
+  </select>
+  <select id="selectByCoachIdDate" parameterType="java.lang.String" resultType="map">
+    select *
+    from v_member_lesson
+    where
+    coach_id = #{coachId,jdbcType=VARCHAR}
+    <if test="status !=''">
+      and status = #{status,jdbcType=TINYINT}
+    </if>
+    <if test="reg_date !=''">
+      and start_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%')
+    </if>
+    order by start_time_1 desc
+  </select>
+
 </mapper>

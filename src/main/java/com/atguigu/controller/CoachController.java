@@ -53,6 +53,11 @@ public class CoachController {
                     Entry<String, Object> entry = (Entry<String, Object>) iterator.next();
                     Object key = entry.getKey();
                     Object value = entry.getValue();
+
+                    if(key.equals("icon")){
+                        String tmp=CommParams.WEB_URL+entry.getValue().toString().replaceAll("/app/test","");
+                        entry.setValue(tmp);
+                    }
                     logger.info(key + ":" + value);
                 }
             }

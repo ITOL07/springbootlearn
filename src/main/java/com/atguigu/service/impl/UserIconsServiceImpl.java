@@ -36,7 +36,7 @@ public class UserIconsServiceImpl implements UserIconsService {
         return userIconsList;
     }
     @Override
-    public List<Map<String, String>> queryCoachInfoIcons(String coach_id, String type) {
+    public List<Map<String, String>> queryCoachInfoIcons(String coach_id, Integer type) {
         return userIconsMapper.queryCoachInfoIcons(coach_id,type);
     }
     @Override
@@ -46,7 +46,12 @@ public class UserIconsServiceImpl implements UserIconsService {
     }
 
     @Override
+
     public List<Map<String,Integer>> getCoachPapersNum(String coach_id) {
         return userIconsMapper.getCoachPapersNum(coach_id);
+    }
+    public List<UserIcons> selectByIdType(String user_id,Integer type) {
+        List<UserIcons> userIconsList = userIconsMapper.selectByIdType(user_id, type);
+        return userIconsList;
     }
 }

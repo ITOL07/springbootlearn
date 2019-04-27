@@ -115,10 +115,22 @@ public class FileUploadController {
 
     @ResponseBody
     @RequestMapping("/load")
-    public List<UserIcons> load(@RequestParam("userid") String userid, HttpServletResponse response){
+    public List<Map<Object,Object>> load(@RequestParam("userid") String userid, HttpServletResponse response){
         List<UserIcons> userIconsList = userIconsService.selectByUser(userid);
         logger.info("userIconsList :"+ userIconsList.size());
-        return userIconsList;
+        List<Map<Object,Object>> resList=new ArrayList<>();
+        for(UserIcons u :userIconsList){
+//            UserIcons  ui=(UserIcons)u;
+            String img_url=CommParams.WEB_URL+u.getIconUrl().replaceAll("/app/test","");
+            Map<Object,Object> map=new HashMap<>();
+            map.put("img_url",img_url);
+
+//            resList.add(memberService.getMemberById(mem_id));
+//            map=qryMyMemSum(mem_id);
+            resList.add(map);
+            logger.info(img_url);
+        }
+        return resList;
     }
 
     @ResponseBody
@@ -130,6 +142,28 @@ public class FileUploadController {
             UserIcons  ui=(UserIcons)u;
             String img_url=CommParams.WEB_URL+ui.getIconUrl().replaceAll("/app/test","");
             Map<Object,Object> map=new HashMap<>();
+            map.put("img_url",img_url);
+
+//            resList.add(memberService.getMemberById(mem_id));
+//            map=qryMyMemSum(mem_id);
+            resList.add(map);
+            logger.info(img_url);
+        }
+        return resList;
+    }
+
+    @ResponseBody
+    @RequestMapping("/load2")
+    public List<Map<Object,Object>> load(@RequestParam("user_id") String user_id,@RequestParam("type") Integer type, HttpServletResponse response){
+        List<UserIcons> list = userIconsService.selectByIdType(user_id,type);
+//        Map<String,String> map=new HashMap<>();
+        List<Map<Object,Object>> resList=new ArrayList<>();
+        for( UserIcons u :list){
+            UserIcons  ui=(UserIcons) u;
+            String id=ui.getUserId();
+            String img_url=CommParams.WEB_URL+ui.getIconUrl().replaceAll("/app/test","");
+            Map<Object,Object> map=new HashMap<>();
+            map.put("user_id",id);
             map.put("img_url",img_url);
 
 //            resList.add(memberService.getMemberById(mem_id));

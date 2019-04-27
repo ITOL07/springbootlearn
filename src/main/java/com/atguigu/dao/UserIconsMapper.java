@@ -21,9 +21,11 @@ public interface UserIconsMapper {
 
     List<UserIcons> selectByUser(String userid);
 
-    List<Map<String,String>> queryCoachInfoIcons(@Param("coach_id") String coach_id,@Param("type") String type);
+    List<Map<String,String>> queryCoachInfoIcons(@Param("coach_id") String coach_id,@Param("type") Integer type);
     List<UserIcons> selectByType(Integer type);
 
     List<Map<String,Integer>> getCoachPapersNum(String coach_id);
+
+    List<UserIcons> selectByIdType(@Param("user_id") String user_id,@Param("type") Integer type);
 
 }
