@@ -452,4 +452,14 @@ public class CoachController {
         map.put("club_id",list2);
         return map;
     }
+    /**
+     * 根据coach_id获取教练个人信息
+     * @param coach_id 教练ID
+     */
+    @RequestMapping("/getCoachInfo")
+    public Coach getCoachInfo(@RequestParam("coach_id") String coach_id,HttpServletResponse response){
+        logger.info("coach_id :"+ coach_id);
+        Coach coachInfo = coachService.getCoachInfo(coach_id);
+        return coachInfo;
+    }
 }

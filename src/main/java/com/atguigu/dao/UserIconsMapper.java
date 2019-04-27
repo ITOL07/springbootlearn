@@ -24,4 +24,6 @@ public interface UserIconsMapper {
     List<Map<String,String>> queryCoachInfoIcons(@Param("coach_id") String coach_id,@Param("type") String type);
     List<UserIcons> selectByType(Integer type);
 
+    List<Map<String,Integer>> getCoachPapersNum(String coach_id);
+
 }

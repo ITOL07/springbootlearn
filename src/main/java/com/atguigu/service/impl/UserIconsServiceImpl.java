@@ -44,4 +44,9 @@ public class UserIconsServiceImpl implements UserIconsService {
         List<UserIcons> userIconsList = userIconsMapper.selectByType(type);
         return userIconsList;
     }
+
+    @Override
+    public List<Map<String,Integer>> getCoachPapersNum(String coach_id) {
+        return userIconsMapper.getCoachPapersNum(coach_id);
+    }
 }

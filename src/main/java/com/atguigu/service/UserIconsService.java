@@ -15,4 +15,6 @@ public interface UserIconsService {
     public List<Map<String,String>> queryCoachInfoIcons(String coach_id, String type);
 
     List<UserIcons> selectByType(Integer type);
+
+    List<Map<String,Integer>> getCoachPapersNum(String coach_id);
 }

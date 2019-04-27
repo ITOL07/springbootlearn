@@ -21,4 +21,6 @@ public interface CoachMapper {
     int updateByPrimaryKey(Coach record);
 
     List<Map<Object,Object>> selectMyMemId(String coachId);
+
+    Coach getCoachInfo(String coach_id);
 }

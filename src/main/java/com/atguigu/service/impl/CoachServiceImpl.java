@@ -2,11 +2,8 @@ package com.atguigu.service.impl;
 
 import com.atguigu.dao.*;
 import com.atguigu.entity.Coach;
-import com.atguigu.entity.CoachCourse;
 import com.atguigu.entity.Course;
-import com.atguigu.entity.TCoachLessonReg;
 import com.atguigu.service.CoachService;
-import com.atguigu.service.CourseService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -100,6 +97,11 @@ public class CoachServiceImpl implements CoachService {
      */
     public List<Course> getCourseByCoachId(String coachId,String try_flag){
         return courseMapper.selectByCoachId(coachId,try_flag);
+    }
+
+    @Override
+    public Coach getCoachInfo(String coach_id) {
+        return coach.getCoachInfo(coach_id);
     }
 
 

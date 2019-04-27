@@ -216,4 +216,7 @@
       type = #{type,jdbcType=TINYINT}
     where coach_Id = #{coachId,jdbcType=VARCHAR}
   </update>
+  <select id="getCoachInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select * from coach where coach_Id = #{coachId,jdbcType=VARCHAR}
+  </select>
 </mapper>
