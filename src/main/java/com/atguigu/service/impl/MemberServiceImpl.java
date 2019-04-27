@@ -46,22 +46,21 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public List<Map<Object, Object>> getMemberLessByView(String memId, String coachId, String status) {
-        return null;
+        return mem_les.selectByView(memId,coachId,status);
     }
 
     @Override
     public List<Map<Object, Object>> getMemberLessByCoachId(String coachId, String status) {
-        return null;
+        return mem_les.selectByCoachId(coachId,status);
     }
 
-    @Override
-    public List<Map<Object, Object>> getMemberLessByViewDate(String memId, String coachId, String status, String reg_date) {
-        return null;
+    public List<Map<Object,Object>> getMemberLessByViewDate(String memId,String coachId,String status,String reg_date){
+        List<Map<Object, Object>> map=mem_les.selectByViewDate(memId,coachId,status,reg_date);
+        return map;
     }
-
-    @Override
-    public List<Map<Object, Object>> getMemberLessByCoachIdDate(String coachId, String status, String reg_date) {
-        return null;
+    public List<Map<Object,Object>> getMemberLessByCoachIdDate(String coachId,String status,String reg_date){
+        List<Map<Object, Object>> map=mem_les.selectByCoachIdDate(coachId,status,reg_date);
+        return map;
     }
 
     public boolean addMemberLes(MemberLesson record){
@@ -85,8 +84,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+
     public Map<Object, Object> getMemCourseSum(String mem_id) {
-        return null;
+        return memberCourseMapper.selectMemCourseSum(mem_id);
     }
 
     @Override

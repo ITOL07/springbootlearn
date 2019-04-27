@@ -26,7 +26,7 @@ public class UserIconsController {
     @RequestMapping("/queryCoachInfoIcons")
     public List<Map<String, String>> queryCoachInfoIcons(
             @RequestParam("coach_id") String coach_id,
-            @RequestParam("type") String type) {
+            @RequestParam("type") Integer type) {
         System.out.println("coach_id ====" + coach_id + "；type=====" + type);
 
         return userIconsService.queryCoachInfoIcons(coach_id,type);
