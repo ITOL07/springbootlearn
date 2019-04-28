@@ -3,6 +3,7 @@ package com.atguigu.service.impl;
 import com.atguigu.dao.*;
 import com.atguigu.entity.Coach;
 import com.atguigu.entity.Course;
+import com.atguigu.entity.CourseInfo;
 import com.atguigu.service.CoachService;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,8 @@ public class CoachServiceImpl implements CoachService {
     TPubParamMapper tPubParamMapper;
     @Resource
     CourseMapper courseMapper;
+    @Resource
+    CourseInfoMapper courseInfoMapper;
 
 
     public Coach getCoachById(String coach_id) {
@@ -104,5 +107,12 @@ public class CoachServiceImpl implements CoachService {
         return coach.getCoachInfo(coach_id);
     }
 
-
+    @Override
+    public CourseInfo getCourseInfo(String type){
+        return courseInfoMapper.selectByPrimaryKey(type);
+    }
+    @Override
+    public List<Map<String,String>> getCourseTypeByClubId(String club_id,String try_flag){
+        return courseMapper.selectTypeByClubId(club_id,try_flag);
+    }
 }

@@ -2,6 +2,7 @@ package com.atguigu.service;
 
 import com.atguigu.entity.Coach;
 import com.atguigu.entity.Course;
+import com.atguigu.entity.CourseInfo;
 
 import java.util.Date;
 import java.util.List;
@@ -35,4 +36,9 @@ public interface CoachService {
     public List<Course> getCourseByCoachId(String coachId,String try_flag);
 
     public Coach getCoachInfo(String coach_id);
+
+    public CourseInfo getCourseInfo(String type);
+
+    public List<Map<String,String>> getCourseTypeByClubId(String club_id,String try_flag);
+
 }

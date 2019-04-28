@@ -4,6 +4,7 @@ import com.atguigu.entity.Course;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CourseMapper {
     int deleteByPrimaryKey(String courseId);
@@ -22,4 +23,6 @@ public interface CourseMapper {
     int updateByPrimaryKey(Course record);
 
     String selectMaxCourseId();
+
+    List<Map<String,String>> selectTypeByClubId(@Param("clubId") String clubId, @Param("try_flag") String try_flag);
 }

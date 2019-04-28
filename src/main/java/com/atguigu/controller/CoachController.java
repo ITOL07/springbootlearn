@@ -3,6 +3,7 @@ package com.atguigu.controller;
 
 import com.atguigu.entity.Coach;
 import com.atguigu.entity.Course;
+import com.atguigu.entity.CourseInfo;
 import com.atguigu.service.CoachService;
 import com.atguigu.service.CourseService;
 import com.atguigu.service.MemberService;
@@ -466,5 +467,23 @@ public class CoachController {
         logger.info("coach_id :"+ coach_id);
         Coach coachInfo = coachService.getCoachInfo(coach_id);
         return coachInfo;
+    }
+
+    @RequestMapping("/getCourseInfo")
+    public CourseInfo getCourseInfo(@RequestParam("type") String course_type){
+        return coachService.getCourseInfo(course_type);
+    }
+
+    @RequestMapping("/getCourseType")
+    public List<CourseInfo> getCourseType(@RequestParam("club_id") String club_id,@RequestParam("bz1") String bz1){
+        List<Map<String,String>> list = new ArrayList<>();
+        List<CourseInfo> res_list = new ArrayList<>();
+        list = coachService.getCourseTypeByClubId(club_id,bz1);
+        for(int i =0;i<list.size();i++){
+            CourseInfo c = new CourseInfo();
+            c=coachService.getCourseInfo(list.get(i).get("type"));
+            res_list.add(c);
+        }
+        return res_list;
     }
 }

@@ -2,16 +2,41 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.atguigu.dao.CourseInfoMapper" >
   <resultMap id="BaseResultMap" type="com.atguigu.entity.CourseInfo" >
-    <result column="course_type" property="courseType" jdbcType="TINYINT" />
+    <id column="course_type" property="courseType" jdbcType="VARCHAR" />
     <result column="course_name" property="courseName" jdbcType="VARCHAR" />
-    <result column="bz1" property="bz1" jdbcType="VARCHAR" />
+    <result column="try_flag" property="tryFlag" jdbcType="VARCHAR" />
     <result column="bz2" property="bz2" jdbcType="VARCHAR" />
+    <result column="club_type" property="clubType" jdbcType="VARCHAR" />
+    <result column="coach_type" property="coachType" jdbcType="VARCHAR" />
+    <result column="brief" property="brief" jdbcType="VARCHAR" />
+    <result column="detail" property="detail" jdbcType="VARCHAR" />
+    <result column="approp" property="approp" jdbcType="VARCHAR" />
+    <result column="course_time" property="courseTime" jdbcType="VARCHAR" />
+    <result column="suggest" property="suggest" jdbcType="VARCHAR" />
   </resultMap>
+  <sql id="Base_Column_List" >
+    course_type, course_name, try_flag, bz2, club_type, coach_type, brief, detail, approp, 
+    course_time, suggest
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from course_info
+    where course_type = #{courseType,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from course_info
+    where course_type = #{courseType,jdbcType=VARCHAR}
+  </delete>
   <insert id="insert" parameterType="com.atguigu.entity.CourseInfo" >
-    insert into course_info (course_type, course_name, bz1, 
-      bz2)
-    values (#{courseType,jdbcType=TINYINT}, #{courseName,jdbcType=VARCHAR}, #{bz1,jdbcType=VARCHAR}, 
-      #{bz2,jdbcType=VARCHAR})
+    insert into course_info (course_type, course_name, try_flag, 
+      bz2, club_type, coach_type, 
+      brief, detail, approp, 
+      course_time, suggest)
+    values (#{courseType,jdbcType=VARCHAR}, #{courseName,jdbcType=VARCHAR}, #{tryFlag,jdbcType=VARCHAR}, 
+      #{bz2,jdbcType=VARCHAR}, #{clubType,jdbcType=VARCHAR}, #{coachType,jdbcType=VARCHAR}, 
+      #{brief,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{approp,jdbcType=VARCHAR}, 
+      #{courseTime,jdbcType=VARCHAR}, #{suggest,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.atguigu.entity.CourseInfo" >
     insert into course_info
@@ -22,26 +47,118 @@
       <if test="courseName != null" >
         course_name,
       </if>
-      <if test="bz1 != null" >
-        bz1,
+      <if test="tryFlag != null" >
+        try_flag,
       </if>
       <if test="bz2 != null" >
         bz2,
       </if>
+      <if test="clubType != null" >
+        club_type,
+      </if>
+      <if test="coachType != null" >
+        coach_type,
+      </if>
+      <if test="brief != null" >
+        brief,
+      </if>
+      <if test="detail != null" >
+        detail,
+      </if>
+      <if test="approp != null" >
+        approp,
+      </if>
+      <if test="courseTime != null" >
+        course_time,
+      </if>
+      <if test="suggest != null" >
+        suggest,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="courseType != null" >
-        #{courseType,jdbcType=TINYINT},
+        #{courseType,jdbcType=VARCHAR},
       </if>
       <if test="courseName != null" >
         #{courseName,jdbcType=VARCHAR},
       </if>
-      <if test="bz1 != null" >
-        #{bz1,jdbcType=VARCHAR},
+      <if test="tryFlag != null" >
+        #{tryFlag,jdbcType=VARCHAR},
       </if>
       <if test="bz2 != null" >
         #{bz2,jdbcType=VARCHAR},
       </if>
+      <if test="clubType != null" >
+        #{clubType,jdbcType=VARCHAR},
+      </if>
+      <if test="coachType != null" >
+        #{coachType,jdbcType=VARCHAR},
+      </if>
+      <if test="brief != null" >
+        #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="approp != null" >
+        #{approp,jdbcType=VARCHAR},
+      </if>
+      <if test="courseTime != null" >
+        #{courseTime,jdbcType=VARCHAR},
+      </if>
+      <if test="suggest != null" >
+        #{suggest,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.CourseInfo" >
+    update course_info
+    <set >
+      <if test="courseName != null" >
+        course_name = #{courseName,jdbcType=VARCHAR},
+      </if>
+      <if test="tryFlag != null" >
+        try_flag = #{tryFlag,jdbcType=VARCHAR},
+      </if>
+      <if test="bz2 != null" >
+        bz2 = #{bz2,jdbcType=VARCHAR},
+      </if>
+      <if test="clubType != null" >
+        club_type = #{clubType,jdbcType=VARCHAR},
+      </if>
+      <if test="coachType != null" >
+        coach_type = #{coachType,jdbcType=VARCHAR},
+      </if>
+      <if test="brief != null" >
+        brief = #{brief,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null" >
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="approp != null" >
+        approp = #{approp,jdbcType=VARCHAR},
+      </if>
+      <if test="courseTime != null" >
+        course_time = #{courseTime,jdbcType=VARCHAR},
+      </if>
+      <if test="suggest != null" >
+        suggest = #{suggest,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where course_type = #{courseType,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.CourseInfo" >
+    update course_info
+    set course_name = #{courseName,jdbcType=VARCHAR},
+      try_flag = #{tryFlag,jdbcType=VARCHAR},
+      bz2 = #{bz2,jdbcType=VARCHAR},
+      club_type = #{clubType,jdbcType=VARCHAR},
+      coach_type = #{coachType,jdbcType=VARCHAR},
+      brief = #{brief,jdbcType=VARCHAR},
+      detail = #{detail,jdbcType=VARCHAR},
+      approp = #{approp,jdbcType=VARCHAR},
+      course_time = #{courseTime,jdbcType=VARCHAR},
+      suggest = #{suggest,jdbcType=VARCHAR}
+    where course_type = #{courseType,jdbcType=VARCHAR}
+  </update>
 </mapper>

@@ -209,4 +209,14 @@
       bz2 = #{bz2,jdbcType=VARCHAR}
     where course_id = #{courseId,jdbcType=VARCHAR}
   </update>
+
+  <select id="selectTypeByClubId" resultType="map" parameterType="java.lang.String" >
+    select
+    distinct type
+    from course
+    where club_id = #{clubId,jdbcType=VARCHAR}
+    <if test="try_flag!=null">
+      and try_flag=#{try_flag,jdbcType=VARCHAR}
+    </if>
+  </select>
 </mapper>

@@ -2,10 +2,7 @@ package com.atguigu.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.atguigu.entity.Club;
-import com.atguigu.entity.Coach;
-import com.atguigu.entity.Course;
-import com.atguigu.entity.Member;
+import com.atguigu.entity.*;
 import com.atguigu.service.ClubService;
 import com.atguigu.service.CoachService;
 import com.atguigu.service.CourseService;
@@ -238,5 +235,23 @@ public class ClubController {
         logger.info("sold_count_sum=["+sold_count_sum+"]\t sold_pct=["+sold_pct+"]\t sold_amt=["+sold_amt+"]\t sold_total_amt=["+sold_total_amt+"]");
         return resMap;
 
+    }
+
+    @RequestMapping("/getCourseInfo")
+    public CourseInfo getCourseInfo(@RequestParam("type") String course_type){
+        return coachService.getCourseInfo(course_type);
+    }
+
+    @RequestMapping("/getCourseType")
+    public List<CourseInfo> getCourseType(@RequestParam("club_id") String club_id,@RequestParam("bz1") String bz1){
+        List<Map<String,String>> list = new ArrayList<>();
+        List<CourseInfo> res_list = new ArrayList<>();
+        list = coachService.getCourseTypeByClubId(club_id,bz1);
+        for(int i =0;i<list.size();i++){
+            CourseInfo c = new CourseInfo();
+            c=coachService.getCourseInfo(list.get(i).get("type"));
+            res_list.add(c);
+        }
+        return res_list;
     }
 }

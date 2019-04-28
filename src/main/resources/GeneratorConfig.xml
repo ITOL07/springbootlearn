@@ -34,7 +34,7 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
         <!-- 相关表的配置 -->
-        <table tableName="t_pub_docs" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+        <table tableName="course_info" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                enableUpdateByExample="false"/>
     </context>
 </generatorConfiguration>
