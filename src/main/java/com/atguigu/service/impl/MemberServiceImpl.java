@@ -128,8 +128,8 @@ public class MemberServiceImpl implements MemberService {
         return list1;
     }
     @Override
-    public List<Map<String,String>> selectLessonList(String mem_id) {
-        List<Map<String,String>> list = mem_les.selectLessonList(mem_id);
+    public List<Map<String,String>> selectLessonList(String mem_id,String coach_id) {
+        List<Map<String,String>> list = mem_les.selectLessonList(mem_id,coach_id);
         return list;
     }
     @Override

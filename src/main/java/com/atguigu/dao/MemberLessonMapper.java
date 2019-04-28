@@ -38,7 +38,8 @@ public interface MemberLessonMapper {
     boolean updateStatus(MemberLesson record);
 
     int selectseqno(MemberLesson record);
-    List<Map<String,String>> selectLessonList(String mem_id);
+    List<Map<String,String>> selectLessonList(@Param("mem_id") String mem_id,
+                                              @Param("coach_id")String coach_id);
 
     List<Map<String,String>> selectClubList(String course_id);
 

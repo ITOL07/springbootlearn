@@ -407,8 +407,10 @@ public class CoachController {
 
     @ResponseBody
     @RequestMapping("/course_info")
-    public Map<String,List<String>> selectLessonList(@RequestParam("mem_id") String mem_id, HttpServletResponse response){
-        List<Map<String,String>> list = memberService.selectLessonList(mem_id);
+    public Map<String,List<String>> selectLessonList(@RequestParam("mem_id") String mem_id,
+                                                     @RequestParam("coach_id") String coach_id,HttpServletResponse response){
+        logger.info("mem_id :"+mem_id+",coach_id :"+coach_id);
+        List<Map<String,String>> list = memberService.selectLessonList(mem_id,coach_id);
         logger.info(list.size()+"");
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();

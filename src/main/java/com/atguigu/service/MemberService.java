@@ -38,7 +38,7 @@ public interface MemberService {
 
     public int selectseqno(MemberLesson record);
 
-    public List<Map<String,String>> selectLessonList(String mem_id);
+    public List<Map<String,String>> selectLessonList(String mem_id,String coach_id);
     public List<Map<String, String>> selectClubList(String course_id);
     public List<Map<Object, Object>> selectMemberInfo(String coachid);
     public List<Map<Object, String>> selectByLesson(String mem_id, String course_id, String club_id, String coach_id);

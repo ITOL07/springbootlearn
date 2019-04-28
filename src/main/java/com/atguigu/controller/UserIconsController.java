@@ -62,6 +62,7 @@ public class UserIconsController {
         List<Map<String, Integer>> coachPapersNum = userIconsService.getCoachPapersNum(coach_id);
         logger.info("=======================");
         for(Map<String, Integer> map1 :coachPapersNum ){
+            logger.info(map1.get("type")+"");
             if(map1.get("type") == 1){
                 map.put("credentials",map1.get("num"));
             }else if(map1.get("type") == 2){

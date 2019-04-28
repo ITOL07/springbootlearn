@@ -123,6 +123,6 @@
     where icon_name = #{iconName,jdbcType=VARCHAR}
   </update>
   <select id="getCoachPapersNum" resultType="map" parameterType="java.lang.String">
-    select type,count(*) from user_icons where user_id=#{coach_id,jdbcType=VARCHAR} group by type
+    select type,count(*) num from user_icons where user_id=#{coach_id,jdbcType=VARCHAR} group by type
   </select>
 </mapper>

@@ -16,13 +16,14 @@
     <result column="score" property="score" jdbcType="REAL" />
     <result column="comment" property="comment" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="TINYINT" />
+    <result column="introduction" property="introduction" jdbcType="VARCHAR" />
     <!--<association property="" javaType="com.atguigu.dao.CourseMapper">-->
        <!--<id property="clubId" column="club_id"/>-->
     <!--</association>-->
   </resultMap>
   <sql id="Base_Column_List" >
     coach_Id, no, name, nick_name, age, tel, height, weight, birthday, sex, icon, score, 
-    comment, type
+    comment, type,introduction
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -56,12 +57,12 @@
       nick_name, age, tel, 
       height, weight, birthday, 
       sex, icon, score, comment, 
-      type)
+      type,introduction)
     values (#{coachId,jdbcType=VARCHAR}, #{no,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{nickName,jdbcType=VARCHAR}, #{age,jdbcType=TINYINT}, #{tel,jdbcType=VARCHAR}, 
       #{height,jdbcType=DECIMAL}, #{weight,jdbcType=DECIMAL}, #{birthday,jdbcType=DATE}, 
       #{sex,jdbcType=VARCHAR}, #{icon,jdbcType=VARCHAR}, #{score,jdbcType=REAL}, #{comment,jdbcType=VARCHAR}, 
-      #{type,jdbcType=TINYINT})
+      #{type,jdbcType=TINYINT},#{introduction,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.atguigu.entity.Coach" >
     insert into coach
@@ -108,6 +109,9 @@
       <if test="type != null" >
         type,
       </if>
+      <if test="introduction != null" >
+        introduction,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="coachId != null" >
@@ -151,6 +155,9 @@
       </if>
       <if test="type != null" >
         #{type,jdbcType=TINYINT},
+      </if>
+      <if test="introduction != null" >
+        #{introduction,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -196,6 +203,9 @@
       <if test="type != null" >
         type = #{type,jdbcType=TINYINT},
       </if>
+      <if test="introduction != null" >
+        introduction = #{introduction,jdbcType=VARCHAR},
+      </if>
     </set>
     where coach_Id = #{coachId,jdbcType=VARCHAR}
   </update>
@@ -213,7 +223,8 @@
       icon = #{icon,jdbcType=VARCHAR},
       score = #{score,jdbcType=REAL},
       comment = #{comment,jdbcType=VARCHAR},
-      type = #{type,jdbcType=TINYINT}
+      type = #{type,jdbcType=TINYINT},
+      introduction = #{introduction,jdbcType=VARCHAR}
     where coach_Id = #{coachId,jdbcType=VARCHAR}
   </update>
   <select id="getCoachInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
