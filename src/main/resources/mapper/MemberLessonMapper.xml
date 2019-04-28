@@ -177,6 +177,9 @@
       <if test="chTime != null" >
         ch_time,
       </if>
+      <if test="kcId != null">
+        kc_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="memId != null" >
@@ -223,6 +226,9 @@
       </if>
       <if test="chTime != null" >
         #{chTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="kcId != null">
+        #{kcId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
