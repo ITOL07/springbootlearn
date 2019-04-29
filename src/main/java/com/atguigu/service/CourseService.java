@@ -3,6 +3,7 @@ package com.atguigu.service;
 import com.atguigu.entity.Course;
 
 import java.util.List;
+import java.util.Map;
 
 public interface CourseService {
     public Course getCourseById(String courseId);
@@ -21,5 +22,7 @@ public interface CourseService {
     public boolean delCourse(String course_id);
 
     Course selectByPrimaryKey(String course_id);
+
+    List<Map<String,String>> getClubOrCoach(String clubId,String coachId,String courseType);
 
 }

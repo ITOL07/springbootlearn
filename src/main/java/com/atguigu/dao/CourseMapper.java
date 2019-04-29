@@ -25,4 +25,6 @@ public interface CourseMapper {
     String selectMaxCourseId();
 
     List<Map<String,String>> selectTypeByClubId(@Param("clubId") String clubId, @Param("try_flag") String try_flag);
+
+    List<Map<String,String>> getClubOrCoach(@Param("clubId") String clubId,@Param("coachId") String coachId,@Param("courseType") String courseType);
 }

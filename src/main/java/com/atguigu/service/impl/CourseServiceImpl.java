@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service("courseService")
 public class CourseServiceImpl implements CourseService {
@@ -63,10 +64,15 @@ public class CourseServiceImpl implements CourseService {
     public Course selectByPrimaryKey(String course_id) {
         return course.selectByPrimaryKey(course_id);
     }
+
     @Override
     public String getMaxId(){
         return course.selectMaxCourseId();
 
+    }
+    @Override
+    public List<Map<String,String>> getClubOrCoach(String clubId,String coachId,String courseType) {
+        return course.getClubOrCoach(clubId,coachId,courseType);
     }
 
 }

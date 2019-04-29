@@ -219,4 +219,15 @@
       and try_flag=#{try_flag,jdbcType=VARCHAR}
     </if>
   </select>
+  <select id="getClubOrCoach" resultType="map" parameterType="java.lang.String">
+    select
+    <if test="clubId!=''">
+      a.coach_id coach_id,b.name coach_name from course a,coach b where a.coach_id=b.coach_id and a.club_id=#{clubId,jdbcType=VARCHAR}
+    </if>
+    <if test="coachId!=''">
+      a.club_id club_id,b.name club_name from course a,club b where a.club_id=b.club_id and a.coach_id=#{coachId,jdbcType=VARCHAR}
+    </if>
+    and  a.type=#{courseType,jdbcType=VARCHAR}
+  </select>
+
 </mapper>
