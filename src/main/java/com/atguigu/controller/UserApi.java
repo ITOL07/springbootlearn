@@ -104,6 +104,7 @@ public class UserApi {
             user.setLastLogin(new Date());
             userService.updateUser(user);
             resMap.put("id",user.getId());
+
         }else{
             User insert_user = new User();
 
@@ -130,33 +131,35 @@ public class UserApi {
 //                return new JsonResult(ResultCode.FAIL);
 //            }
             resMap.put("id",id);
-
-
-                String prefix=id.substring(1,2);
-                if(prefix.startsWith("JL")){
-                    Coach coach=new Coach();
-                    coach.setCoachId(id);
-                    coachService.addCoach(coach);
-                    logger.info("教练+"+id+"更新头像成功");
-                }else if (prefix.startsWith("HY")){
-                    Member member=new Member();
-                    member.setMemId(id);
-
-                    memberService.addMember(member);
-                    logger.info("学员+"+id+"更新头像成功");
-                }else if (prefix.startsWith("CD")){
-                    Club club =new Club();
-                    club.setClubId(id);
-
-                    clubService.addUser(club);
-                    logger.info("场地+"+id+"更新头像成功");
-                }
-
+            insertUser(id);
         }
         // 封装返回小程序
 
         return resMap;
 
+    }
+
+    public void insertUser(String id){
+        String prefix=id.substring(0,2);
+        System.out.println("prefix===="+prefix+"   "+prefix.startsWith("JL"));
+        if(prefix.startsWith("JL")){
+            Coach coach=new Coach();
+            coach.setCoachId(id);
+            coachService.addCoach(coach);
+            logger.info("教练+"+id+"插入教练表成功");
+        }else if (prefix.startsWith("HY")){
+            Member member=new Member();
+            member.setMemId(id);
+
+            memberService.addMember(member);
+            logger.info("学员+"+id+"插入学员表成功");
+        }else if (prefix.startsWith("CD")){
+            Club club =new Club();
+            club.setClubId(id);
+
+            clubService.addUser(club);
+            logger.info("场地+"+id+"插入场地表成功");
+        }
     }
 
 }

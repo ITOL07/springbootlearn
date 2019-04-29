@@ -56,7 +56,7 @@ public class FileUploadController {
 
         String user_id = request.getParameter("user_id");
         /**
-         * photo_type 1--头像  2--证书  3--相册  4--
+         * photo_type 1--头像  2--证书  3--相册  4--案例
          */
         String photo_type = request.getParameter("type");
 
@@ -119,8 +119,10 @@ public class FileUploadController {
         userIcons.setType(Integer.parseInt(photo_type));
         userIcons.setUp_time(new Date());
 
+
         if(photo_type.equals("1")){
-            String prefix=user_id.substring(1,2);
+            String prefix=user_id.substring(0,2);
+            System.out.println(prefix.startsWith("JL"));
             if(prefix.startsWith("JL")){
                 Coach coach=new Coach();
                 coach.setCoachId(user_id).setIcon(path);
