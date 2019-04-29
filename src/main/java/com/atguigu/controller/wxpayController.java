@@ -55,7 +55,8 @@ public class wxpayController {
             @RequestParam("openid") String openid,
             @RequestParam("sale_id") String sale_id,
             @RequestParam("try_flag") String try_flag,
-            @RequestParam("price") String price
+            @RequestParam("price") String price,
+            @RequestParam("count") Integer count
     ){
         Map<String, Object> resultMap = new HashMap<String, Object>();
 //        String money = "0.01";
@@ -85,6 +86,7 @@ public class wxpayController {
         order.setSaleId(sale_id);
         order.setDes(desc);
         order.setTry_flag(try_flag);
+        order.setCount(count);
 
         //体验课的话，需要关联更新用户表的try_flag字段为真
 

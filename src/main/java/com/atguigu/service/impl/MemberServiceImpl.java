@@ -162,4 +162,27 @@ public class MemberServiceImpl implements MemberService {
     public int addLess(MemberLesson ml){
         return mem_les.insertSelective(ml);
     }
+
+    public boolean updateMember(Member mem){
+        boolean result = false;
+        try {
+            member.updateByPrimaryKeySelective(mem);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+    public boolean addMember(Member record){
+        boolean result = false;
+        try {
+            member.insertSelective(record);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
 }

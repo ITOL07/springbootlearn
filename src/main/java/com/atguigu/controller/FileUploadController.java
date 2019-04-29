@@ -1,7 +1,13 @@
 package com.atguigu.controller;
 
 
+import com.atguigu.entity.Club;
+import com.atguigu.entity.Coach;
+import com.atguigu.entity.Member;
 import com.atguigu.entity.UserIcons;
+import com.atguigu.service.ClubService;
+import com.atguigu.service.CoachService;
+import com.atguigu.service.MemberService;
 import com.atguigu.service.UserIconsService;
 import com.atguigu.util.CommParams;
 import org.slf4j.Logger;
@@ -26,6 +32,12 @@ public class FileUploadController {
     private Logger logger = LoggerFactory.getLogger(FileUploadController.class);
    @Resource
     private UserIconsService userIconsService;
+   @Resource
+   private CoachService coachService;
+   @Resource
+   private MemberService memberService;
+   @Resource
+   private ClubService clubService;
 
     /**
      * @createtime 2017年8月20日17:15:41
@@ -106,6 +118,29 @@ public class FileUploadController {
         userIcons.setIconUrl(path);
         userIcons.setType(Integer.parseInt(photo_type));
         userIcons.setUp_time(new Date());
+
+        if(photo_type.equals("1")){
+            String prefix=user_id.substring(1,2);
+            if(prefix.startsWith("JL")){
+                Coach coach=new Coach();
+                coach.setCoachId(user_id).setIcon(path);
+                coachService.updateCoach(coach);
+                logger.info("教练+"+user_id+"更新头像成功");
+            }else if (prefix.startsWith("HY")){
+                Member member=new Member();
+                member.setMemId(user_id);
+                member.setIcon(path);
+                memberService.updateMember(member);
+                logger.info("学员+"+user_id+"更新头像成功");
+            }else if (prefix.startsWith("CD")){
+                Club club =new Club();
+                club.setClubId(user_id);
+                club.setIcon(path);
+                clubService.updateClub(club);
+                logger.info("场地+"+user_id+"更新头像成功");
+            }
+        }
+
 
         boolean flag = userIconsService.insertUserIcon(userIcons);
         logger.info("=-=--=-=-=-=-=-=- flag is: "+flag);

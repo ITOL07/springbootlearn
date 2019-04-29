@@ -47,4 +47,8 @@ public interface MemberService {
     public String getMaxKcId();
     public int addLess(MemberLesson ml);
 
+    public boolean updateMember(Member mem);
+
+    public boolean addMember(Member record);
+
 }
