@@ -220,7 +220,7 @@
     </if>
   </select>
   <select id="getClubOrCoach" resultType="map" parameterType="java.lang.String">
-    select
+    select distinct
     <if test="clubId!=''">
       a.coach_id coach_id,b.name coach_name from course a,coach b where a.coach_id=b.coach_id and a.club_id=#{clubId,jdbcType=VARCHAR}
     </if>
