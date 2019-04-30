@@ -1,6 +1,12 @@
 package com.atguigu.controller;
 
+import com.atguigu.entity.Club;
+import com.atguigu.entity.Coach;
+import com.atguigu.entity.Member;
 import com.atguigu.entity.User;
+import com.atguigu.service.ClubService;
+import com.atguigu.service.CoachService;
+import com.atguigu.service.MemberService;
 import com.atguigu.service.UserService1;
 import com.atguigu.util.CommParams;
 import com.atguigu.util.getSeqNo;
@@ -18,6 +24,8 @@ import java.util.HashMap;
 import java.util.Map;
 import com.alibaba.fastjson.*;
 
+import javax.annotation.Resource;
+
 /**
  * 微信用户登录接口，接收小程序上传的code，返回open_id
  */
@@ -29,6 +37,13 @@ public class UserApi {
 
     @Autowired
     private UserService1 userService;
+
+    @Resource
+    private MemberService memberService;
+    @Resource
+    private CoachService coachService;
+    @Resource
+    private ClubService clubService;
 
 
     @PostMapping("/login")
@@ -89,6 +104,7 @@ public class UserApi {
             user.setLastLogin(new Date());
             userService.updateUser(user);
             resMap.put("id",user.getId());
+
         }else{
             User insert_user = new User();
 
@@ -115,11 +131,35 @@ public class UserApi {
 //                return new JsonResult(ResultCode.FAIL);
 //            }
             resMap.put("id",id);
+            insertUser(id);
         }
         // 封装返回小程序
 
         return resMap;
 
+    }
+
+    public void insertUser(String id){
+        String prefix=id.substring(0,2);
+        System.out.println("prefix===="+prefix+"   "+prefix.startsWith("JL"));
+        if(prefix.startsWith("JL")){
+            Coach coach=new Coach();
+            coach.setCoachId(id);
+            coachService.addCoach(coach);
+            logger.info("教练+"+id+"插入教练表成功");
+        }else if (prefix.startsWith("HY")){
+            Member member=new Member();
+            member.setMemId(id);
+
+            memberService.addMember(member);
+            logger.info("学员+"+id+"插入学员表成功");
+        }else if (prefix.startsWith("CD")){
+            Club club =new Club();
+            club.setClubId(id);
+
+            clubService.addUser(club);
+            logger.info("场地+"+id+"插入场地表成功");
+        }
     }
 
 }

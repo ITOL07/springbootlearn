@@ -25,7 +25,6 @@ import java.util.*;
 import java.util.Map.Entry;
 
 @RestController
-//@RequestMapping("/mydb")
 @RequestMapping("/club")
 public class ClubController {
 

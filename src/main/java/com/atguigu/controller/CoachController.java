@@ -76,7 +76,7 @@ public class CoachController {
         coach.setIcon(icon);
         logger.info(coach.toString());
 
-        return coachService.getCoachById(coach_id);
+        return coach;
     }
 
     @RequestMapping("/update")
@@ -254,9 +254,6 @@ public class CoachController {
         else {
             return memberService.getMemberLessByCoachIdDate(coach_id, "",reg_date);
         }
-
-
-
     }
 
     /**
