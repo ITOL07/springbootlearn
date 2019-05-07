@@ -10,7 +10,7 @@ import java.util.List;
 public interface OrderService {
     public OrderDtl getOrderById(String orderNo);
 
-    public List<OrderDtl> getOrderByMemId(String memId);
+    public List<OrderDtl> getOrderByMemId(String memId,String tradeState);
 
     boolean addOrder(OrderDtl record);
 

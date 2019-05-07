@@ -305,7 +305,7 @@ public class CoachController {
             logger.info("map.get(\"les_count_sum\");==========="+map.get("les_count_sum"));
 
             int les_count_sum=Integer.parseInt(map.get("les_count_sum").toString());
-            int sold_count_sum=Integer.parseInt(map.get("les_count_sum").toString());
+            int sold_count_sum=Integer.parseInt(map.get("sold_count_sum").toString());
 
             float les_total_amt=Float.parseFloat(map.get("les_total_amt").toString());
             float sold_total_amt=Float.parseFloat(map.get("sold_total_amt").toString());
@@ -335,7 +335,7 @@ public class CoachController {
     public List<Object> qryMyMember(
             @RequestParam("coach_id") String coach_id
     ) {
-        logger.info("mem_id ====" + coach_id );
+        logger.info("查询教练的会员信息：coach_id ====" + coach_id );
         List<Map<Object,Object>> list = new ArrayList<>();
 
         List<Object> resList = new ArrayList<>();

@@ -227,6 +227,8 @@ public class ClubController {
         float les_amt=les_total_amt*les_pct;
         float sold_amt=sold_total_amt*sold_pct;
 
+        resMap.put("les_total_cnt",les_count_sum);
+        resMap.put("sold_total_cnt",sold_count_sum);
         resMap.put("les_total_amt",les_amt);
         resMap.put("sold_total_amt",sold_amt);
 

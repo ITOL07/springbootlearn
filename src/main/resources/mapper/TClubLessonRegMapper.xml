@@ -31,6 +31,7 @@
     from v_club_lesson_reg
     where club_id=#{clubId,jdbcType=VARCHAR}
     and reg_date&lt;=#{reg_date,jdbcType=DATE}
+     and reg_date like CONCAT('%',substring(#{reg_date,jdbcType=DATE},1,7),'%')
   </select>
 
   <insert id="insert" parameterType="com.atguigu.entity.TClubLessonReg" >

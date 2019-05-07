@@ -24,5 +24,6 @@ public interface CourseService {
     Course selectByPrimaryKey(String course_id);
 
     List<Map<String,String>> getClubOrCoach(String clubId,String coachId,String courseType);
-
+    
+    public Course getCourseId(String clubId,String coachId,String courseType);
 }
