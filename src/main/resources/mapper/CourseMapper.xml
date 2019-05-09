@@ -229,5 +229,12 @@
     </if>
     and  a.type=#{courseType,jdbcType=VARCHAR}
   </select>
-
+  <select id="selectCourseId" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from course
+    where club_id = #{clubId,jdbcType=VARCHAR}
+      and coach_id=#{coachId,jdbcType=VARCHAR}
+      and type = #{courseType,jdbcType=VARCHAR}
+  </select>
 </mapper>

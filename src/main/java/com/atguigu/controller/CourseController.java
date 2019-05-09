@@ -71,4 +71,14 @@ public class CourseController {
         map.put("name_list",list2);
         return map;
     }
+
+    @ResponseBody
+    @RequestMapping("/getCourseId")
+    public Course getCourseId(@RequestParam("club_id") String clubId,
+                                                   @RequestParam("coach_id") String coachId,
+                                                   @RequestParam("course_type") String courseType){
+        logger.info("传入信息中一项参数为空，参数分别为 coach_id："+coachId+",club_id :"+clubId+",course_type :"+courseType);
+        //使用标志判断传入参数哪项为空，coach_id=""则flag：0，否则club_id="",falg:1
+        return courseService.getCourseId(clubId,coachId,courseType);
+    }
 }

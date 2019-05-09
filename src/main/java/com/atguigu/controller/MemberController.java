@@ -65,11 +65,16 @@ public class MemberController {
      */
     @RequestMapping("/qryOrder")
     public List<OrderDtl> qryMemOrder(
-            @RequestParam("mem_id") String mem_id
+            @RequestParam("mem_id") String mem_id,
+            @RequestParam("trade_state") String tradeState
     ){
-        logger.info("username ===="+mem_id);
+        logger.info("返回订单信息 mem_id ===="+mem_id+"   trade_state===="+tradeState);
+        if(tradeState.equals("")){
+            return orderService.getOrderByMemId(mem_id,null);
+        } else{
+            return orderService.getOrderByMemId(mem_id,tradeState);
+        }
 
-        return orderService.getOrderByMemId(mem_id);
     }
 
     /**
@@ -89,7 +94,7 @@ public class MemberController {
 
         logger.info("username ===="+mem_id);
 
-        orderList=orderService.getOrderByMemId(mem_id);
+        orderList=orderService.getOrderByMemId(mem_id,null);
         for(OrderDtl order:orderList ){
             String sale_id=order.getSaleId();
             logger.info("sale_id====="+sale_id);

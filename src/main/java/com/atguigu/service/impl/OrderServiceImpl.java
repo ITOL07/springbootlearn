@@ -31,8 +31,8 @@ public class OrderServiceImpl implements OrderService {
         return order.selectByPrimaryKey(orderNo);
     }
 
-    public List<OrderDtl> getOrderByMemId(String memId){
-        return order.selectByMemId(memId);
+    public List<OrderDtl> getOrderByMemId(String memId,String trade_state){
+        return order.selectByMemId(memId,trade_state);
     }
     public boolean addOrder(OrderDtl record){
         boolean result = false;

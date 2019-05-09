@@ -27,6 +27,7 @@
     select * from v_coach_lesson_reg
     where coach_id=#{coachId,jdbcType=VARCHAR}
     and reg_date=#{reg_date,jdbcType=DATE}
+    and reg_date like CONCAT('%',substring(#{reg_date,jdbcType=DATE},1,7),'%')
   </select>
 
   <select id="seletNumByDate" resultMap="BaseResultMap" parameterType="com.atguigu.entity.TCoachLessonReg">
@@ -45,8 +46,10 @@
     sum(sold_count) sold_count_sum,sum(sold_count*sold_price) sold_total_amt
     from v_coach_lesson_reg
     where coach_id=#{coachId,jdbcType=VARCHAR}
-    and reg_date&lt;=#{reg_date,jdbcType=DATE}
+
+    and reg_date like CONCAT(substring(#{reg_date,jdbcType=DATE},1,7),'%')
   </select>
+  <!--and reg_date &lt;=#{reg_date,jdbcType=DATE}-->
 
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
     delete from t_coach_lesson_reg
