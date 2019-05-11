@@ -26,4 +26,6 @@ public interface CourseService {
     List<Map<String,String>> getClubOrCoach(String clubId,String coachId,String courseType);
     
     public Course getCourseId(String clubId,String coachId,String courseType);
+
+    public Map<String,String> getCoursePrice(String Id,String courseType);
 }

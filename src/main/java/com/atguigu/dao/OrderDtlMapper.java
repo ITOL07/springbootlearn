@@ -4,6 +4,7 @@ import com.atguigu.entity.OrderDtl;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OrderDtlMapper {
     int deleteByPrimaryKey(String orderNo);
@@ -19,4 +20,6 @@ public interface OrderDtlMapper {
 
     int updateByPrimaryKey(OrderDtl record);
     int updateByMemId(OrderDtl record);
+
+    List<Map<String,String>> selectWithInfoByMemId(@Param("memId") String memId, @Param("tradeState") String tradeState);
 }

@@ -212,12 +212,13 @@
 
   <select id="selectTypeByClubId" resultType="map" parameterType="java.lang.String" >
     select
-    distinct type
+      club_id,type,min(price) min_price,max(price) max_price
     from course
     where club_id = #{clubId,jdbcType=VARCHAR}
     <if test="try_flag!=null">
       and try_flag=#{try_flag,jdbcType=VARCHAR}
     </if>
+    group by club_id,type
   </select>
   <select id="getClubOrCoach" resultType="map" parameterType="java.lang.String">
     select distinct
@@ -237,4 +238,12 @@
       and coach_id=#{coachId,jdbcType=VARCHAR}
       and type = #{courseType,jdbcType=VARCHAR}
   </select>
+
+    <select id="selectCoursePrice" resultType="map" parameterType="java.lang.String" >
+    select
+    min(price) min_price,max(price) max_price
+    from course
+    where (club_id = #{Id,jdbcType=VARCHAR} or coach_id=#{Id,jdbcType=VARCHAR})
+    and type=#{courseType,jdbcType=VARCHAR}
+    </select>
 </mapper>

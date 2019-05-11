@@ -191,4 +191,13 @@
       recv_time = #{recvTime,jdbcType=TIMESTAMP}
     where order_no = #{orderNo,jdbcType=VARCHAR}
   </update>
+
+
+  <select id="selectWithInfoByMemId" resultType="map" parameterType="java.lang.String" >
+    select * from v_order_dtl
+    where mem_id = #{memId,jdbcType=VARCHAR}
+    <if test="tradeState != null">
+      and trade_state=#{tradeState,jdbcType=VARCHAR}
+    </if>
+  </select>
 </mapper>

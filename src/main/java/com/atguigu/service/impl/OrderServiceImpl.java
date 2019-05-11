@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 @Service("orderService")
 public class OrderServiceImpl implements OrderService {
@@ -74,6 +75,10 @@ public class OrderServiceImpl implements OrderService {
 
     public int updateClubReg(TClubLessonReg t){
         return tClubLessonRegMapper.updateByPrimaryKeySelective(t);
+    }
+
+    public List<Map<String,String>> getOrderDtlByMemId(String memId, String tradeState){
+        return order.selectWithInfoByMemId(memId,tradeState);
     }
 
 }

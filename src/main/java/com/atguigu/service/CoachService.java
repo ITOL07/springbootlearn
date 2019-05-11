@@ -41,4 +41,6 @@ public interface CoachService {
 
     public List<Map<String,String>> getCourseTypeByClubId(String club_id,String try_flag);
 
+    public Map<String,String> getCoachInfoByView(String coachId);
+
 }

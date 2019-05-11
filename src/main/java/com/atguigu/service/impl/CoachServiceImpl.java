@@ -115,4 +115,9 @@ public class CoachServiceImpl implements CoachService {
     public List<Map<String,String>> getCourseTypeByClubId(String club_id,String try_flag){
         return courseMapper.selectTypeByClubId(club_id,try_flag);
     }
+
+    @Override
+    public Map<String,String> getCoachInfoByView(String coachId) {
+        return coach.getCoachInfoByView(coachId);
+    }
 }

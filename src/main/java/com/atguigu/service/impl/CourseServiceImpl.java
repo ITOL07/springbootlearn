@@ -79,4 +79,8 @@ public class CourseServiceImpl implements CourseService {
     public Course getCourseId(String clubId,String coachId,String courseType){
         return course.selectCourseId(clubId,coachId,courseType);
     }
+    @Override
+    public Map<String,String> getCoursePrice(String Id,String courseType){
+        return course.selectCoursePrice(Id,courseType);
+    }
 }

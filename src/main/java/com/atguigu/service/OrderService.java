@@ -6,6 +6,7 @@ import com.atguigu.entity.TClubLessonReg;
 import com.atguigu.entity.TCoachLessonReg;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OrderService {
     public OrderDtl getOrderById(String orderNo);
@@ -23,5 +24,7 @@ public interface OrderService {
     public int insertClubReg(TClubLessonReg t);
 
     public int updateClubReg(TClubLessonReg t);
+
+    public List<Map<String,String>> getOrderDtlByMemId(String memId, String tradeState);
 
 }

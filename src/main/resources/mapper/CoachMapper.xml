@@ -230,4 +230,7 @@
   <select id="getCoachInfo" resultMap="BaseResultMap" parameterType="java.lang.String">
     select * from coach where coach_Id = #{coachId,jdbcType=VARCHAR}
   </select>
+  <select id="getCoachInfoByView" resultType="map" parameterType="java.lang.String">
+    select * from v_coach where coach_Id = #{coachId,jdbcType=VARCHAR}
+  </select>
 </mapper>

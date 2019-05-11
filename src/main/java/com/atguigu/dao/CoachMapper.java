@@ -23,4 +23,5 @@ public interface CoachMapper {
     List<Map<Object,Object>> selectMyMemId(String coachId);
 
     Coach getCoachInfo(String coach_id);
+    Map<String,String> getCoachInfoByView(String coach_id);
 }

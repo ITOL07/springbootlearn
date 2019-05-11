@@ -121,21 +121,49 @@ public class CoachController {
      * @return 教练的课程信息（售课）
      */
     @RequestMapping("/qryCourse")
-    public List<Course> qryCourse(
+    public List<Map<String,String>> qryCourse(
             @RequestParam("coach_id") String coach_id,
             @RequestParam("try_flag") String try_flag
 
     ) {
         logger.info("coach_id===" + coach_id+"try_flag===="+try_flag);
+        List<Course> list=new ArrayList<>();
+        List<Map<String,String>> resList= new ArrayList<>();
         if(!try_flag.equals("")) {
-            List<Course> list=coachService.getCourseByCoachId(coach_id,try_flag);
+            list=coachService.getCourseByCoachId(coach_id,try_flag);
             logger.info("here");
-            return list;
+//            return list;
         }else{
-            List<Course> list=coachService.getCourseByCoachId(coach_id,null);
+            list=coachService.getCourseByCoachId(coach_id,null);
             logger.info("there");
-            return list;
+//            return list;
         }
+
+        for(Course c:list){
+
+            Map<String,String> resMap=new HashMap<>();
+            CourseInfo cInfo= new CourseInfo();
+            cInfo=coachService.getCourseInfo(c.getType());
+            String tmp=CommParams.WEB_URL+cInfo.getBz2().replaceAll("/app/test","");
+            cInfo.setBz2(tmp);
+            Map <String,String> map=courseService.getCoursePrice(coach_id,c.getType());
+            System.out.println(map);
+//            resMap.putall(c.toString());
+            resMap.put("courseName",cInfo.getCourseName());
+            resMap.put("courseType",cInfo.getCourseType());
+            resMap.put("tryFlag",cInfo.getTryFlag());
+            resMap.put("bz2",cInfo.getBz2());
+            resMap.put("brief",cInfo.getBrief());
+            resMap.put("detail", cInfo.getDetail());
+            resMap.put("approp",cInfo.getApprop());
+            resMap.put("courseTime",cInfo.getCourseTime());
+            resMap.put("suggest",cInfo.getSuggest());
+            Object ob = map.get("min_price");
+            resMap.put("min_price",ob.toString());
+            resMap.put("max_price",((Object)map.get("max_price")).toString());
+            resList.add(resMap);
+        }
+        return resList;
     }
 
     @RequestMapping("/delCourse")
@@ -465,12 +493,18 @@ public class CoachController {
     public Coach getCoachInfo(@RequestParam("coach_id") String coach_id,HttpServletResponse response){
         logger.info("coach_id :"+ coach_id);
         Coach coachInfo = coachService.getCoachInfo(coach_id);
+        String tmp= CommParams.WEB_URL+coachInfo.getIcon().replaceAll("/app/test","");
+        coachInfo.setIcon(tmp);
         return coachInfo;
     }
 
     @RequestMapping("/getCourseInfo")
     public CourseInfo getCourseInfo(@RequestParam("type") String course_type){
-        return coachService.getCourseInfo(course_type);
+        CourseInfo cInfo= new CourseInfo();
+        cInfo=coachService.getCourseInfo(course_type);
+        String tmp=CommParams.WEB_URL+cInfo.getBz2().replaceAll("/app/test","");
+        cInfo.setBz2(tmp);
+        return cInfo;
     }
 
     @RequestMapping("/getCourseType")

@@ -30,4 +30,6 @@ public interface CourseMapper {
 
     Course selectCourseId(@Param("clubId") String clubId,@Param("coachId") String coachId,@Param("courseType") String courseType);
 
+    Map<String,String> selectCoursePrice(@Param("Id") String Id,@Param("courseType") String courseType);
+
 }

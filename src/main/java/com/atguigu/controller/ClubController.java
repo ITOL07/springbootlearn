@@ -6,6 +6,7 @@ import com.atguigu.entity.*;
 import com.atguigu.service.ClubService;
 import com.atguigu.service.CoachService;
 import com.atguigu.service.CourseService;
+import com.atguigu.util.CommParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,11 @@ public class ClubController {
                     Entry<String, Object> entry = (Entry<String, Object>) iterator.next();
                     Object key = entry.getKey();
                     Object value = entry.getValue();
+                    if(key.equals("icon")){
+                        String tmp=CommParams.WEB_URL+entry.getValue().toString().replaceAll("/app/test","");
+                        entry.setValue(tmp);
+                    }
+
 //                    logger.info(key + ":" + value);
                 }
             }
@@ -79,6 +85,8 @@ public class ClubController {
 
         logger.info("club_id ====" + club_id);
         c = clubService.getClubById(club_id);
+        String tmp=CommParams.WEB_URL+c.getIcon().replaceAll("/app/test","");
+        c.setIcon(tmp);
 
         return c;
     }
@@ -138,14 +146,20 @@ public class ClubController {
         return list;
     }
 
-    @RequestMapping("/qryCoach")
+    @RequestMapping("/qryCoach_bak")
     public List<Coach> qryCoachCourse(
             @RequestParam("club_id") String club_id
     ) {
+        List<Coach> resList=new ArrayList<>();
         List<Coach> list = coachService.getCoachByClubId(club_id);
         logger.info("club_id ====" + club_id);
+        for(Coach c:list){
+            String tmp= CommParams.WEB_URL+c.getIcon().replaceAll("/app/test","");
+            c.setIcon(tmp);
+            resList.add(c);
+        }
 
-        return list;
+        return resList;
     }
 
     @RequestMapping("/qryLesson")
@@ -239,20 +253,81 @@ public class ClubController {
     }
 
     @RequestMapping("/getCourseInfo")
-    public CourseInfo getCourseInfo(@RequestParam("type") String course_type){
-        return coachService.getCourseInfo(course_type);
+    public Map<String,String> getCourseInfo(@RequestParam("type") String course_type,@RequestParam("id") String id){
+        Map<String,String> resMap=new HashMap<>();
+
+        logger.info("type==="+course_type+"club_id or coach_id====" + id);
+        CourseInfo cInfo= new CourseInfo();
+        cInfo=coachService.getCourseInfo(course_type);
+        String tmp=CommParams.WEB_URL+cInfo.getBz2().replaceAll("/app/test","");
+        cInfo.setBz2(tmp);
+        Map <String,String> map=courseService.getCoursePrice(id,course_type);
+        System.out.println(map);
+
+        resMap.put("courseName",cInfo.getCourseName());
+        resMap.put("courseType",cInfo.getCourseType());
+        resMap.put("tryFlag",cInfo.getTryFlag());
+        resMap.put("bz2",cInfo.getBz2());
+        resMap.put("brief",cInfo.getBrief());
+        resMap.put("detail", cInfo.getDetail());
+        resMap.put("approp",cInfo.getApprop());
+        resMap.put("courseTime",cInfo.getCourseTime());
+        resMap.put("suggest",cInfo.getSuggest());
+        Object ob = map.get("min_price");
+        resMap.put("min_price",ob.toString());
+        resMap.put("max_price",((Object)map.get("max_price")).toString());
+        return resMap;
     }
 
     @RequestMapping("/getCourseType")
-    public List<CourseInfo> getCourseType(@RequestParam("club_id") String club_id,@RequestParam("bz1") String bz1){
+    public List<Map<String,String>> getCourseType(@RequestParam("club_id") String club_id,@RequestParam("bz1") String bz1){
         List<Map<String,String>> list = new ArrayList<>();
-        List<CourseInfo> res_list = new ArrayList<>();
+        List<Map<String,String>> res_list = new ArrayList<>();
         list = coachService.getCourseTypeByClubId(club_id,bz1);
         for(int i =0;i<list.size();i++){
+           Map<String,String> map= new HashMap<>();
             CourseInfo c = new CourseInfo();
             c=coachService.getCourseInfo(list.get(i).get("type"));
-            res_list.add(c);
+            String tmp=CommParams.WEB_URL+c.getBz2().replaceAll("/app/test","");
+            c.setBz2(tmp);
+            map.put("courseType",c.getCourseType());
+            map.put("courseName",c.getCourseName());
+            map.put("brief",c.getBrief());
+            map.put("bz2",c.getBz2());
+            Object ob =list.get(i).get("min_price");
+            System.out.println(ob.toString());
+            map.put("min_price",ob.toString());
+
+            res_list.add(map);
         }
         return res_list;
+    }
+
+    @RequestMapping("/qryCoach")
+    public List<Map<String,String>> qryCoachCourse_new(
+            @RequestParam("club_id") String club_id
+    ) {
+        List<Map<String,String>> resList=new ArrayList<>();
+        List<Coach> list = coachService.getCoachByClubId(club_id);
+        logger.info("club_id ====" + club_id);
+        for(Coach c:list){
+            String coachId=c.getCoachId();
+            Map<String,String> map=coachService.getCoachInfoByView(coachId);
+            String tmp= CommParams.WEB_URL+c.getIcon().replaceAll("/app/test","");
+//            c.setIcon(tmp);
+            map.put("icon",tmp);
+            map.put("total_count",((Object)map.get("total_count")).toString());
+            map.put("weight",((Object)map.get("weight")).toString());
+            map.put("min_price",((Object)map.get("min_price")).toString());
+            map.put("height",((Object)map.get("height")).toString());
+            map.put("score",((Object)map.get("score")).toString());
+            map.put("age",((Object)map.get("age")).toString());
+//            map.put("birthday",((Object)map.get("birthday")).toString());
+            map.remove("birthday");
+            System.out.println(map);
+            resList.add(map);
+        }
+
+        return resList;
     }
 }

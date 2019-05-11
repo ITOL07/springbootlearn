@@ -9,6 +9,7 @@ import com.atguigu.service.CoachCourseService;
 import com.atguigu.service.CourseService;
 import com.atguigu.service.MemberService;
 import com.atguigu.service.OrderService;
+import com.atguigu.util.CommParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,7 +64,7 @@ public class MemberController {
      * @param mem_id 会员id，与user表中的id相同
      * @return 返回会员购买过的订单信息，此方法返回基本信息，包含sale_id，可根据sale_id查看订单详细信息（即课程信息）
      */
-    @RequestMapping("/qryOrder")
+    @RequestMapping("/qryOrder_bak")
     public List<OrderDtl> qryMemOrder(
             @RequestParam("mem_id") String mem_id,
             @RequestParam("trade_state") String tradeState
@@ -228,5 +229,42 @@ public class MemberController {
         return memberService.updateMemberLes(m);
     }
 
+    @RequestMapping("/qryOrder")
+    public List<Map<String,String>> qryMemOrder_new(
+            @RequestParam("mem_id") String mem_id,
+            @RequestParam("trade_state") String tradeState
+    ){
+        logger.info("返回订单信息 mem_id ===="+mem_id+"   trade_state===="+tradeState);
+        List<Map<String,String>> list=new ArrayList<>();
+        if(tradeState.equals("")){
+            list= orderService.getOrderDtlByMemId(mem_id,null);
+        } else{
+            list= orderService.getOrderDtlByMemId(mem_id,tradeState);
+        }
+
+        for(Map<String,String> map:list){
+            System.out.println(map);
+            Object ob = null;
+            if(map.containsKey("amount")){
+                ob= map.get("amount");
+                map.put("amount",ob.toString());
+            }
+            if(map.containsKey("amount")){
+                ob=map.get("recv_time");
+                map.put("recv_time",ob.toString());
+            }
+            if(map.containsKey("count")){
+                ob=map.get("count");
+                map.put("count",ob.toString());
+            }
+            if(map.containsKey("bz2")){
+                String tmp= CommParams.WEB_URL+map.get("bz2").replaceAll("/app/test","");
+                map.put("bz2",tmp);
+            }
+
+        }
+        return list;
+
+    }
 
 }
