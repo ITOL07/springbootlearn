@@ -1,10 +1,7 @@
 package com.atguigu.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.atguigu.entity.Course;
-import com.atguigu.entity.Member;
-import com.atguigu.entity.MemberLesson;
-import com.atguigu.entity.OrderDtl;
+import com.atguigu.entity.*;
 import com.atguigu.service.CoachCourseService;
 import com.atguigu.service.CourseService;
 import com.atguigu.service.MemberService;
@@ -122,15 +119,24 @@ public class MemberController {
         logger.info("mem_id ===="+mem_id+"status===="+status);
 
         List<Map<Object,Object>> list= new ArrayList<Map<Object,Object>>();
-//        List<Map<Object,Object>> list_res= new ArrayList<Map<Object,Object>>();
-        list=memberService.getMemberLessByIdS(mem_id,status);
+
+        list= memberService.getMemberLessByView(mem_id,"",status);
 
         for(Map<Object,Object> map:list){
-            String sale_id=map.get("mem_id").toString();
-            logger.info("start_time====="+map.get("end_time_1"));
+            System.out.println(map);
+            Object ob = null;
+
+            if(map.containsKey("count")){
+                ob=map.get("count");
+                map.put("count",ob.toString());
+            }
+            if(map.containsKey("bz2")){
+                String tmp= CommParams.WEB_URL+map.get("bz2").toString().replaceAll("/app/test","");
+                map.put("bz2",tmp);
+            }
+
         }
-//        return memberService.getMemberLessByIdS(mem_id,status);
-        return memberService.getMemberLessByView(mem_id,"",status);
+        return list;
     }
 
     /**
@@ -249,7 +255,7 @@ public class MemberController {
                 ob= map.get("amount");
                 map.put("amount",ob.toString());
             }
-            if(map.containsKey("amount")){
+            if(map.containsKey("recv_time")){
                 ob=map.get("recv_time");
                 map.put("recv_time",ob.toString());
             }
@@ -264,6 +270,24 @@ public class MemberController {
 
         }
         return list;
+
+    }
+
+
+    @RequestMapping("/qryPayInfo")
+    public OrderPayInfo qryPayInfo(
+            @RequestParam("order_no") String order_no
+    ){
+        logger.info("返回订单支付信息 order_no ===="+order_no);
+        OrderPayInfo tmp=orderService.getOrderPayInfo(order_no);
+        if(tmp==null){
+            logger.info("无订单支付信息，请确认订单号是否正确");
+            logger.info("返回订单支付信息"+tmp.toString());
+            return null;
+        }
+        else{
+            return tmp;
+        }
 
     }
 

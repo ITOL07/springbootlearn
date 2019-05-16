@@ -1,9 +1,6 @@
 package com.atguigu.service;
 
-import com.atguigu.entity.Order;
-import com.atguigu.entity.OrderDtl;
-import com.atguigu.entity.TClubLessonReg;
-import com.atguigu.entity.TCoachLessonReg;
+import com.atguigu.entity.*;
 
 import java.util.List;
 import java.util.Map;
@@ -26,5 +23,11 @@ public interface OrderService {
     public int updateClubReg(TClubLessonReg t);
 
     public List<Map<String,String>> getOrderDtlByMemId(String memId, String tradeState);
+
+    public OrderPayInfo getOrderPayInfo(String order_no);
+
+    public int insertOrderPayInfo(OrderPayInfo o);
+
+    public int updateOrderPayInfo(OrderPayInfo o);
 
 }

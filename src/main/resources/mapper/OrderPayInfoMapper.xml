@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.dao.OrderPayInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.atguigu.entity.OrderPayInfo" >
+    <id column="order_no" property="orderNo" jdbcType="VARCHAR" />
+    <result column="app_id" property="appId" jdbcType="VARCHAR" />
+    <result column="noncestr" property="noncestr" jdbcType="VARCHAR" />
+    <result column="package1" property="package1" jdbcType="VARCHAR" />
+    <result column="sign" property="sign" jdbcType="VARCHAR" />
+    <result column="timestamp" property="timestamp" jdbcType="VARCHAR" />
+    <result column="result_code" property="resultCode" jdbcType="VARCHAR" />
+    <result column="return_code" property="returnCode" jdbcType="VARCHAR" />
+    <result column="up_time" property="upTime" jdbcType="TIMESTAMP" />
+    <result column="bz1" property="bz1" jdbcType="VARCHAR" />
+    <result column="bz2" property="bz2" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    order_no, app_id, noncestr, package1, sign, timestamp, result_code, return_code, up_time, 
+    bz1, bz2, status
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_pay_info
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from order_pay_info
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.atguigu.entity.OrderPayInfo" >
+    insert into order_pay_info (order_no, app_id, noncestr, 
+      package1, sign, timestamp, 
+      result_code, return_code, up_time, 
+      bz1, bz2, status)
+    values (#{orderNo,jdbcType=VARCHAR}, #{appId,jdbcType=VARCHAR}, #{noncestr,jdbcType=VARCHAR}, 
+      #{package1,jdbcType=VARCHAR}, #{sign,jdbcType=VARCHAR}, #{timestamp,jdbcType=VARCHAR}, 
+      #{resultCode,jdbcType=VARCHAR}, #{returnCode,jdbcType=VARCHAR}, #{upTime,jdbcType=TIMESTAMP}, 
+      #{bz1,jdbcType=VARCHAR}, #{bz2,jdbcType=VARCHAR}, #{status,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.atguigu.entity.OrderPayInfo" >
+    insert into order_pay_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderNo != null" >
+        order_no,
+      </if>
+      <if test="appId != null" >
+        app_id,
+      </if>
+      <if test="noncestr != null" >
+        noncestr,
+      </if>
+      <if test="package1 != null" >
+        package1,
+      </if>
+      <if test="sign != null" >
+        sign,
+      </if>
+      <if test="timestamp != null" >
+        timestamp,
+      </if>
+      <if test="resultCode != null" >
+        result_code,
+      </if>
+      <if test="returnCode != null" >
+        return_code,
+      </if>
+      <if test="upTime != null" >
+        up_time,
+      </if>
+      <if test="bz1 != null" >
+        bz1,
+      </if>
+      <if test="bz2 != null" >
+        bz2,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderNo != null" >
+        #{orderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="appId != null" >
+        #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="noncestr != null" >
+        #{noncestr,jdbcType=VARCHAR},
+      </if>
+      <if test="package1 != null" >
+        #{package1,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="timestamp != null" >
+        #{timestamp,jdbcType=VARCHAR},
+      </if>
+      <if test="resultCode != null" >
+        #{resultCode,jdbcType=VARCHAR},
+      </if>
+      <if test="returnCode != null" >
+        #{returnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="upTime != null" >
+        #{upTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bz1 != null" >
+        #{bz1,jdbcType=VARCHAR},
+      </if>
+      <if test="bz2 != null" >
+        #{bz2,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.OrderPayInfo" >
+    update order_pay_info
+    <set >
+      <if test="appId != null" >
+        app_id = #{appId,jdbcType=VARCHAR},
+      </if>
+      <if test="noncestr != null" >
+        noncestr = #{noncestr,jdbcType=VARCHAR},
+      </if>
+      <if test="package1 != null" >
+        package1 = #{package1,jdbcType=VARCHAR},
+      </if>
+      <if test="sign != null" >
+        sign = #{sign,jdbcType=VARCHAR},
+      </if>
+      <if test="timestamp != null" >
+        timestamp = #{timestamp,jdbcType=VARCHAR},
+      </if>
+      <if test="resultCode != null" >
+        result_code = #{resultCode,jdbcType=VARCHAR},
+      </if>
+      <if test="returnCode != null" >
+        return_code = #{returnCode,jdbcType=VARCHAR},
+      </if>
+      <if test="upTime != null" >
+        up_time = #{upTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="bz1 != null" >
+        bz1 = #{bz1,jdbcType=VARCHAR},
+      </if>
+      <if test="bz2 != null" >
+        bz2 = #{bz2,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+    </set>
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.OrderPayInfo" >
+    update order_pay_info
+    set app_id = #{appId,jdbcType=VARCHAR},
+      noncestr = #{noncestr,jdbcType=VARCHAR},
+      package1 = #{package1,jdbcType=VARCHAR},
+      sign = #{sign,jdbcType=VARCHAR},
+      timestamp = #{timestamp,jdbcType=VARCHAR},
+      result_code = #{resultCode,jdbcType=VARCHAR},
+      return_code = #{returnCode,jdbcType=VARCHAR},
+      up_time = #{upTime,jdbcType=TIMESTAMP},
+      bz1 = #{bz1,jdbcType=VARCHAR},
+      bz2 = #{bz2,jdbcType=VARCHAR},
+      status = #{status,jdbcType=INTEGER}
+    where order_no = #{orderNo,jdbcType=VARCHAR}
+  </update>
+</mapper>

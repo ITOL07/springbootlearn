@@ -346,6 +346,9 @@
     <if test="status !=''">
       and status = #{status,jdbcType=TINYINT}
     </if>
+    <if test="status ==''">
+      and status is null
+    </if>
     <if test="coachId !=''">
       and coach_id = #{coachId,jdbcType=VARCHAR}
     </if>

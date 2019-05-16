@@ -92,6 +92,20 @@ public class wxpayController {
 
         boolean bool = this.orderService.addOrder(order);
 
+        //插入order_payinfo表，以支持重新付款
+
+        OrderPayInfo orderPayInfo = new OrderPayInfo();
+        orderPayInfo.setOrderNo(order_no)
+                .setAppId(resultMap.get("appid").toString())
+                .setPackage1(resultMap.get("package").toString())
+                .setNoncestr(resultMap.get("noncestr").toString())
+                .setTimestamp(resultMap.get("timestamp").toString())
+                .setSign(resultMap.get("sign").toString())
+                .setResultCode(resultMap.get("result_code").toString())
+                .setReturnCode(resultMap.get("return_code").toString());
+
+        orderService.insertOrderPayInfo(orderPayInfo);
+
         Map<String, Object> payMap = new HashMap<String, Object>();
         payMap=UnifiedOrder.queryWxResult(order_no);
         System.out.println(payMap);
@@ -105,6 +119,7 @@ public class wxpayController {
     ){
         Map<String, Object> payMap = new HashMap<String, Object>();
         OrderDtl order = new OrderDtl();
+        OrderPayInfo orderPayInfo = new OrderPayInfo();
         Date d = new Date();
 
 
@@ -132,8 +147,14 @@ public class wxpayController {
         order.setTradeStateDesc(trade_state_desc);
         order.setRecvTime(d);
 
+        orderPayInfo.setOrderNo(order_no)
+                .setStatus(Integer.parseInt(trade_state));
+
         boolean bool = this.orderService.updateOrder(order);
         System.out.println("更新order数据库状态："+bool);
+
+        int i = this.orderService.updateOrderPayInfo(orderPayInfo);
+        System.out.println("更新order数据库状态："+i);
 
         //更新用户状态
         if(trade_state.equals("0")){
