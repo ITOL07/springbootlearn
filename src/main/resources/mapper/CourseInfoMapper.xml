@@ -13,10 +13,12 @@
     <result column="approp" property="approp" jdbcType="VARCHAR" />
     <result column="course_time" property="courseTime" jdbcType="VARCHAR" />
     <result column="suggest" property="suggest" jdbcType="VARCHAR" />
+    <result column="info_pic" property="info_pic" jdbcType="VARCHAR" />
+    <result column="min_count" property="min_count" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     course_type, course_name, try_flag, bz2, club_type, coach_type, brief, detail, approp, 
-    course_time, suggest
+    course_time, suggest,info_pic,min_count
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -32,11 +34,11 @@
     insert into course_info (course_type, course_name, try_flag, 
       bz2, club_type, coach_type, 
       brief, detail, approp, 
-      course_time, suggest)
+      course_time, suggest,info_pic,min_count)
     values (#{courseType,jdbcType=VARCHAR}, #{courseName,jdbcType=VARCHAR}, #{tryFlag,jdbcType=VARCHAR}, 
       #{bz2,jdbcType=VARCHAR}, #{clubType,jdbcType=VARCHAR}, #{coachType,jdbcType=VARCHAR}, 
       #{brief,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{approp,jdbcType=VARCHAR}, 
-      #{courseTime,jdbcType=VARCHAR}, #{suggest,jdbcType=VARCHAR})
+      #{courseTime,jdbcType=VARCHAR}, #{suggest,jdbcType=VARCHAR},#{info_pic,jdbcType=VARCHAR},#{min_count,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.atguigu.entity.CourseInfo" >
     insert into course_info
@@ -74,6 +76,12 @@
       <if test="suggest != null" >
         suggest,
       </if>
+      <if test="info_pic != null" >
+        info_pic,
+      </if>
+      <if test="min_count != null" >
+        min_count,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="courseType != null" >
@@ -108,6 +116,12 @@
       </if>
       <if test="suggest != null" >
         #{suggest,jdbcType=VARCHAR},
+      </if>
+      <if test="info_pic != null" >
+        #{info_pic,jdbcType=VARCHAR},
+      </if>
+      <if test="min_count != null" >
+        #{min_count,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -144,6 +158,12 @@
       <if test="suggest != null" >
         suggest = #{suggest,jdbcType=VARCHAR},
       </if>
+      <if test="info_pic != null" >
+        info_pic = #{info_pic,jdbcType=VARCHAR},
+      </if>
+      <if test="min_count != null" >
+        min_count = #{min_count,jdbcType=VARCHAR},
+      </if>
     </set>
     where course_type = #{courseType,jdbcType=VARCHAR}
   </update>
@@ -158,7 +178,9 @@
       detail = #{detail,jdbcType=VARCHAR},
       approp = #{approp,jdbcType=VARCHAR},
       course_time = #{courseTime,jdbcType=VARCHAR},
-      suggest = #{suggest,jdbcType=VARCHAR}
+      suggest = #{suggest,jdbcType=VARCHAR},
+      info_pic = #{info_pic,jdbcType=VARCHAR},
+      min_count = #{min_count,jdbcType=VARCHAR}
     where course_type = #{courseType,jdbcType=VARCHAR}
   </update>
 </mapper>

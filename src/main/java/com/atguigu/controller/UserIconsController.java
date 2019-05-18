@@ -63,11 +63,11 @@ public class UserIconsController {
         logger.info("=======================");
         for(Map<String, Integer> map1 :coachPapersNum ){
             logger.info(map1.get("type")+"");
-            if(map1.get("type") == 1){
+            if(map1.get("type") == CommParams.JL_CERT){
                 map.put("credentials",map1.get("num"));
-            }else if(map1.get("type") == 2){
+            }else if(map1.get("type") == CommParams.JL_AL){
                 map.put("cases",map1.get("num"));
-            }else if(map1.get("type") == 3){
+            }else if(map1.get("type") == CommParams.JL_XC){
                 map.put("albums",map1.get("num"));
             }
         }

@@ -24,4 +24,16 @@ public class CommParams {
     // 统一支付地址
     public static final String WX_LOGIN_URL="https://api.weixin.qq.com/sns/jscode2session";
 
+    //图片类型
+    public static final Integer HY_ICON=11;
+    public static final Integer JL_ICON=21;
+    public static final Integer JL_PIC=22;
+    public static final Integer JL_CERT=23;
+    public static final Integer JL_AL=24;
+    public static final Integer JL_XC=25;
+    public static final Integer CD_ICON=31;
+    public static final Integer CD_PIC=32;
+    public static final Integer HD_ICON=41;
+    public static final Integer KC_ICON=51;
+    public static final Integer KC_PIC=52;
 }

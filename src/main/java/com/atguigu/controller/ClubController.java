@@ -261,6 +261,9 @@ public class ClubController {
         cInfo=coachService.getCourseInfo(course_type);
         String tmp=CommParams.WEB_URL+cInfo.getBz2().replaceAll("/app/test","");
         cInfo.setBz2(tmp);
+        tmp=CommParams.WEB_URL+cInfo.getInfo_pic().replaceAll("/app/test","");
+        cInfo.setInfo_pic(tmp);
+
         Map <String,String> map=courseService.getCoursePrice(id,course_type);
         System.out.println(map);
 
@@ -268,11 +271,13 @@ public class ClubController {
         resMap.put("courseType",cInfo.getCourseType());
         resMap.put("tryFlag",cInfo.getTryFlag());
         resMap.put("bz2",cInfo.getBz2());
+        resMap.put("info_pic",cInfo.getInfo_pic());
         resMap.put("brief",cInfo.getBrief());
         resMap.put("detail", cInfo.getDetail());
         resMap.put("approp",cInfo.getApprop());
         resMap.put("courseTime",cInfo.getCourseTime());
         resMap.put("suggest",cInfo.getSuggest());
+        resMap.put("min_count",cInfo.getMin_count()+"");
         Object ob = map.get("min_price");
         resMap.put("min_price",ob.toString());
         resMap.put("max_price",((Object)map.get("max_price")).toString());
