@@ -4,4 +4,6 @@
 /build/
 /.classpath
 /.project
+/Users/itol/Desktop/springbootlearn-1/src/main/resources/application.yml
+/Users/itol/Desktop/springbootlearn-1/src/main/resources/application.properties
 *.iml
