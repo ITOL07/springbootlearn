@@ -1,7 +1,9 @@
 package com.atguigu.service.impl;
 
+import com.atguigu.dao.CourseInfoMapper;
 import com.atguigu.dao.CourseMapper;
 import com.atguigu.entity.Course;
+import com.atguigu.entity.CourseInfo;
 import com.atguigu.service.CourseService;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +16,8 @@ public class CourseServiceImpl implements CourseService {
 
     @Resource
     private CourseMapper course;
+    @Resource
+    private CourseInfoMapper courseInfoMapper;
 
 
     public Course getCourseById(String course_id) {
@@ -82,5 +86,29 @@ public class CourseServiceImpl implements CourseService {
     @Override
     public Map<String,String> getCoursePrice(String Id,String courseType){
         return course.selectCoursePrice(Id,courseType);
+    }
+
+    public boolean insertCourseInfo(CourseInfo record) {
+        boolean result = false;
+        try {
+            courseInfoMapper.insertSelective(record);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+    public boolean updateCourseInfo(CourseInfo record) {
+        boolean result = false;
+        try {
+            courseInfoMapper.updateByPrimaryKeySelective(record);
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 }

@@ -1,6 +1,7 @@
 package com.atguigu.service;
 
 import com.atguigu.entity.Course;
+import com.atguigu.entity.CourseInfo;
 
 import java.util.List;
 import java.util.Map;
@@ -28,4 +29,8 @@ public interface CourseService {
     public Course getCourseId(String clubId,String coachId,String courseType);
 
     public Map<String,String> getCoursePrice(String Id,String courseType);
+
+    public boolean insertCourseInfo(CourseInfo record);
+
+    public boolean updateCourseInfo(CourseInfo record);
 }

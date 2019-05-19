@@ -30,6 +30,8 @@ public class CourseInfo {
 
     private String info_pic;
 
+    private String sale_pic;
+
     private int min_count;
 
 }
