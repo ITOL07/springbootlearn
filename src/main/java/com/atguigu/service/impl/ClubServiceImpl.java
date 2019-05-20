@@ -85,4 +85,8 @@ public class ClubServiceImpl implements ClubService {
         Map<Object,Object> map=tClubLessonRegMapper.selectSumByClubId(coachId,reg_date);
         return map;
     }
+
+    public List<Club> getClubInfoByCoachId(String coachId){
+        return clubMapper.selectByCoachId(coachId);
+    }
 }

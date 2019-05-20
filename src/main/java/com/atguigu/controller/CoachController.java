@@ -1,9 +1,11 @@
 package com.atguigu.controller;
 
 
+import com.atguigu.entity.Club;
 import com.atguigu.entity.Coach;
 import com.atguigu.entity.Course;
 import com.atguigu.entity.CourseInfo;
+import com.atguigu.service.ClubService;
 import com.atguigu.service.CoachService;
 import com.atguigu.service.CourseService;
 import com.atguigu.service.MemberService;
@@ -40,6 +42,8 @@ public class CoachController {
     private MemberService memberService;
     @Resource
     private CourseService courseService;
+    @Resource
+    private ClubService clubService;
 
     @RequestMapping("/getCoach")
     public List<Map<String, Object>> getDbType() {
@@ -518,5 +522,24 @@ public class CoachController {
             res_list.add(c);
         }
         return res_list;
+    }
+
+    /**
+     * 根据coach_id获取教练个人信息
+     * @param coach_id 教练ID
+     */
+    @RequestMapping("/getMyClub")
+    @ResponseBody
+    public List<Club> getMyClub(@RequestParam("coach_id") String coach_id){
+        logger.info("获取教练coach_id 所属门店:"+ coach_id);
+        List<Club> list = clubService.getClubInfoByCoachId(coach_id);
+        List<Club> resList=new ArrayList<>();
+        for (Club club : list) {
+            String tmp=CommParams.WEB_URL+club.getIcon().toString().replaceAll("/app/test","");
+            club.setIcon(tmp);
+            logger.info(club.toString());
+            resList.add(club);
+        }
+        return resList;
     }
 }

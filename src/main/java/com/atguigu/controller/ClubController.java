@@ -57,8 +57,6 @@ public class ClubController {
                         String tmp=CommParams.WEB_URL+entry.getValue().toString().replaceAll("/app/test","");
                         entry.setValue(tmp);
                     }
-
-//                    logger.info(key + ":" + value);
                 }
             }
         }
@@ -324,6 +322,7 @@ public class ClubController {
             Map<String,String> map=coachService.getCoachInfoByView(coachId);
             String tmp= CommParams.WEB_URL+c.getIcon().replaceAll("/app/test","");
 //            c.setIcon(tmp);
+
             map.put("icon",tmp);
             map.put("total_count",((Object)map.get("total_count")).toString());
             map.put("weight",((Object)map.get("weight")).toString());
