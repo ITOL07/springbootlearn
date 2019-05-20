@@ -43,6 +43,9 @@
     <if test="try_flag!=null">
       and try_flag=#{try_flag,jdbcType=VARCHAR}
     </if>
+    <if test="clubId!=null">
+      and club_id=#{clubId,jdbcType=VARCHAR}
+    </if>
 
   </select>
 

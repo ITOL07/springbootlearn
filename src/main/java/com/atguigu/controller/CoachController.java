@@ -127,21 +127,18 @@ public class CoachController {
     @RequestMapping("/qryCourse")
     public List<Map<String,String>> qryCourse(
             @RequestParam("coach_id") String coach_id,
-            @RequestParam("try_flag") String try_flag
+            @RequestParam("try_flag") String try_flag,
+            @RequestParam("club_id") String club_id
 
     ) {
-        logger.info("coach_id===" + coach_id+"try_flag===="+try_flag);
+        logger.info("coach_id===" + coach_id+"try_flag===="+try_flag+"club_id===="+club_id);
         List<Course> list=new ArrayList<>();
         List<Map<String,String>> resList= new ArrayList<>();
-        if(!try_flag.equals("")) {
-            list=coachService.getCourseByCoachId(coach_id,try_flag);
-            logger.info("here");
-//            return list;
-        }else{
-            list=coachService.getCourseByCoachId(coach_id,null);
-            logger.info("there");
-//            return list;
-        }
+        String tryFlag=try_flag.equals("")?null:try_flag;
+        String clubId=club_id.equals("")?null:club_id;
+
+        list=coachService.getCourseByCoachId(coach_id,tryFlag,clubId);
+        logger.info("here");
 
         for(Course c:list){
 
@@ -167,6 +164,7 @@ public class CoachController {
             resMap.put("max_price",((Object)map.get("max_price")).toString());
             resList.add(resMap);
         }
+
         return resList;
     }
 
