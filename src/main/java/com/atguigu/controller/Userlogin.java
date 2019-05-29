@@ -300,10 +300,7 @@ public class Userlogin {
             result.put("errocode","您现在可以通过手机号登录，初始密码为000000");
 
         }
-        // 封装返回小程序
-//        Map<String, String> result = new HashMap<>();
-////        result.put("session_key", session_key);
-//        result.put("open_id", open_id);
+
         return result;
     }
 

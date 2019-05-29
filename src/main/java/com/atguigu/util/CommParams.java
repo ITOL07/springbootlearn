@@ -36,4 +36,5 @@ public class CommParams {
     public static final Integer HD_ICON=41;
     public static final Integer KC_ICON=51;
     public static final Integer KC_PIC=52;
+
 }
