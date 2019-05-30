@@ -289,15 +289,15 @@ public class Userlogin {
             User user_tmp = new User();
             user_tmp.setLastLogin(new Date());
 
-            user_tmp.setUserName("");
+            user_tmp.setUserName(null);
             //初始密码6个0
-            user_tmp.setPassword("670b14728ad9902aecba32e22fa4f6bd");
+            user_tmp.setPassword(null);
             user_tmp.setOpenId(open_id);
-            logger.info("user======"+user_tmp.toString()+"+++++++open_id====="+open_id);
+            logger.info("解绑定手机号：user======"+user_tmp.toString()+"+++++++open_id====="+open_id);
             // 添加到数据库
 
             Boolean flag = userService.updateUserByOpenid(user_tmp);
-            result.put("errocode","您现在可以通过手机号登录，初始密码为000000");
+            result.put("errocode","解绑手机号成功，期待您再次绑定哦！！");
 
         }
 
