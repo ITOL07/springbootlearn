@@ -7,8 +7,11 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import com.atguigu.entity.OrderPayInfo;
+import com.atguigu.service.OrderService;
 import com.atguigu.wechatpay.common.CustConsts;
 //import org.apache.commons.lang3.StringUtils;
 //import org.apache.log4j.Logger;
@@ -34,6 +37,10 @@ public class UnifiedOrder {
 	 * request
 	 * @return
 	 */
+
+	@Resource
+	OrderService orderService;
+
 	public static Map<String, Object> weixinPrePay(String sn,
 			BigDecimal totalAmount, String description,String openid) {
 		// Setting setting = SettingUtils.get();
@@ -121,22 +128,16 @@ public class UnifiedOrder {
 				System.out.println("生产环境！！！");
 				sign2 = PayCommonUtil.createSign("UTF-8", parameterMap2);
 			}
-//			sign2 = PayCommonUtil.createSign("UTF-8", parameterMap2);
+
 			// 返回map打包
 			resMap.put("appid", appId);
-//			resMap.put("partnerid", mchId);
-//			resMap.put("prepayid", prepayid);
-//			resMap.put("package", "Sign=WXPAY");
             resMap.put("package", "prepay_id="+prepayid);
 			resMap.put("noncestr", noncestr2);
 			resMap.put("timestamp", timestamp2);
 			resMap.put("sign", sign2);
 			resMap.put("return_code", map.get("return_code"));
 			resMap.put("result_code", map.get("result_code"));
-//			System.out.println("resMap = appid[" + appId + "]partnerid[" + mchId
-//					+ "]prepayid[" + prepayid + "]package[Sign=WXPay]noncestr["
-//					+ noncestr2 + "]timestamp[" + timestamp2 + "]sign[" + sign2
-//					+ "]");
+
             System.out.println("resMap = appid[" + appId + "]partnerid[" + mchId
 					+ "]prepayid[" + prepayid + "]package[+prepayid="+prepayid+"]noncestr["
 					+ noncestr2 + "]timestamp[" + timestamp2 + "]sign[" + sign2
@@ -212,35 +213,35 @@ public class UnifiedOrder {
 
 	public static void main(String[] args) {
 
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		String money = "0.01";//TODO 测试马路边捡到一分钱
-		
-		BigDecimal bigtotalAmount = new BigDecimal(money);
-		String description = "十万元重要疾病保险";
-		//HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-
-		resultMap = UnifiedOrder.weixinPrePay("2017051200000008", bigtotalAmount, description,CustConsts.OPENID);
-		if("SUCCESS".equals(resultMap.get("return_code")) && "SUCCESS".equals(resultMap.get("result_code"))) {
-			
-			
-			resultMap.put("RESPCODE", "2");
-		} else {
-			resultMap.put("RESPCODE", "3");
-			resultMap.put("RESPINFO", "统一下单失败");
-		}
-
-        Map<String, Object> payMap = new HashMap<String, Object>();
-        payMap=UnifiedOrder.queryWxResult("2017051200000008");
-		
-//		String sn = UUID.randomUUID().toString().replaceAll("-", "");
-//		BigDecimal totalAmount = new BigDecimal(2.33);
-//		String description = "支付啦";
-//		HttpServletRequest request = null;
-//		Map<String, Object> resMap = weixinPrePay(sn, totalAmount, description,
-//				request);
-//		System.out.println("prepay_id is : " + resMap.get("prepayid"));
-		
-//		String sn = "cfed58a57b0a64b0e9e86f2bd4679dd6";
-//		queryWxResult(sn);
+//		Map<String, Object> resultMap = new HashMap<String, Object>();
+//		String money = "0.01";//TODO 测试马路边捡到一分钱
+//
+//		BigDecimal bigtotalAmount = new BigDecimal(money);
+//		String description = "十万元重要疾病保险";
+//		//HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+//
+//		resultMap = UnifiedOrder.weixinPrePay("2017051200000008", bigtotalAmount, description,CustConsts.OPENID);
+//		if("SUCCESS".equals(resultMap.get("return_code")) && "SUCCESS".equals(resultMap.get("result_code"))) {
+//
+//
+//			resultMap.put("RESPCODE", "2");
+//		} else {
+//			resultMap.put("RESPCODE", "3");
+//			resultMap.put("RESPINFO", "统一下单失败");
+//		}
+//
+//        Map<String, Object> payMap = new HashMap<String, Object>();
+//        payMap=UnifiedOrder.queryWxResult("2017051200000008");
+//
+////		String sn = UUID.randomUUID().toString().replaceAll("-", "");
+////		BigDecimal totalAmount = new BigDecimal(2.33);
+////		String description = "支付啦";
+////		HttpServletRequest request = null;
+////		Map<String, Object> resMap = weixinPrePay(sn, totalAmount, description,
+////				request);
+////		System.out.println("prepay_id is : " + resMap.get("prepayid"));
+//
+////		String sn = "cfed58a57b0a64b0e9e86f2bd4679dd6";
+////		queryWxResult(sn);
 	}
 }

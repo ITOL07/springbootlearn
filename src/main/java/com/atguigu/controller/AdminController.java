@@ -2,7 +2,10 @@ package com.atguigu.controller;
 
 
 import com.alibaba.fastjson.JSONObject;
-import com.atguigu.entity.*;
+import com.atguigu.entity.Club;
+import com.atguigu.entity.Coach;
+import com.atguigu.entity.Course;
+import com.atguigu.entity.CourseInfo;
 import com.atguigu.service.ClubService;
 import com.atguigu.service.CoachService;
 import com.atguigu.service.CourseService;
@@ -26,10 +29,10 @@ import java.util.*;
 import java.util.Map.Entry;
 
 @RestController
-@RequestMapping("/club")
-public class ClubController {
+@RequestMapping("/admin")
+public class AdminController {
 
-    private Logger logger = LoggerFactory.getLogger(ClubController.class);
+    private Logger logger = LoggerFactory.getLogger(AdminController.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -44,29 +47,6 @@ public class ClubController {
 //    @RequestMapping("/qry")
     public List<Map<String, Object>> getDbType() {
         String sql = "select * from club";
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
-        for (Map<String, Object> map : list) {
-            Set<Entry<String, Object>> entries = map.entrySet();
-            if (entries != null) {
-                Iterator<Entry<String, Object>> iterator = entries.iterator();
-                while (iterator.hasNext()) {
-                    Entry<String, Object> entry = (Entry<String, Object>) iterator.next();
-                    Object key = entry.getKey();
-                    Object value = entry.getValue();
-                    if(key.equals("icon")){
-                        String tmp=CommParams.WEB_URL+entry.getValue().toString().replaceAll("/app/test","");
-                        entry.setValue(tmp);
-                    }
-                }
-            }
-        }
-        return list;
-    }
-
-    @RequestMapping("/getClubByCoachId")
-//    @RequestMapping("/qry")
-    public List<Map<String, Object>> getClubByCoachId(@RequestParam("coach_id") String coach_id) {
-        String sql = "select distinct a.* from club a,member_lesson b where a.club_id=b.club_id and b.coach_id='"+coach_id+"'";
         List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
         for (Map<String, Object> map : list) {
             Set<Entry<String, Object>> entries = map.entrySet();
@@ -347,7 +327,6 @@ public class ClubController {
             Map<String,String> map=coachService.getCoachInfoByView(coachId);
             String tmp= CommParams.WEB_URL+c.getIcon().replaceAll("/app/test","");
 //            c.setIcon(tmp);
-
             map.put("icon",tmp);
             map.put("total_count",((Object)map.get("total_count")).toString());
             map.put("weight",((Object)map.get("weight")).toString());
@@ -363,4 +342,61 @@ public class ClubController {
 
         return resList;
     }
+
+
+    @RequestMapping("/courseInfo/add")
+    public boolean addCourseInfo(
+            @RequestParam("course_name") String course_name,
+            @RequestParam("try_flag") String try_flag,
+            @RequestParam("bz2") String bz2,
+            @RequestParam("brief") String brief,
+            @RequestParam("detail") String detail,
+            @RequestParam("approp") String approp,
+            @RequestParam("suggest") String suggest,
+            @RequestParam("info_pic") String info_pic,
+            @RequestParam("min_count") Integer min_count,
+            @RequestParam("sale_pic") String sale_pic
+    ) {
+        CourseInfo c = new CourseInfo();
+        c.setCourseName(course_name)
+                .setTryFlag(try_flag)
+                .setBz2(bz2)
+                .setBrief(brief)
+                .setDetail(detail)
+                .setApprop(approp)
+                .setSuggest(suggest)
+                .setInfo_pic(info_pic)
+                .setMin_count(min_count)
+                .setSale_pic(sale_pic);
+        return courseService.insertCourseInfo(c);
+    }
+
+    @RequestMapping("/courseInfo/update")
+    public boolean updateCourseInfo(
+            @RequestParam("course_name") String course_name,
+            @RequestParam("try_flag") String try_flag,
+            @RequestParam("bz2") String bz2,
+            @RequestParam("brief") String brief,
+            @RequestParam("detail") String detail,
+            @RequestParam("approp") String approp,
+            @RequestParam("suggest") String suggest,
+            @RequestParam("info_pic") String info_pic,
+            @RequestParam("min_count") Integer min_count,
+            @RequestParam("sale_pic") String sale_pic
+    ) {
+        CourseInfo c = new CourseInfo();
+        c.setCourseName(course_name)
+                .setTryFlag(try_flag)
+                .setBz2(bz2)
+                .setBrief(brief)
+                .setDetail(detail)
+                .setApprop(approp)
+                .setSuggest(suggest)
+                .setInfo_pic(info_pic)
+                .setMin_count(min_count)
+                .setSale_pic(sale_pic);
+        return courseService.updateCourseInfo(c);
+    }
+
+
 }

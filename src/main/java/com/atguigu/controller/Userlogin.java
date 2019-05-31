@@ -205,6 +205,7 @@ public class Userlogin {
 //
         JSONObject jsono= new JSONObject();
         jsono.put("vericode",crp.sendMsgCode(phoneNo,optCode));
+//        jsono.put("vericode","1234");
         jsono.put("errocode","0");
 
 //        return crp.sendMsgCode(phoneNo,optCode);
@@ -261,6 +262,48 @@ public class Userlogin {
      * @return
      * 用微信登录的用户，绑定手机号
      */
+    @RequestMapping("/unBindPhone")
+    public JSONObject unBindPhone(
+            @RequestParam("phoneNo") String phoneNo,
+            @RequestParam("open_id") String open_id
+    ){
+
+        Map<String, String> param = new HashMap<>();
+        JSONObject result= new JSONObject();
+        // 根据返回的user实体类，判断用户是否注册过，不是的话，提示先注册，是的话，将用户信息存到数据库
+        logger.info("username ===="+phoneNo+"========open_id====="+open_id);
+        User user = userService.getUserByOpenId(open_id);
+
+
+        if(user == null){
+            result.put("errono","-1");  //用户不存在
+            result.put("errocode","用户不存在,请先注册");
+        }else if (user.getUserName()==null||user.getUserName().equals("")){
+            result.put("errono","-2");  //用户不存在
+            result.put("errocode","绑定手机号为空,无须解绑");
+        }else if(!phoneNo.equals(user.getUserName())){
+            result.put("errono","-3");  //用户不存在
+            result.put("errocode","请求解绑手机号与绑定手机号不一致,请确认");
+        }
+        else{
+            User user_tmp = new User();
+            user_tmp.setLastLogin(new Date());
+
+            user_tmp.setUserName(null);
+            //初始密码6个0
+            user_tmp.setPassword(null);
+            user_tmp.setOpenId(open_id);
+            logger.info("解绑定手机号：user======"+user_tmp.toString()+"+++++++open_id====="+open_id);
+            // 添加到数据库
+
+            Boolean flag = userService.updateUserByOpenid(user_tmp);
+            result.put("errocode","解绑手机号成功，期待您再次绑定哦！！");
+
+        }
+
+        return result;
+    }
+
     @RequestMapping("/bindPhone")
     public JSONObject bindPhone(
             @RequestParam("phoneNo") String phoneNo,
@@ -302,6 +345,15 @@ public class Userlogin {
 //        result.put("open_id", open_id);
         return result;
     }
+
+    @RequestMapping("/qry")
+    public User bindPhone(
+            @RequestParam("mem_id") String id
+    ){
+        logger.info("请求用户信息。。。"+id);
+        return userService.getUserById(id);
+    }
+
 
 
 }

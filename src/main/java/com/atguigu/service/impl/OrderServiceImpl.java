@@ -1,13 +1,7 @@
 package com.atguigu.service.impl;
 
-import com.atguigu.dao.OrderDtlMapper;
-import com.atguigu.dao.OrderMapper;
-import com.atguigu.dao.TClubLessonRegMapper;
-import com.atguigu.dao.TCoachLessonRegMapper;
-import com.atguigu.entity.Order;
-import com.atguigu.entity.OrderDtl;
-import com.atguigu.entity.TClubLessonReg;
-import com.atguigu.entity.TCoachLessonReg;
+import com.atguigu.dao.*;
+import com.atguigu.entity.*;
 import com.atguigu.service.OrderService;
 import org.springframework.stereotype.Service;
 
@@ -26,6 +20,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Resource
     private TClubLessonRegMapper tClubLessonRegMapper;
+
+    @Resource
+    private OrderPayInfoMapper orderPayInfoMapper;
 
 
     public OrderDtl getOrderById(String orderNo) {
@@ -81,4 +78,16 @@ public class OrderServiceImpl implements OrderService {
         return order.selectWithInfoByMemId(memId,tradeState);
     }
 
+    @Override
+    public OrderPayInfo getOrderPayInfo(String order_no) {
+        return orderPayInfoMapper.selectByPrimaryKey(order_no);
+    }
+    @Override
+    public int insertOrderPayInfo(OrderPayInfo o) {
+        return orderPayInfoMapper.insertSelective(o);
+    }
+    @Override
+    public int updateOrderPayInfo(OrderPayInfo o) {
+        return orderPayInfoMapper.updateByPrimaryKeySelective(o);
+    }
 }

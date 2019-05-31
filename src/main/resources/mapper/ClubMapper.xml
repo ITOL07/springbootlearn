@@ -226,4 +226,12 @@
       jcss = #{jcss,jdbcType=VARCHAR}
     where club_Id = #{clubId,jdbcType=VARCHAR}
   </update>
+
+  <select id="selectByCoachId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    distinct a.*
+    from club a ,course b
+    where a.club_id=b.club_id and
+    b.coach_id = #{coachId,jdbcType=VARCHAR}
+  </select>
 </mapper>

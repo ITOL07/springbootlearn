@@ -1,9 +1,11 @@
 package com.atguigu.controller;
 
 
+import com.atguigu.entity.Club;
 import com.atguigu.entity.Coach;
 import com.atguigu.entity.Course;
 import com.atguigu.entity.CourseInfo;
+import com.atguigu.service.ClubService;
 import com.atguigu.service.CoachService;
 import com.atguigu.service.CourseService;
 import com.atguigu.service.MemberService;
@@ -40,6 +42,8 @@ public class CoachController {
     private MemberService memberService;
     @Resource
     private CourseService courseService;
+    @Resource
+    private ClubService clubService;
 
     @RequestMapping("/getCoach")
     public List<Map<String, Object>> getDbType() {
@@ -123,21 +127,18 @@ public class CoachController {
     @RequestMapping("/qryCourse")
     public List<Map<String,String>> qryCourse(
             @RequestParam("coach_id") String coach_id,
-            @RequestParam("try_flag") String try_flag
+            @RequestParam("try_flag") String try_flag,
+            @RequestParam("club_id") String club_id
 
     ) {
-        logger.info("coach_id===" + coach_id+"try_flag===="+try_flag);
+        logger.info("coach_id===" + coach_id+"try_flag===="+try_flag+"club_id===="+club_id);
         List<Course> list=new ArrayList<>();
         List<Map<String,String>> resList= new ArrayList<>();
-        if(!try_flag.equals("")) {
-            list=coachService.getCourseByCoachId(coach_id,try_flag);
-            logger.info("here");
-//            return list;
-        }else{
-            list=coachService.getCourseByCoachId(coach_id,null);
-            logger.info("there");
-//            return list;
-        }
+        String tryFlag=try_flag.equals("")?null:try_flag;
+        String clubId=club_id.equals("")?null:club_id;
+
+        list=coachService.getCourseByCoachId(coach_id,tryFlag,clubId);
+        logger.info("here");
 
         for(Course c:list){
 
@@ -163,6 +164,7 @@ public class CoachController {
             resMap.put("max_price",((Object)map.get("max_price")).toString());
             resList.add(resMap);
         }
+
         return resList;
     }
 
@@ -518,5 +520,24 @@ public class CoachController {
             res_list.add(c);
         }
         return res_list;
+    }
+
+    /**
+     * 根据coach_id获取教练个人信息
+     * @param coach_id 教练ID
+     */
+    @RequestMapping("/getMyClub")
+    @ResponseBody
+    public List<Club> getMyClub(@RequestParam("coach_id") String coach_id){
+        logger.info("获取教练coach_id 所属门店:"+ coach_id);
+        List<Club> list = clubService.getClubInfoByCoachId(coach_id);
+        List<Club> resList=new ArrayList<>();
+        for (Club club : list) {
+            String tmp=CommParams.WEB_URL+club.getIcon().toString().replaceAll("/app/test","");
+            club.setIcon(tmp);
+            logger.info(club.toString());
+            resList.add(club);
+        }
+        return resList;
     }
 }

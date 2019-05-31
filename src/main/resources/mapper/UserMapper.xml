@@ -150,7 +150,10 @@
   <update id="updateByOpenId" parameterType="com.atguigu.entity.User" >
     update user
     <set >
-      <if test="userName != null" >
+      <if test="userName ==''" >
+        user_name = null,
+      </if>
+      <if test="userName != ''" >
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
       <if test="password != null" >

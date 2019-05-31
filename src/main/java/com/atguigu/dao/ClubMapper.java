@@ -26,4 +26,6 @@ public interface ClubMapper {
     List<Map<Object,Object>> selectLessByView(@Param("clubId") String clubId, @Param("startTime") String startTime,@Param("status") Integer status);
     List<Map<Object,Object>> selectByView(@Param("clubId") String clubId, @Param("status") Integer status);
     List<Map<Object,Object>> selectByView_id(@Param("clubId") String clubId,@Param("startTime") String startTime);
+
+    List<Club> selectByCoachId(@Param("coachId") String coachId);
 }

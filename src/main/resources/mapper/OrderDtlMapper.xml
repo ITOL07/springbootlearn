@@ -199,5 +199,6 @@
     <if test="tradeState != null">
       and trade_state=#{tradeState,jdbcType=VARCHAR}
     </if>
+    order by recv_time desc
   </select>
 </mapper>

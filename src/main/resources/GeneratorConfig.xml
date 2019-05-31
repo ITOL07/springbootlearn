@@ -3,38 +3,38 @@
         PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <generatorConfiguration>
-    <properties resource="application.properties"></properties>
-    <classPathEntry location="${jdbc.driverLocation}" />
-    <context id="context1" targetRuntime="MyBatis3">
-        <commentGenerator>
-            <!-- 去除自动生成的注释 -->
-            <property name="suppressAllComments" value="true" />
-        </commentGenerator>
-        <!-- 数据库连接配置 -->
-        <jdbcConnection driverClass="${spring.datasource.driver-class-name}"
-                        connectionURL="${spring.datasource.url}"
-                        userId="${spring.datasource.username}"
-                        password="${spring.datasource.password}" />
-        <!--配置生成的实体包
-            targetPackage：生成的实体包位置，默认存放在src目录下
-            targetProject：目标工程名
-         -->
-        <javaModelGenerator targetPackage="com.atguigu.entity"
-                            targetProject="src/main/java" >
-            <property name="enableSubPackages" value="false" />
-        </javaModelGenerator>
-        <!-- 实体包对应映射文件位置及名称，默认存放在src目录下 -->
-        <sqlMapGenerator targetPackage="mapper"
-                         targetProject="src/main/resources" >
-            <property name="enableSubPackages" value="false" />
-        </sqlMapGenerator>
-        <!-- Mapper 接口文件的位置-->
-        <javaClientGenerator targetPackage="com.atguigu.dao"
-                             targetProject="src/main/java" type="XMLMAPPER">
-            <property name="enableSubPackages" value="false"/>
-        </javaClientGenerator>
-        <!-- 相关表的配置 -->
-        <table tableName="course_info" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               enableUpdateByExample="false"/>
-    </context>
+    <!--<properties resource="application.properties"></properties>-->
+    <!--<classPathEntry location="${jdbc.driverLocation}" />-->
+    <!--<context id="context1" targetRuntime="MyBatis3">-->
+        <!--<commentGenerator>-->
+            <!--&lt;!&ndash; 去除自动生成的注释 &ndash;&gt;-->
+            <!--<property name="suppressAllComments" value="true" />-->
+        <!--</commentGenerator>-->
+        <!--&lt;!&ndash; 数据库连接配置 &ndash;&gt;-->
+        <!--<jdbcConnection driverClass="${spring.datasource.driver-class-name}"-->
+                        <!--connectionURL="${spring.datasource.url}"-->
+                        <!--userId="${spring.datasource.username}"-->
+                        <!--password="${spring.datasource.password}" />-->
+        <!--&lt;!&ndash;配置生成的实体包-->
+            <!--targetPackage：生成的实体包位置，默认存放在src目录下-->
+            <!--targetProject：目标工程名-->
+         <!--&ndash;&gt;-->
+        <!--<javaModelGenerator targetPackage="com.atguigu.entity"-->
+                            <!--targetProject="src/main/java" >-->
+            <!--<property name="enableSubPackages" value="false" />-->
+        <!--</javaModelGenerator>-->
+        <!--&lt;!&ndash; 实体包对应映射文件位置及名称，默认存放在src目录下 &ndash;&gt;-->
+        <!--<sqlMapGenerator targetPackage="mapper"-->
+                         <!--targetProject="src/main/resources" >-->
+            <!--<property name="enableSubPackages" value="false" />-->
+        <!--</sqlMapGenerator>-->
+        <!--&lt;!&ndash; Mapper 接口文件的位置&ndash;&gt;-->
+        <!--<javaClientGenerator targetPackage="com.atguigu.dao"-->
+                             <!--targetProject="src/main/java" type="XMLMAPPER">-->
+            <!--<property name="enableSubPackages" value="false"/>-->
+        <!--</javaClientGenerator>-->
+        <!--&lt;!&ndash; 相关表的配置 &ndash;&gt;-->
+        <!--<table tableName="order_pay_info" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+               <!--enableUpdateByExample="false"/>-->
+    <!--</context>-->
 </generatorConfiguration>

@@ -98,8 +98,8 @@ public class CoachServiceImpl implements CoachService {
      * @param try_flag
      * @return 教练维护的课程信息（售课）
      */
-    public List<Course> getCourseByCoachId(String coachId,String try_flag){
-        return courseMapper.selectByCoachId(coachId,try_flag);
+    public List<Course> getCourseByCoachId(String coachId,String try_flag,String clubId){
+        return courseMapper.selectByCoachId(coachId,try_flag,clubId);
     }
 
     @Override

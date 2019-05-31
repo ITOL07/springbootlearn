@@ -1,5 +1,10 @@
 package com.atguigu.entity;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+@Data
+@Accessors(chain=true)
 public class CourseInfo {
     private String courseType;
 
@@ -23,91 +28,10 @@ public class CourseInfo {
 
     private String suggest;
 
-    public String getCourseType() {
-        return courseType;
-    }
+    private String info_pic;
 
-    public void setCourseType(String courseType) {
-        this.courseType = courseType;
-    }
+    private String sale_pic;
 
-    public String getCourseName() {
-        return courseName;
-    }
+    private int min_count;
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
-    }
-
-    public String getTryFlag() {
-        return tryFlag;
-    }
-
-    public void setTryFlag(String tryFlag) {
-        this.tryFlag = tryFlag;
-    }
-
-    public String getBz2() {
-        return bz2;
-    }
-
-    public void setBz2(String bz2) {
-        this.bz2 = bz2;
-    }
-
-    public String getClubType() {
-        return clubType;
-    }
-
-    public void setClubType(String clubType) {
-        this.clubType = clubType;
-    }
-
-    public String getCoachType() {
-        return coachType;
-    }
-
-    public void setCoachType(String coachType) {
-        this.coachType = coachType;
-    }
-
-    public String getBrief() {
-        return brief;
-    }
-
-    public void setBrief(String brief) {
-        this.brief = brief;
-    }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
-    public String getApprop() {
-        return approp;
-    }
-
-    public void setApprop(String approp) {
-        this.approp = approp;
-    }
-
-    public String getCourseTime() {
-        return courseTime;
-    }
-
-    public void setCourseTime(String courseTime) {
-        this.courseTime = courseTime;
-    }
-
-    public String getSuggest() {
-        return suggest;
-    }
-
-    public void setSuggest(String suggest) {
-        this.suggest = suggest;
-    }
 }
