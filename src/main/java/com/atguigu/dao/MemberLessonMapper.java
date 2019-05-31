@@ -48,5 +48,7 @@ public interface MemberLessonMapper {
                                              @Param("course_id")String course_id,
                                              @Param("club_id") String club_id,
                                              @Param("coach_id")String coach_id);
+    List<String> getListTimes(@Param("mem_id") String mem_id,
+                              @Param("date")String date);
 
 }

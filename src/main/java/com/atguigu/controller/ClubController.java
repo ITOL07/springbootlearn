@@ -65,6 +65,31 @@ public class ClubController {
         return list;
     }
 
+    @RequestMapping("/getClubByCoachId")
+//    @RequestMapping("/qry")
+    public List<Map<String, Object>> getClubByCoachId(@RequestParam("coach_id") String coach_id) {
+        String sql = "select distinct a.* from club a,member_lesson b where a.club_id=b.club_id and b.coach_id='"+coach_id+"'";
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
+        for (Map<String, Object> map : list) {
+            Set<Entry<String, Object>> entries = map.entrySet();
+            if (entries != null) {
+                Iterator<Entry<String, Object>> iterator = entries.iterator();
+                while (iterator.hasNext()) {
+                    Entry<String, Object> entry = (Entry<String, Object>) iterator.next();
+                    Object key = entry.getKey();
+                    Object value = entry.getValue();
+                    if(key.equals("icon")){
+                        String tmp=CommParams.WEB_URL+entry.getValue().toString().replaceAll("/app/test","");
+                        entry.setValue(tmp);
+                    }
+
+//                    logger.info(key + ":" + value);
+                }
+            }
+        }
+        return list;
+    }
+
     @RequestMapping("/showClub")
     @ResponseBody
     public Club getUserById(HttpServletRequest request, Model model) {

@@ -185,4 +185,11 @@ public class MemberServiceImpl implements MemberService {
 
         return result;
     }
+
+    @Override
+    public List<String> getListTimes(String mem_id, String date) {
+        List<String> listTimes = mem_les.getListTimes(mem_id, date);
+
+        return listTimes;
+    }
 }

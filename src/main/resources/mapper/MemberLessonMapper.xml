@@ -367,5 +367,13 @@
     </if>
     order by start_time_1 desc
   </select>
-
+<select id="getListTimes" resultType="String" parameterType="String">
+  select date_format(end_time_1, '%H:%i')
+  from member_lesson
+  where
+  mem_id=#{mem_id,jdbcType=VARCHAR}
+  <if test="date !=''">
+    and end_time_1 like CONCAT('%',#{date,jdbcType=VARCHAR},'%')
+  </if>
+</select>
 </mapper>

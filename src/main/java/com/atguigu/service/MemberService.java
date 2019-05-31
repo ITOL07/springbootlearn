@@ -51,4 +51,5 @@ public interface MemberService {
 
     public boolean addMember(Member record);
 
+    public List<String> getListTimes(String mem_id,String date);
 }
