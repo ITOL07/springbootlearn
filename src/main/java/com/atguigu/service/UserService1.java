@@ -16,5 +16,5 @@ public interface UserService1 {
     boolean updateUser(User user);
     boolean updateUser1(User user);
     boolean updateUserByOpenid(User record);
-
+    public User getUser(User user);
 }

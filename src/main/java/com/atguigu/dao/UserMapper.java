@@ -24,4 +24,6 @@ public interface UserMapper {
     int updateByUserName(User record);
     int updateByOpenId(User record);
 
+    User selectUser(User record);
+
 }

@@ -76,5 +76,7 @@ public class UserServiceImpl implements UserService1 {
 
         return result;
     }
-
+    public User getUser(User user){
+        return userDao.selectUser(user);
+    }
 }
