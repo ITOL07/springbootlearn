@@ -6,6 +6,7 @@ import com.atguigu.entity.*;
 import com.atguigu.service.ClubService;
 import com.atguigu.service.CoachService;
 import com.atguigu.service.CourseService;
+import com.atguigu.service.MemberService;
 import com.atguigu.util.CommParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,6 +40,8 @@ public class ClubController {
     private CourseService courseService;
     @Resource
     private CoachService coachService;
+    @Resource
+    private MemberService memberService;
 
     @RequestMapping("/getClub")
 //    @RequestMapping("/qry")
@@ -362,5 +365,52 @@ public class ClubController {
         }
 
         return resList;
+    }
+
+    @RequestMapping("/qryMember")
+    public List<Object> qryMember(
+            @RequestParam("club_id") String club_id
+    ) {
+        logger.info("查询场地的会员信息：club_id ====" + club_id );
+        List<Map<Object,Object>> list = new ArrayList<>();
+
+        List<Object> resList = new ArrayList<>();
+        list=clubService.getMyMemberId(club_id);
+        Iterator it = list.iterator();
+        while(it.hasNext()) {
+            String mem_id=it.next().toString();
+            mem_id=mem_id.substring(mem_id.indexOf("=")+1).replaceAll("}","");
+            Map<Object,Object> map=new HashMap<>();
+            map.put("MemInfo",memberService.getMemberById(mem_id));
+            map.put("LessInfo",qryMyMemSum(mem_id,club_id));
+
+            resList.add(map);
+            logger.info(mem_id);
+        }
+        return resList;
+
+    }
+    /**
+     * 获取会员总课时、已完成、已预约、待预约
+     * @param mem_id
+     * @return
+     */
+    @RequestMapping("/qryMyMemSum")
+    public Map<Object,Object> qryMyMemSum(
+            @RequestParam("mem_id") String mem_id,
+            @RequestParam("club_id") String club_id
+    ){
+        logger.info("mem_id ===="+mem_id);
+        Map<Object,Object> map = new HashMap<>();
+        map=memberService.getMemCourseInfo(mem_id,"",club_id);
+        logger.info("map.get(rem)==="+map.get("rem"));
+
+        //获取已预约的课时数
+        List<Map<Object,Object>> list=new ArrayList<>();
+        list=memberService.getMemberLessByView(mem_id,"",club_id,"0");
+        logger.info("list.size()"+list.size());
+        map.put("ordered",list.size());
+        map.put("ordering",Integer.parseInt(map.get("rem").toString())-list.size());
+        return map;
     }
 }

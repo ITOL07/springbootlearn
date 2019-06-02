@@ -352,6 +352,9 @@
     <if test="coachId !=''">
       and coach_id = #{coachId,jdbcType=VARCHAR}
     </if>
+    <if test="clubId !=''">
+      and club_id = #{clubId,jdbcType=VARCHAR}
+    </if>
     order by start_time_1 desc
   </select>
   <select id="selectByViewDate" parameterType="java.lang.String" resultType="map">

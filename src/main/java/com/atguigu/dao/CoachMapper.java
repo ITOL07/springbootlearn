@@ -24,4 +24,7 @@ public interface CoachMapper {
 
     Coach getCoachInfo(String coach_id);
     Map<String,String> getCoachInfoByView(String coach_id);
+
+    //新增selectCoach方法，入参为实体类，参数可变化
+    Coach selectCoach(Coach coach);
 }

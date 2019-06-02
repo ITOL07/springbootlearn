@@ -25,7 +25,7 @@ public interface MemberLessonMapper {
     List<Map<Object, Object>> selectByClubId(@Param("clubId") String clubId, @Param("status")String status);
     List<Map<Object, Object>> selectByClubIdDate(@Param("clubId") String clubId, @Param("status")String status,@Param("reg_date") String reg_date);
 
-    List<Map<Object, Object>> selectByView(@Param("memId") String memId,@Param("coachId") String coachId,@Param("status")String status);
+    List<Map<Object, Object>> selectByView(@Param("memId") String memId,@Param("coachId") String coachId,@Param("clubId") String clubId,@Param("status")String status);
     List<Map<Object, Object>> selectByViewDate(@Param("memId") String memId,@Param("coachId") String coachId,@Param("status")String status,@Param("reg_date") String reg_date);
 
     String selectMaxId(@Param("memId") String memId, @Param("saleId") String sale_id);

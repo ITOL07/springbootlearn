@@ -43,4 +43,6 @@ public interface CoachService {
 
     public Map<String,String> getCoachInfoByView(String coachId);
 
+    public Coach getCoach(Coach coach);
+
 }

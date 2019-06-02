@@ -120,7 +120,7 @@ public class MemberController {
 
         List<Map<Object,Object>> list= new ArrayList<Map<Object,Object>>();
 
-        list= memberService.getMemberLessByView(mem_id,"",status);
+        list= memberService.getMemberLessByView(mem_id,"","",status);
 
         for(Map<Object,Object> map:list){
             System.out.println(map);

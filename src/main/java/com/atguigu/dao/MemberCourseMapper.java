@@ -1,6 +1,7 @@
 package com.atguigu.dao;
 
 import com.atguigu.entity.MemberCourse;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Map;
 
@@ -24,4 +25,6 @@ public interface MemberCourseMapper {
     boolean updateStatus(MemberCourse record);
 
     boolean updateMemberNum(MemberCourse record);
+
+    Map<Object,Object>  selectMemCourseInfo(@Param("memId")String mem_id, @Param("coachId") String coachId,@Param("clubId") String clubId);
 }

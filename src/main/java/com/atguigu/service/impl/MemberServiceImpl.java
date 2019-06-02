@@ -45,8 +45,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<Map<Object, Object>> getMemberLessByView(String memId, String coachId, String status) {
-        return mem_les.selectByView(memId,coachId,status);
+    public List<Map<Object, Object>> getMemberLessByView(String memId, String coachId, String clubId,String status) {
+        return mem_les.selectByView(memId,coachId,clubId,status);
     }
 
     @Override
@@ -191,5 +191,10 @@ public class MemberServiceImpl implements MemberService {
         List<String> listTimes = mem_les.getListTimes(mem_id, date);
 
         return listTimes;
+    }
+
+
+    public Map<Object, Object> getMemCourseInfo(String mem_id,String coachId,String clubId) {
+        return memberCourseMapper.selectMemCourseInfo(mem_id,coachId,clubId);
     }
 }

@@ -234,4 +234,11 @@
     where a.club_id=b.club_id and
     b.coach_id = #{coachId,jdbcType=VARCHAR}
   </select>
+  <select id="selectMyMemId" resultType="map">
+    select distinct mem_Id
+    from member_course
+    where course_id in
+    (select course_id from course
+    where club_id=#{clubId,jdbcType=VARCHAR})
+  </select>
 </mapper>

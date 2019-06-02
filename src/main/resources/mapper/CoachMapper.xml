@@ -32,14 +32,11 @@
     where coach_Id = #{coachId,jdbcType=VARCHAR}
   </select>
   <select id="selectMyMemId" resultType="map">
---     select * from member where mem_id in
---     (
       select distinct mem_Id
       from member_course
       where course_id in
         (select course_id from course
         where coach_id=#{coachId,jdbcType=VARCHAR})
---     )
   </select>
   <select id="selectByClubId" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
@@ -232,5 +229,13 @@
   </select>
   <select id="getCoachInfoByView" resultType="map" parameterType="java.lang.String">
     select * from v_coach where coach_Id = #{coachId,jdbcType=VARCHAR}
+  </select>
+
+  <select id="selectCoach" resultMap="BaseResultMap" parameterType="java.lang.String">
+    select * from coach
+    where 1=1
+    <if test="coachId != null">
+      coach_Id = #{coachId,jdbcType=VARCHAR}
+    </if>
   </select>
 </mapper>

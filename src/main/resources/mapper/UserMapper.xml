@@ -195,6 +195,8 @@
     <if test="type != null">
       and type= #{type,jdbcType=VARCHAR}
     </if>
-
+    <if test="id != null">
+      and id = #{id,jdbcType=VARCHAR}
+    </if>
   </select>
 </mapper>

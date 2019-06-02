@@ -26,5 +26,5 @@ public class MemberCourse {
 
     private Date buy_time;
 
-    private Date buy_count;
+    private Integer buy_count;
 }
