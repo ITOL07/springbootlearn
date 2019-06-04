@@ -168,7 +168,9 @@ public class UserApi {
             logger.info("学员+"+id+"插入学员表成功");
         }else if (prefix.startsWith("CD")){
             Club club =new Club();
-            club.setClubId(id);
+            club.setClubId(id)
+                .setIcon(map.get("icon"))
+                ;
 
             clubService.addUser(club);
             logger.info("场地+"+id+"插入场地表成功");
@@ -180,7 +182,8 @@ public class UserApi {
         System.out.println("prefix===="+prefix+"   "+prefix.startsWith("JL"));
         if(prefix.startsWith("JL")){
             Coach coach=new Coach();
-            coach.setCoachId(id);
+            coach.setCoachId(id)
+                .setIcon(map.get("icon"));
             coachService.updateCoach(coach);
             logger.info("教练+"+id+"更新教练表成功");
         }else if (prefix.startsWith("HY")){
@@ -194,7 +197,8 @@ public class UserApi {
             logger.info("学员+"+id+"更新学员表成功");
         }else if (prefix.startsWith("CD")){
             Club club =new Club();
-            club.setClubId(id);
+            club.setClubId(id)
+                .setPhoto(map.get("icon"));
 
             clubService.updateClub(club);
             logger.info("场地+"+id+"更新场地表成功");
