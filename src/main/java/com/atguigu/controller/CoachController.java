@@ -376,7 +376,7 @@ public class CoachController {
             mem_id=mem_id.substring(mem_id.indexOf("=")+1).replaceAll("}","");
             Map<Object,Object> map=new HashMap<>();
             map.put("MemInfo",memberService.getMemberById(mem_id));
-            map.put("LessInfo",qryMyMemSum(mem_id));
+            map.put("LessInfo",qryMyMemSum(mem_id,coach_id));
 //            resList.add(memberService.getMemberById(mem_id));
 //            map=qryMyMemSum(mem_id);
             resList.add(map);
@@ -396,7 +396,7 @@ public class CoachController {
 
         List<Map<Object,Object>> list = new ArrayList<>();
         list= memberService.getMemberLessByView(mem_id,coach_id,"",status);
-        Map<Object,Object> map=qryMyMemSum(mem_id);
+        Map<Object,Object> map=qryMyMemSum(mem_id,coach_id);
         list.add(map);
         return list;
     }
