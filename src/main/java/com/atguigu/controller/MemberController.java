@@ -114,13 +114,14 @@ public class MemberController {
     @RequestMapping("/qryLesson")
     public List<Map<Object,Object>> qryLesson(
             @RequestParam("mem_id") String mem_id,
+            @RequestParam("coach_id") String coach_id,
             @RequestParam("status") String status
     ){
         logger.info("mem_id ===="+mem_id+"status===="+status);
 
         List<Map<Object,Object>> list= new ArrayList<Map<Object,Object>>();
 
-        list= memberService.getMemberLessByView(mem_id,"","",status);
+        list= memberService.getMemberLessByView(mem_id,coach_id,"",status);
 
         for(Map<Object,Object> map:list){
             System.out.println(map);

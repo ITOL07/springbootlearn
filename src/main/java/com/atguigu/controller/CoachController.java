@@ -45,6 +45,11 @@ public class CoachController {
     @Resource
     private ClubService clubService;
 
+
+    /***
+     * 获取所有教练信息
+     * @return
+     */
     @RequestMapping("/getCoach")
     public List<Map<String, Object>> getDbType() {
         String sql = "select * from v_coach order by total_count desc limit 10 ";
@@ -70,6 +75,11 @@ public class CoachController {
         return list;
     }
 
+    /**
+     * 查询指定教练的信息
+     * @param coach_id
+     * @return
+     */
     @RequestMapping("/qry")
     public Coach getCoach(
             @RequestParam("coach_id") String coach_id
@@ -83,6 +93,15 @@ public class CoachController {
         return coach;
     }
 
+    /**
+     * 更新指定教练信息
+     * @param coach_id
+     * @param nickName
+     * @param sex
+     * @param birth
+     * @param height
+     * @return
+     */
     @RequestMapping("/update")
     public boolean updateCoach(
             @RequestParam("coach_id") String coach_id,
