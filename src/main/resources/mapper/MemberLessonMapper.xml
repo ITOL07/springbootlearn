@@ -20,7 +20,8 @@
     <result column="kc_id" property="kc_id" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    mem_Id, course_id, seq_no, coach_id, club_id, sale_id
+    mem_id,kc_id,sale_id,seq_no,status,DATE_FORMAT(start_time_1,'%Y-%m-%d %H:%i:%S') start_time_1,DATE_FORMAT(end_time_1,'%Y-%m-%d %H:%i:%S') end_time_1,
+    course_name,course_type,price,club_id,club_type,club_name,coach_id,coach_type,coach_name,bz2,brief,buy_count
   </sql>
   <select id="selectById" resultType="map" parameterType="java.lang.String" >
     select *
@@ -355,7 +356,8 @@
     order by start_time_1 desc
   </select>
   <select id="selectByViewDate" parameterType="java.lang.String" resultType="map">
-    select *
+    select
+    <include refid="Base_Column_List" />
     from v_member_lesson
     where
     mem_Id = #{memId,jdbcType=VARCHAR}

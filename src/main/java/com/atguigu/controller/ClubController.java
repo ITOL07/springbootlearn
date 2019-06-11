@@ -204,11 +204,18 @@ public class ClubController {
 //            map.put("")
 //        }
 //        return memberService.getMemberLessByIdS(mem_id,status);
+
+        List<Map<Object, Object>> listInfo = new ArrayList<>();
         if (status != null) {
-            return clubService.getClubLessByViewTime(club_id, startTime,status);
+            listInfo= clubService.getClubLessByViewTime(club_id, startTime,status);
         } else {
-            return clubService.getClubLessByView_id(club_id,startTime);
+            listInfo= clubService.getClubLessByView_id(club_id,startTime);
         }
+        for(Map<Object, Object> map:listInfo){
+            map.put("datex",String.valueOf(map.get("start_time_1")).split(" ")[0]);
+            map.put("timex",String.valueOf(map.get("start_time_1")).split(" ")[1]+"-"+String.valueOf(map.get("start_time_1")).split(" ")[1]);
+        }
+        return listInfo;
     }
 
     @RequestMapping("/qryLessReg")
