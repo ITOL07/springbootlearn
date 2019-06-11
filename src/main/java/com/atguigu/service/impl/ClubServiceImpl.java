@@ -89,4 +89,8 @@ public class ClubServiceImpl implements ClubService {
     public List<Club> getClubInfoByCoachId(String coachId){
         return clubMapper.selectByCoachId(coachId);
     }
+
+    public List<Map<Object,Object>> getMyMemberId(String clubId){
+        return clubMapper.selectMyMemId(clubId);
+    }
 }

@@ -28,4 +28,6 @@ public interface ClubMapper {
     List<Map<Object,Object>> selectByView_id(@Param("clubId") String clubId,@Param("startTime") String startTime);
 
     List<Club> selectByCoachId(@Param("coachId") String coachId);
+
+    List<Map<Object,Object>> selectMyMemId(String clubId);
 }

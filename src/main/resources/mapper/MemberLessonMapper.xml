@@ -353,7 +353,10 @@
     <if test="coachId !=''">
       and coach_id = #{coachId,jdbcType=VARCHAR}
     </if>
-    order by start_time_1 desc
+    <if test="clubId !=''">
+      and club_id = #{clubId,jdbcType=VARCHAR}
+    </if>
+    order by kc_id,seq_no,start_time_1 desc
   </select>
   <select id="selectByViewDate" parameterType="java.lang.String" resultType="map">
     select
@@ -370,7 +373,7 @@
     <if test="start_time_1 !=''">
       and start_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%')
     </if>
-    order by start_time_1 desc
+    order by kc_id,seq_no,start_time_1 desc
   </select>
 <select id="getListTimes" resultType="String" parameterType="String">
   select date_format(end_time_1, '%H:%i')

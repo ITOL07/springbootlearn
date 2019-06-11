@@ -120,4 +120,9 @@ public class CoachServiceImpl implements CoachService {
     public Map<String,String> getCoachInfoByView(String coachId) {
         return coach.getCoachInfoByView(coachId);
     }
+
+    @Override
+    public Coach getCoach(Coach c){
+        return coach.selectCoach(c);
+    }
 }

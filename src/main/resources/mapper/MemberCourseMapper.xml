@@ -166,4 +166,19 @@
     update member_course set used=used+1,rem=rem-1
     where kc_id=#{kcId,jdbcType=VARCHAR}
   </update>
+
+  <select id="selectMemCourseInfo" resultType="map" parameterType="java.lang.String">
+    select sum(total_lesson) total,sum(used) used,sum(rem) rem
+    from member_course
+    where mem_id= #{memId,jdbcType=VARCHAR}
+    and course_id in (select course_id from course
+    where 1=1
+    <if test="coachId != ''">
+      and coach_id=#{coachId,jdbcType=VARCHAR}
+    </if>
+    <if test="clubId != ''">
+      and club_id=#{clubId,jdbcType=VARCHAR}
+    </if>
+    )
+  </select>
 </mapper>

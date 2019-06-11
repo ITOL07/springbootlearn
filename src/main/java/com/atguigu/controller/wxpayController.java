@@ -205,7 +205,7 @@ public class wxpayController {
                 .setUsed(0)
                 .setRem(total)
                 .setBuy_time(new Date())
-                ;
+                 .setBuy_count(total);
         logger.info("open_id=["+open_id+"user_id=="+user_id+"    course_id==="+course_id);
         memberService.addMemberCourse(mc);
 

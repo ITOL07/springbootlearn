@@ -45,6 +45,11 @@ public class CoachController {
     @Resource
     private ClubService clubService;
 
+
+    /***
+     * 获取所有教练信息
+     * @return
+     */
     @RequestMapping("/getCoach")
     public List<Map<String, Object>> getDbType() {
         String sql = "select * from v_coach order by total_count desc limit 10 ";
@@ -63,13 +68,18 @@ public class CoachController {
                         String tmp=CommParams.WEB_URL+entry.getValue().toString().replaceAll("/app/test","");
                         entry.setValue(tmp);
                     }
-                    logger.info(key + ":" + value);
+//                    logger.info(key + ":" + value);
                 }
             }
         }
         return list;
     }
 
+    /**
+     * 查询指定教练的信息
+     * @param coach_id
+     * @return
+     */
     @RequestMapping("/qry")
     public Coach getCoach(
             @RequestParam("coach_id") String coach_id
@@ -83,6 +93,15 @@ public class CoachController {
         return coach;
     }
 
+    /**
+     * 更新指定教练信息
+     * @param coach_id
+     * @param nickName
+     * @param sex
+     * @param birth
+     * @param height
+     * @return
+     */
     @RequestMapping("/update")
     public boolean updateCoach(
             @RequestParam("coach_id") String coach_id,
@@ -148,7 +167,7 @@ public class CoachController {
             String tmp=CommParams.WEB_URL+cInfo.getBz2().replaceAll("/app/test","");
             cInfo.setBz2(tmp);
             Map <String,String> map=courseService.getCoursePrice(coach_id,c.getType());
-            System.out.println(map);
+//            System.out.println(map);
 //            resMap.putall(c.toString());
             resMap.put("courseName",cInfo.getCourseName());
             resMap.put("courseType",cInfo.getCourseType());
@@ -383,7 +402,7 @@ public class CoachController {
             mem_id=mem_id.substring(mem_id.indexOf("=")+1).replaceAll("}","");
             Map<Object,Object> map=new HashMap<>();
             map.put("MemInfo",memberService.getMemberById(mem_id));
-            map.put("LessInfo",qryMyMemSum(mem_id));
+            map.put("LessInfo",qryMyMemSum(mem_id,coach_id));
 //            resList.add(memberService.getMemberById(mem_id));
 //            map=qryMyMemSum(mem_id);
             resList.add(map);
@@ -402,34 +421,34 @@ public class CoachController {
         logger.info("mem_id ===="+mem_id+"coachId==="+coach_id+"status===="+status);
 
         List<Map<Object,Object>> list = new ArrayList<>();
-        list= memberService.getMemberLessByView(mem_id,coach_id,status);
-        Map<Object,Object> map=qryMyMemSum(mem_id);
+        list= memberService.getMemberLessByView(mem_id,coach_id,"",status);
+        Map<Object,Object> map=qryMyMemSum(mem_id,coach_id);
         list.add(map);
         return list;
     }
 
-    /**
-     * 获取会员总课时、已完成、已预约、待预约
-     * @param mem_id
-     * @return
-     */
-    @RequestMapping("/qryMyMemSum")
-    public Map<Object,Object> qryMyMemSum(
-            @RequestParam("mem_id") String mem_id
-    ){
-        logger.info("mem_id ===="+mem_id);
-        Map<Object,Object> map = new HashMap<>();
-        map=memberService.getMemCourseSum(mem_id);
-        logger.info("map.get(rem)==="+map.get("rem"));
-
-        //获取已预约的课时数
-        List<Map<Object,Object>> list=new ArrayList<>();
-        list=memberService.getMemberLessByView(mem_id,"","0");
-        logger.info("list.size()"+list.size());
-        map.put("ordered",list.size());
-        map.put("ordering",Integer.parseInt(map.get("rem").toString())-list.size());
-        return map;
-    }
+//    /**
+//     * 获取会员总课时、已完成、已预约、待预约
+//     * @param mem_id
+//     * @return
+//     */
+//    @RequestMapping("/qryMyMemSum")
+//    public Map<Object,Object> qryMyMemSum(
+//            @RequestParam("mem_id") String mem_id
+//    ){
+//        logger.info("mem_id ===="+mem_id);
+//        Map<Object,Object> map = new HashMap<>();
+//        map=memberService.getMemCourseSum(mem_id);
+//        logger.info("map.get(rem)==="+map.get("rem"));
+//
+//        //获取已预约的课时数
+//        List<Map<Object,Object>> list=new ArrayList<>();
+//        list=memberService.getMemberLessByView(mem_id,"","","0");
+//        logger.info("list.size()"+list.size());
+//        map.put("ordered",list.size());
+//        map.put("ordering",Integer.parseInt(map.get("rem").toString())-list.size());
+//        return map;
+//    }
 
     @ResponseBody
     @RequestMapping("/getMemberInfo")
@@ -546,5 +565,29 @@ public class CoachController {
             resList.add(club);
         }
         return resList;
+    }
+
+    /**
+     * 获取会员总课时、已完成、已预约、待预约
+     * @param mem_id
+     * @return
+     */
+    @RequestMapping("/qryMyMemSum")
+    public Map<Object,Object> qryMyMemSum(
+            @RequestParam("mem_id") String mem_id,
+            @RequestParam("coach_id") String coach_id
+    ){
+        logger.info("mem_id ===="+mem_id);
+        Map<Object,Object> map = new HashMap<>();
+        map=memberService.getMemCourseInfo(mem_id,coach_id,"");
+        logger.info("map.get(rem)==="+map.get("rem"));
+
+        //获取已预约的课时数
+        List<Map<Object,Object>> list=new ArrayList<>();
+        list=memberService.getMemberLessByView(mem_id,coach_id,"","0");
+        logger.info("list.size()"+list.size());
+        map.put("ordered",list.size());
+        map.put("ordering",Integer.parseInt(map.get("rem").toString())-list.size());
+        return map;
     }
 }

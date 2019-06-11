@@ -50,12 +50,10 @@ public class UserApi {
     //public JsonResult user_login(
     public Map<Object,Object> user_login(
         @RequestParam("code") String code,
-        @RequestParam("type") Integer type
-//        @RequestParam("userHead") String userHead,
-//        @RequestParam("userName") String userName,
-//        @RequestParam("userGender") String userGender,
-//        @RequestParam("userCity") String userCity,
-//        @RequestParam("userProvince") String userProvince
+        @RequestParam("type") Integer type,
+        @RequestParam("nickName") String nickName,
+        @RequestParam("gender") String gender,
+        @RequestParam("icon") String icon
     ) {
         // 配置请求参数
         Map<String, String> param = new HashMap<>();
@@ -99,11 +97,19 @@ public class UserApi {
         resMap.put("openid",open_id);
         // 根据返回的user实体类，判断用户是否是新用户，不是的话，更新最新登录时间，是的话，将用户信息存到数据库
        logger.info("openid is ===="+open_id+"sessio_key====="+session_key);
-        User user = userService.getUserByOpenId(open_id);
+//        User user = userService.getUserByOpenId(open_id);
+        User user = userService.getUser(new User().setOpenId(open_id));
         if(user != null){
             user.setLastLogin(new Date());
             userService.updateUser(user);
             resMap.put("id",user.getId());
+
+            Map<String, String> in_tmp = new HashMap<>();
+
+            in_tmp.put("nickName",nickName);
+            in_tmp.put("gender",gender);
+            in_tmp.put("icon",icon);
+            updateUser(user.getId(),in_tmp);
 
         }else{
             User insert_user = new User();
@@ -131,7 +137,12 @@ public class UserApi {
 //                return new JsonResult(ResultCode.FAIL);
 //            }
             resMap.put("id",id);
-            insertUser(id);
+            Map<String, String> in_tmp = new HashMap<>();
+
+            in_tmp.put("nickName",nickName);
+            in_tmp.put("gender",gender);
+            in_tmp.put("icon",icon);
+            insertUser(id,in_tmp);
         }
         // 封装返回小程序
 
@@ -139,7 +150,7 @@ public class UserApi {
 
     }
 
-    public void insertUser(String id){
+    public void insertUser(String id,Map<String,String> map){
         String prefix=id.substring(0,2);
         System.out.println("prefix===="+prefix+"   "+prefix.startsWith("JL"));
         if(prefix.startsWith("JL")){
@@ -149,19 +160,50 @@ public class UserApi {
             logger.info("教练+"+id+"插入教练表成功");
         }else if (prefix.startsWith("HY")){
             Member member=new Member();
-            member.setMemId(id);
+            member.setMemId(id)
+                    .setIcon(map.get("icon"))
+                    .setNickName(map.get("nickName"));
 
             memberService.addMember(member);
             logger.info("学员+"+id+"插入学员表成功");
         }else if (prefix.startsWith("CD")){
             Club club =new Club();
-            club.setClubId(id);
+            club.setClubId(id)
+                .setIcon(map.get("icon"))
+                ;
 
             clubService.addUser(club);
             logger.info("场地+"+id+"插入场地表成功");
         }
     }
 
+    public void updateUser(String id,Map<String,String> map){
+        String prefix=id.substring(0,2);
+        System.out.println("prefix===="+prefix+"   "+prefix.startsWith("JL"));
+        if(prefix.startsWith("JL")){
+            Coach coach=new Coach();
+            coach.setCoachId(id)
+                .setIcon(map.get("icon"));
+            coachService.updateCoach(coach);
+            logger.info("教练+"+id+"更新教练表成功");
+        }else if (prefix.startsWith("HY")){
+            Member member=new Member();
+            member.setMemId(id)
+                    .setIcon(map.get("icon"))
+                    .setNickName(map.get("nickName"))
+            .setSex(map.get("gender"));
+
+            memberService.updateMember(member);
+            logger.info("学员+"+id+"更新学员表成功");
+        }else if (prefix.startsWith("CD")){
+            Club club =new Club();
+            club.setClubId(id)
+                .setPhoto(map.get("icon"));
+
+            clubService.updateClub(club);
+            logger.info("场地+"+id+"更新场地表成功");
+        }
+    }
 }
 
 

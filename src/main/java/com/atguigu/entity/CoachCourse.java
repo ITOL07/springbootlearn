@@ -1,5 +1,10 @@
 package com.atguigu.entity;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
+@Data
+@Accessors(chain=true)
 public class CoachCourse {
     private String coachId;
 
@@ -14,60 +19,4 @@ public class CoachCourse {
     private String clubId;
 
     private Byte status;
-
-    public String getCoachId() {
-        return coachId;
-    }
-
-    public void setCoachId(String coachId) {
-        this.coachId = coachId;
-    }
-
-    public String getCourseId() {
-        return courseId;
-    }
-
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
-    }
-
-    public Byte getTotalLesson() {
-        return totalLesson;
-    }
-
-    public void setTotalLesson(Byte totalLesson) {
-        this.totalLesson = totalLesson;
-    }
-
-    public Byte getUsed() {
-        return used;
-    }
-
-    public void setUsed(Byte used) {
-        this.used = used;
-    }
-
-    public Byte getRem() {
-        return rem;
-    }
-
-    public void setRem(Byte rem) {
-        this.rem = rem;
-    }
-
-    public String getClubId() {
-        return clubId;
-    }
-
-    public void setClubId(String clubId) {
-        this.clubId = clubId;
-    }
-
-    public Byte getStatus() {
-        return status;
-    }
-
-    public void setStatus(Byte status) {
-        this.status = status;
-    }
 }

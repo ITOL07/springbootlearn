@@ -28,7 +28,7 @@
   </select>
   <select id="selectByView" parameterType="java.lang.String" resultType="map">
     select *
-    from v_coach_lesson
+    from v_member_lesson
     where club_Id = #{clubId,jdbcType=VARCHAR}
     <if test="startTime != null ">
       and start_time_1 like CONCAT('%',#{startTime,jdbcType=VARCHAR},'%')
@@ -40,7 +40,7 @@
   </select>
   <select id="selectByView_id" parameterType="java.lang.String" resultType="map">
     select *
-    from v_coach_lesson
+    from v_member_lesson
     where club_Id = #{clubId,jdbcType=VARCHAR}
     <if test="startTime != null ">
       and start_time_1 like CONCAT('%',#{startTime,jdbcType=VARCHAR},'%')
@@ -58,7 +58,7 @@
   </select>
   <select id="selectLessByView" parameterType="java.lang.String" resultType="map">
     select *
-    from v_coach_lesson
+    from v_member_lesson
     where club_Id = #{clubId,jdbcType=VARCHAR}
     and start_time_1 like CONCAT('%',#{startTime,jdbcType=VARCHAR},'%')
     <if test="status != null and status !=  '' or status == 0">
@@ -233,5 +233,12 @@
     from club a ,course b
     where a.club_id=b.club_id and
     b.coach_id = #{coachId,jdbcType=VARCHAR}
+  </select>
+  <select id="selectMyMemId" resultType="map">
+    select distinct mem_Id
+    from member_course
+    where course_id in
+    (select course_id from course
+    where club_id=#{clubId,jdbcType=VARCHAR})
   </select>
 </mapper>
