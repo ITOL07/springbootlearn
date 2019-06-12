@@ -150,4 +150,33 @@ public class AttendClassController {
         return map;
 
     }
+
+    @RequestMapping(value = "/cancleClass")
+    public Map<String,String> cancleClass(@RequestParam("kc_id") String kc_id,
+                                          @RequestParam("seq_no") String seq_no){
+
+        logger.info("kc_id ====" + kc_id + "；seq_no====="+seq_no);
+        int f = Integer.parseInt(seq_no);
+        String resultInfo = "课程取消失败，请联系管理员";
+        String result = "none";
+        //开始进行对会员课时表的status维护
+        MemberLesson memberLesson = new MemberLesson();
+        memberLesson.setSeqNo(f)
+                .setKcId(kc_id)
+                .setStatus(null)
+                .setStartTime1(null)
+                .setEndTime1(null);
+        boolean flag = memberService.cancalClass(memberLesson);
+        logger.info("the falg is :"+flag);
+        Map<String,String>map = new HashMap<>();
+        if(flag){
+            result = "success";
+            resultInfo = "课程取消成功，请重新排课";
+        }
+        map.put("result",result);
+        map.put("resultInfo",resultInfo);
+        return map;
+
+    }
+
 }

@@ -382,4 +382,11 @@
     and end_time_1 like CONCAT('%',#{date,jdbcType=VARCHAR},'%')
   </if>
 </select>
+  <update id="cancleClass" parameterType="com.atguigu.entity.MemberLesson">
+    update member_lesson SET
+      start_time_1 = #{startTime1,jdbcType=TIMESTAMP},
+      end_time_1 = #{endTime1,jdbcType=TIMESTAMP},
+      status=#{status,jdbcType=TINYINT}
+    where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=INTEGER}
+  </update>
 </mapper>

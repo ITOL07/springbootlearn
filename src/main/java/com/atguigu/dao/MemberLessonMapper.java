@@ -50,5 +50,6 @@ public interface MemberLessonMapper {
                                              @Param("coach_id")String coach_id);
     List<String> getListTimes(@Param("mem_id") String mem_id,
                               @Param("date")String date);
+    boolean cancleClass(MemberLesson record);
 
 }

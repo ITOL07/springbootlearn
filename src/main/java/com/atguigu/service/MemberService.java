@@ -53,4 +53,6 @@ public interface MemberService {
 
     public List<String> getListTimes(String mem_id,String date);
     public Map<Object, Object> getMemCourseInfo(String mem_id,String coachId,String clubId);
+
+    public boolean cancalClass(MemberLesson mem);
 }

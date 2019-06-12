@@ -197,4 +197,9 @@ public class MemberServiceImpl implements MemberService {
     public Map<Object, Object> getMemCourseInfo(String mem_id,String coachId,String clubId) {
         return memberCourseMapper.selectMemCourseInfo(mem_id,coachId,clubId);
     }
+
+    @Override
+    public boolean cancalClass(MemberLesson mem) {
+        return mem_les.cancleClass(mem);
+    }
 }
