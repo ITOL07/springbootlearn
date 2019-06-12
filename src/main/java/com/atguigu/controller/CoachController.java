@@ -296,13 +296,19 @@ public class CoachController {
 //            return coachService.getCoachLessByView_id(coach_id);
 //        }
         logger.info("reg_date===="+reg_date);
-
+        List<Map<Object, Object>> listInfo = new ArrayList<>();
         if (status != null) {
-            return memberService.getMemberLessByViewDate("",coach_id, status.toString(),reg_date);
+            listInfo= memberService.getMemberLessByViewDate("",coach_id, status.toString(),reg_date);
         }
         else {
-            return memberService.getMemberLessByCoachIdDate(coach_id, "",reg_date);
+            listInfo= memberService.getMemberLessByCoachIdDate(coach_id, "",reg_date);
         }
+        for(Map<Object, Object> map:listInfo){
+            logger.info("+++++++++++"+map.get("start_time_1"));
+            map.put("datex",String.valueOf(map.get("start_time_1")).split(" ")[0]);
+            map.put("timex",String.valueOf(map.get("start_time_1")).split(" ")[1]+"-"+String.valueOf(map.get("start_time_1")).split(" ")[1]);
+        }
+        return listInfo;
     }
 
     /**
