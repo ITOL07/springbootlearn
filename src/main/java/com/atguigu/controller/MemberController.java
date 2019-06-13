@@ -299,16 +299,17 @@ public class MemberController {
      * @return 返回课时信息状态
      */
     @RequestMapping("/qryCancelLesson")
-    public List<TMemberLessonCancel> qryLesson(
+    public List<TMemberLessonCancel> qryCancelLesson(
             @RequestParam("mem_id") String mem_id,
-            @RequestParam("coach_id") String coach_id
+            @RequestParam("coach_id") String coach_id,
+            @RequestParam("club_id") String club_id
     ){
         logger.info("mem_id ===="+mem_id+"coach_id===="+coach_id);
 
         List<Map<Object,Object>> list= new ArrayList<Map<Object,Object>>();
         List<TMemberLessonCancel> resList= new ArrayList<>();
 
-        list= memberService.getMemberLessByView(mem_id,coach_id,"","");
+        list= memberService.getMemberLessByView(mem_id,coach_id,club_id,"");
 
         for(Map<Object,Object> map:list){
             System.out.println(map);
@@ -323,7 +324,10 @@ public class MemberController {
                 tkey.setSeqNo(Integer.parseInt(ob.toString()));
             }
             TMemberLessonCancel tMemberLessonCancel=memberService.getMemLesscancel(tkey);
-            resList.add(tMemberLessonCancel);
+            if(tMemberLessonCancel != null) {
+                logger.info("tMemberLessonCancel =====" + tMemberLessonCancel.toString());
+                resList.add(tMemberLessonCancel);
+            }
         }
         return resList;
     }

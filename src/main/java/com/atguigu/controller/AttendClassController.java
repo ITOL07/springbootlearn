@@ -46,7 +46,9 @@ public class AttendClassController {
     @RequestMapping("/updateCourseInfos")
     public Map<String,String> updateCourseInfos(@RequestParam("kc_id") String kc_id,
                                    @RequestParam("seq_no") String seq_no,
-                                   @RequestParam("choose_flag") String choose_flag) {
+                                   @RequestParam("choose_flag") String choose_flag)
+    {
+        //获取当前时间，与排课时间对比，早于或晚于多长时间，不可签到
         Map<String,String> map = new HashMap<>();
         String resultInfo = "";
         logger.info("kc_id ====" + kc_id + "；seq_no=====" + seq_no+": choose_flag===="+choose_flag);
@@ -179,22 +181,34 @@ public class AttendClassController {
 
 //        TMemberLessonCancel tCancel= new TMemberLessonCancel();
         TMemberLessonCancel tCancel= memberService.getMemLesscancel(tKey);
-        tCancel.setKcId(kc_id)
-                .setSeqNo(f);
-        tCancel.setMemId(map1.get("mem_id"))
-                .setCancelUser(map1.get("coach_name"))
-                .setClubName(map1.get("club_name"))
-                .setCoachName(map1.get("coach_name"))
-                .setCourseName(map1.get("course_name"))
-                .setMemIcon(map1.get("mem_icon"))
-                .setCourseType(map1.get("course_type"))
-                .setMemName(map1.get("mem_name"));
+
         //原来无记录，新增
         if(tCancel==null){
+            tCancel = new TMemberLessonCancel();
+            tCancel.setKcId(kc_id)
+                    .setSeqNo(f);
+            tCancel.setMemId(map1.get("mem_id"))
+                    .setCancelUser(map1.get("coach_name"))
+                    .setClubName(map1.get("club_name"))
+                    .setCoachName(map1.get("coach_name"))
+                    .setCourseName(map1.get("course_name"))
+                    .setMemIcon(map1.get("mem_icon"))
+                    .setCourseType(map1.get("course_type"))
+                    .setMemName(map1.get("mem_name"));
             memberService.addMemLesscancel(tCancel);
         }
         //原来有记录，更新
         else{
+            tCancel.setKcId(kc_id)
+                    .setSeqNo(f);
+            tCancel.setMemId(map1.get("mem_id"))
+                    .setCancelUser(map1.get("coach_name"))
+                    .setClubName(map1.get("club_name"))
+                    .setCoachName(map1.get("coach_name"))
+                    .setCourseName(map1.get("course_name"))
+                    .setMemIcon(map1.get("mem_icon"))
+                    .setCourseType(map1.get("course_type"))
+                    .setMemName(map1.get("mem_name"));
             tCancel.setCancelCount(tCancel.getCancelCount()+1);
             memberService.updateMemLesscancel(tCancel);
         }
