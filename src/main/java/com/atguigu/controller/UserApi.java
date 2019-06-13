@@ -181,11 +181,8 @@ public class UserApi {
         String prefix=id.substring(0,2);
         System.out.println("prefix===="+prefix+"   "+prefix.startsWith("JL"));
         if(prefix.startsWith("JL")){
-            Coach coach=new Coach();
-            coach.setCoachId(id)
-                .setIcon(map.get("icon"));
-            coachService.updateCoach(coach);
-            logger.info("教练+"+id+"更新教练表成功");
+
+            logger.info("教练+"+id+"不更新教练表");
         }else if (prefix.startsWith("HY")){
             Member member=new Member();
             member.setMemId(id)

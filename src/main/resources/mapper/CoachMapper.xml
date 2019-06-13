@@ -188,7 +188,7 @@
       <if test="sex != null" >
         sex = #{sex,jdbcType=VARCHAR},
       </if>
-      <if test="icon != ''" >
+      <if test="icon !=null" >
         icon = #{icon,jdbcType=VARCHAR},
       </if>
       <if test="score != null" >
