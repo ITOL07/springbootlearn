@@ -156,6 +156,11 @@ public class AttendClassController {
                                           @RequestParam("seq_no") String seq_no){
 
         logger.info("kc_id ====" + kc_id + "；seq_no====="+seq_no);
+
+        TMemberLessonCancelKey tKey=new TMemberLessonCancelKey();
+        tKey.setKcId(kc_id)
+                .setSeqNo(Integer.parseInt(seq_no));
+
         int f = Integer.parseInt(seq_no);
         String resultInfo = "课程取消失败，请联系管理员";
         String result = "none";
@@ -167,7 +172,33 @@ public class AttendClassController {
                 .setStartTime1(null)
                 .setEndTime1(null);
         boolean flag = memberService.cancalClass(memberLesson);
-        logger.info("the falg is :"+flag);
+        logger.info("the flag is :"+flag);
+
+        Map<String, String> map1 = memberService.selecctInfoByKcid(memberLesson);
+        logger.info(map1.toString());
+
+//        TMemberLessonCancel tCancel= new TMemberLessonCancel();
+        TMemberLessonCancel tCancel= memberService.getMemLesscancel(tKey);
+        tCancel.setKcId(kc_id)
+                .setSeqNo(f);
+        tCancel.setMemId(map1.get("mem_id"))
+                .setCancelUser(map1.get("coach_name"))
+                .setClubName(map1.get("club_name"))
+                .setCoachName(map1.get("coach_name"))
+                .setCourseName(map1.get("course_name"))
+                .setMemIcon(map1.get("mem_icon"))
+                .setCourseType(map1.get("course_type"))
+                .setMemName(map1.get("mem_name"));
+        //原来无记录，新增
+        if(tCancel==null){
+            memberService.addMemLesscancel(tCancel);
+        }
+        //原来有记录，更新
+        else{
+            tCancel.setCancelCount(tCancel.getCancelCount()+1);
+            memberService.updateMemLesscancel(tCancel);
+        }
+
         Map<String,String>map = new HashMap<>();
         if(flag){
             result = "success";

@@ -53,7 +53,7 @@
     and status=#{status,jdbcType=TINYINT}
   </select>
   <select id="selecctInfoByKcid" resultType="map" parameterType="com.atguigu.entity.MemberLesson">
-    select * from member_lesson where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=INTEGER}
+    select * from v_member_lesson where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=INTEGER}
   </select>
 
   <select id="selectByLesson" resultType="map" >

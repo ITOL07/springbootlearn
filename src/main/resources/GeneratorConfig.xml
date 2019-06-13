@@ -34,7 +34,7 @@
             <!--<property name="enableSubPackages" value="false"/>-->
         <!--</javaClientGenerator>-->
         <!--&lt;!&ndash; 相关表的配置 &ndash;&gt;-->
-        <!--<table tableName="order_pay_info" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--<table tableName="t_member_lesson_cancel" enableCountByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
                <!--enableUpdateByExample="false"/>-->
     <!--</context>-->
 </generatorConfiguration>

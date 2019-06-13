@@ -3,9 +3,8 @@ package com.atguigu.service.impl;
 import com.atguigu.dao.MemberCourseMapper;
 import com.atguigu.dao.MemberLessonMapper;
 import com.atguigu.dao.MemberMapper;
-import com.atguigu.entity.Member;
-import com.atguigu.entity.MemberCourse;
-import com.atguigu.entity.MemberLesson;
+import com.atguigu.dao.TMemberLessonCancelMapper;
+import com.atguigu.entity.*;
 import com.atguigu.service.MemberService;
 import org.springframework.stereotype.Service;
 
@@ -23,6 +22,8 @@ public class MemberServiceImpl implements MemberService {
     MemberLessonMapper mem_les;
     @Resource
     MemberCourseMapper memberCourseMapper;
+    @Resource
+    TMemberLessonCancelMapper tMemberLessonCancelMapper;
 
     public Member getMemberById(String memId){
 
@@ -201,5 +202,20 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean cancalClass(MemberLesson mem) {
         return mem_les.cancleClass(mem);
+    }
+
+    @Override
+    public int addMemLesscancel(TMemberLessonCancel record) {
+        return tMemberLessonCancelMapper.insertSelective(record);
+    }
+
+    @Override
+    public int updateMemLesscancel(TMemberLessonCancel record) {
+        return tMemberLessonCancelMapper.updateByPrimaryKeySelective(record);
+    }
+
+    @Override
+    public TMemberLessonCancel getMemLesscancel(TMemberLessonCancelKey key) {
+        return tMemberLessonCancelMapper.selectByPrimaryKey(key);
     }
 }
