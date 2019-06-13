@@ -292,4 +292,40 @@ public class MemberController {
 
     }
 
+    /**
+     *
+     * @param mem_id 会员id
+     * @param status 课程状态 预约 上课
+     * @return 返回课时信息状态
+     */
+    @RequestMapping("/qryCancelLesson")
+    public List<TMemberLessonCancel> qryLesson(
+            @RequestParam("mem_id") String mem_id,
+            @RequestParam("coach_id") String coach_id
+    ){
+        logger.info("mem_id ===="+mem_id+"coach_id===="+coach_id);
+
+        List<Map<Object,Object>> list= new ArrayList<Map<Object,Object>>();
+        List<TMemberLessonCancel> resList= new ArrayList<>();
+
+        list= memberService.getMemberLessByView(mem_id,coach_id,"","");
+
+        for(Map<Object,Object> map:list){
+            System.out.println(map);
+            Object ob = null;
+            TMemberLessonCancelKey tkey=new TMemberLessonCancelKey();
+            if(map.containsKey("kc_id")){
+                ob=map.get("kc_id");
+                tkey.setKcId(ob.toString());
+            }
+            if(map.containsKey("seq_no")){
+                ob=map.get("seq_no");
+                tkey.setSeqNo(Integer.parseInt(ob.toString()));
+            }
+            TMemberLessonCancel tMemberLessonCancel=memberService.getMemLesscancel(tkey);
+            resList.add(tMemberLessonCancel);
+        }
+        return resList;
+    }
+
 }
