@@ -10,9 +10,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.text.*;
 
 @RestController
 @RequestMapping(value = "/attendClass")
@@ -172,12 +175,25 @@ public class AttendClassController {
                 .setKcId(kc_id)
                 .setStatus(null)
                 .setStartTime1(null)
-                .setEndTime1(null);
-        boolean flag = memberService.cancalClass(memberLesson);
-        logger.info("the flag is :"+flag);
+                .setEndTime1(null)
+        ;
+
 
         Map<String, String> map1 = memberService.selecctInfoByKcid(memberLesson);
         logger.info(map1.toString());
+        Date date = new Date();
+//        java.sql.Timestamp timestamp= new Timestamp(map1.get("start_time_1"));
+        logger.info("map1.get(\"start_time_1\")"+map1.get("start_time_1"));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try{
+
+            date=formatter.parse(map1.get("start_time_1"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        boolean flag = memberService.cancalClass(memberLesson);
+        logger.info("the flag is :"+flag);
 
 //        TMemberLessonCancel tCancel= new TMemberLessonCancel();
         TMemberLessonCancel tCancel= memberService.getMemLesscancel(tKey);
@@ -192,6 +208,7 @@ public class AttendClassController {
                     .setClubName(map1.get("club_name"))
                     .setCoachName(map1.get("coach_name"))
                     .setCourseName(map1.get("course_name"))
+                    .setStartTime1(date)
                     .setMemIcon(map1.get("mem_icon"))
                     .setCourseType(map1.get("course_type"))
                     .setMemName(map1.get("mem_name"));
@@ -206,6 +223,7 @@ public class AttendClassController {
                     .setClubName(map1.get("club_name"))
                     .setCoachName(map1.get("coach_name"))
                     .setCourseName(map1.get("course_name"))
+//                    .setStartTime1(date)
                     .setMemIcon(map1.get("mem_icon"))
                     .setCourseType(map1.get("course_type"))
                     .setMemName(map1.get("mem_name"));

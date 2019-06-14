@@ -53,7 +53,28 @@
     and status=#{status,jdbcType=TINYINT}
   </select>
   <select id="selecctInfoByKcid" resultType="map" parameterType="com.atguigu.entity.MemberLesson">
-    select * from v_member_lesson where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=INTEGER}
+    select mem_id,
+kc_id,
+sale_id,
+seq_no,
+status,
+DATE_FORMAT(start_time_1,'%Y-%m-%d %H:%i:%s') as start_time_1,
+DATE_FORMAT(end_time_1,'%Y-%m-%d %H:%i:%s') as  end_time_1,
+course_name,
+course_type,
+price,
+club_id,
+club_type,
+club_name,
+coach_id,
+coach_type,
+coach_name,
+bz2,
+brief,
+buy_count,
+mem_name,
+mem_icon
+ from v_member_lesson where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=INTEGER}
   </select>
 
   <select id="selectByLesson" resultType="map" >
@@ -342,8 +363,10 @@
   <select id="selectByView" parameterType="java.lang.String" resultType="map">
     select *
     from v_member_lesson
-    where
-    mem_Id = #{memId,jdbcType=VARCHAR}
+    where 1=1
+    <if test="memId !=''">
+    and mem_Id = #{memId,jdbcType=VARCHAR}
+    </if>
     <if test="status !=''">
       and status = #{status,jdbcType=TINYINT}
     </if>
@@ -362,15 +385,17 @@
     select
     <include refid="Base_Column_List" />
     from v_member_lesson
-    where
-    mem_Id = #{memId,jdbcType=VARCHAR}
+    where 1=1
+    <if test="memId !=''">
+     and mem_Id = #{memId,jdbcType=VARCHAR}
+    </if>
     <if test="status !=''">
       and status = #{status,jdbcType=TINYINT}
     </if>
     <if test="coachId !=''">
       and coach_id = #{coachId,jdbcType=VARCHAR}
     </if>
-    <if test="start_time_1 !=''">
+    <if test="reg_date !=''">
       and start_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%')
     </if>
     order by kc_id,seq_no,start_time_1 desc
@@ -384,11 +409,50 @@
     and end_time_1 like CONCAT('%',#{date,jdbcType=VARCHAR},'%')
   </if>
 </select>
+  <!--<update id="cancleClass" parameterType="com.atguigu.entity.MemberLesson">-->
+    <!--update member_lesson SET-->
+      <!--start_time_1 = #{startTime1,jdbcType=TIMESTAMP},-->
+      <!--end_time_1 = #{endTime1,jdbcType=TIMESTAMP},-->
+      <!--status=#{status,jdbcType=TINYINT}-->
+    <!--where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=INTEGER}-->
+  <!--</update>-->
   <update id="cancleClass" parameterType="com.atguigu.entity.MemberLesson">
-    update member_lesson SET
-      start_time_1 = #{startTime1,jdbcType=TIMESTAMP},
-      end_time_1 = #{endTime1,jdbcType=TIMESTAMP},
-      status=#{status,jdbcType=TINYINT}
+    update member_lesson
+    <set>
+
+      <if test="startTime1 != null" >
+        start_time_1 = #{startTime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime1 != ''" >
+        end_time_1 = #{endTime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != ''" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+
+    </set>
     where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=INTEGER}
   </update>
+  <select id="selectByAll" parameterType="java.lang.String" resultType="map">
+    select
+    <include refid="Base_Column_List" />
+    from v_member_lesson
+    where 1=1
+    <if test="memId !=''">
+    and mem_Id = #{memId,jdbcType=VARCHAR}
+    </if>
+    <if test="status !=''">
+      and status = #{status,jdbcType=TINYINT}
+    </if>
+    <if test="coachId !=''">
+      and coach_id = #{coachId,jdbcType=VARCHAR}
+    </if>
+    <if test="clubId !=''">
+      and club_id = #{clubId,jdbcType=VARCHAR}
+    </if>
+    <if test="reg_date !=''">
+      and start_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%')
+    </if>
+    order by kc_id,seq_no,start_time_1 desc
+  </select>
 </mapper>

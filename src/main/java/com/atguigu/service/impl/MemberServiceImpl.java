@@ -218,4 +218,9 @@ public class MemberServiceImpl implements MemberService {
     public TMemberLessonCancel getMemLesscancel(TMemberLessonCancelKey key) {
         return tMemberLessonCancelMapper.selectByPrimaryKey(key);
     }
+    @Override
+    public List<Map<Object,Object>> getMemberLess(String memId,String coachId,String clubId,String status,String reg_date){
+        List<Map<Object, Object>> map=mem_les.selectByAll(memId,coachId,clubId,status,reg_date);
+        return map;
+    }
 }

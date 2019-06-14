@@ -60,4 +60,6 @@ public interface MemberService {
     public int updateMemLesscancel(TMemberLessonCancel record);
     //查询取消课程表记录
     public TMemberLessonCancel getMemLesscancel(TMemberLessonCancelKey key);
+
+    public List<Map<Object,Object>> getMemberLess(String memId,String coachId,String clubId,String status,String reg_date);
 }

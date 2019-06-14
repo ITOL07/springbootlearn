@@ -52,4 +52,8 @@ public interface MemberLessonMapper {
                               @Param("date")String date);
     boolean cancleClass(MemberLesson record);
 
+
+    List<Map<Object, Object>> selectByAll(@Param("memId") String memId,@Param("coachId") String coachId,@Param("clubId") String clubId,@Param("status")String status,@Param("reg_date") String reg_date);
+
+
 }
