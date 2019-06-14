@@ -1,8 +1,6 @@
 package com.atguigu.service;
 
-import com.atguigu.entity.Member;
-import com.atguigu.entity.MemberCourse;
-import com.atguigu.entity.MemberLesson;
+import com.atguigu.entity.*;
 
 import java.util.List;
 import java.util.Map;
@@ -53,4 +51,15 @@ public interface MemberService {
 
     public List<String> getListTimes(String mem_id,String date);
     public Map<Object, Object> getMemCourseInfo(String mem_id,String coachId,String clubId);
+
+    public boolean cancalClass(MemberLesson mem);
+
+    //新增取消课程表记录
+    public int addMemLesscancel(TMemberLessonCancel record);
+    //更新取消课程表记录
+    public int updateMemLesscancel(TMemberLessonCancel record);
+    //查询取消课程表记录
+    public TMemberLessonCancel getMemLesscancel(TMemberLessonCancelKey key);
+
+    public List<Map<Object,Object>> getMemberLess(String memId,String coachId,String clubId,String status,String reg_date);
 }
