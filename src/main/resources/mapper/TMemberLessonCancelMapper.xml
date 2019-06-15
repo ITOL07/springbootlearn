@@ -16,11 +16,13 @@
     <result column="cancel_user" property="cancelUser" jdbcType="VARCHAR" />
     <result column="cancel_time" property="cancelTime" jdbcType="TIMESTAMP" />
     <result column="cancel_reason" property="cancelReason" jdbcType="VARCHAR" />
+    <result column="club_id" property="clubId" jdbcType="VARCHAR" />
+    <result column="coach_id" property="coachId" jdbcType="VARCHAR" />
     <result column="cancel_state" property="cancelState" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
     kc_id, seq_no, mem_id, start_time_1, course_name, course_type, club_name, coach_name, 
-    mem_name, mem_icon, cancel_count, cancel_user, cancel_time, cancel_reason, cancel_state
+    mem_name, mem_icon, cancel_count, cancel_user, cancel_time, cancel_reason, cancel_state,club_id,coach_id
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="com.atguigu.entity.TMemberLessonCancelKey" >
     select 
@@ -93,6 +95,12 @@
       <if test="cancelReason != null" >
         cancel_reason,
       </if>
+      <if test="coachId != null" >
+        coach_id,
+      </if>
+      <if test="clubId != null" >
+        club_id,
+      </if>
       <if test="cancelState != null" >
         cancel_state,
       </if>
@@ -140,6 +148,12 @@
       <if test="cancelReason != null" >
         #{cancelReason,jdbcType=VARCHAR},
       </if>
+      <if test="coachId != null" >
+        #{coachId,jdbcType=VARCHAR},
+      </if>
+      <if test="clubId != null" >
+        #{clubId,jdbcType=VARCHAR},
+      </if>
       <if test="cancelState != null" >
         #{cancelState,jdbcType=INTEGER},
       </if>
@@ -184,6 +198,12 @@
       <if test="cancelReason != null" >
         cancel_reason = #{cancelReason,jdbcType=VARCHAR},
       </if>
+      <if test="coachId != null" >
+        coach_id = #{coachId,jdbcType=VARCHAR},
+      </if>
+      <if test="clubId != null" >
+        club_id = #{clubId,jdbcType=VARCHAR},
+      </if>
       <if test="cancelState != null" >
         cancel_state = #{cancelState,jdbcType=INTEGER},
       </if>
@@ -209,4 +229,26 @@
     where kc_id = #{kcId,jdbcType=VARCHAR}
       and seq_no = #{seqNo,jdbcType=TINYINT}
   </update>
+  <select id="selectByAll" parameterType="java.lang.String" resultType="map">
+    select
+    <include refid="Base_Column_List" />
+    from t_member_lesson_cancel
+    where 1=1
+    <if test="memId !=''">
+      and mem_Id = #{memId,jdbcType=VARCHAR}
+    </if>
+    <if test="status !=''">
+      and status = #{status,jdbcType=TINYINT}
+    </if>
+    <if test="coachId !=''">
+      and coach_id = #{coachId,jdbcType=VARCHAR}
+    </if>
+    <if test="clubId !=''">
+      and club_id = #{clubId,jdbcType=VARCHAR}
+    </if>
+    <if test="reg_date !=''">
+      and start_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%')
+    </if>
+    order by kc_id,seq_no,start_time_1 desc
+  </select>
 </mapper>

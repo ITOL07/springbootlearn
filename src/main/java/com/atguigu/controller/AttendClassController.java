@@ -211,6 +211,8 @@ public class AttendClassController {
                     .setStartTime1(date)
                     .setMemIcon(map1.get("mem_icon"))
                     .setCourseType(map1.get("course_type"))
+                    .setCoachId(map1.get("coach_id"))
+                    .setClubId(map1.get("club_id"))
                     .setMemName(map1.get("mem_name"));
             memberService.addMemLesscancel(tCancel);
         }
@@ -223,7 +225,9 @@ public class AttendClassController {
                     .setClubName(map1.get("club_name"))
                     .setCoachName(map1.get("coach_name"))
                     .setCourseName(map1.get("course_name"))
-//                    .setStartTime1(date)
+                    .setStartTime1(date)
+                    .setCoachId(map1.get("coach_id"))
+                    .setClubId(map1.get("club_id"))
                     .setMemIcon(map1.get("mem_icon"))
                     .setCourseType(map1.get("course_type"))
                     .setMemName(map1.get("mem_name"));
