@@ -295,7 +295,7 @@ public class MemberController {
     /**
      *
      * @param mem_id 会员id
-     * @param status 课程状态 预约 上课
+     *  课程状态 预约 上课
      * @return 返回课时信息状态
      */
     @RequestMapping("/qryCancelLesson")
@@ -305,7 +305,7 @@ public class MemberController {
             @RequestParam("club_id") String club_id,
             @RequestParam("reg_date") String reg_date
     ){
-        logger.info("mem_id ===="+mem_id+"coach_id===="+coach_id);
+        logger.info("qryCancelLesson方法：mem_id ===="+mem_id+"club_id===="+club_id+"coach_id===="+coach_id+"reg_date"+reg_date);
 
         List<Map<Object,Object>> list= new ArrayList<Map<Object,Object>>();
         List<TMemberLessonCancel> resList= new ArrayList<>();
@@ -314,7 +314,7 @@ public class MemberController {
         list= memberService.getMemberLess(mem_id,coach_id,club_id,"",reg_date);
 
         for(Map<Object,Object> map:list){
-            System.out.println(map);
+            System.out.println("返回课程信息："+map);
             Object ob = null;
             TMemberLessonCancelKey tkey=new TMemberLessonCancelKey();
             if(map.containsKey("kc_id")){
