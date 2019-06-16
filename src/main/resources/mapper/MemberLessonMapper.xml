@@ -125,6 +125,8 @@ mem_icon
         and c.mem_id=#{mem_id,jdbcType=VARCHAR}
         and b.coach_id=#{coach_id,jdbcType=VARCHAR}
         and b.type=#{course_id,jdbcType=VARCHAR}
+        and c.status is NULL
+        and c.end_time_1 is null
     </select>
 
     <select id="selectByClubId" parameterType="java.lang.String" resultType="map">
