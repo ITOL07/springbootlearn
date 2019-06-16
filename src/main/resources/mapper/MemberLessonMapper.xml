@@ -45,9 +45,12 @@
     a.tel telephone from member a,member_lesson b where a.mem_Id = b.mem_Id and b.coach_id=#{coach_id,jdbcType=VARCHAR} and b.start_time_1 is  null and b.end_time_1 is  null
   </select>
   <select id="selectLessonList" resultType="map">
-    select distinct b.course_id,b.type,b.name,a.kc_id from member_lesson a,course b
+    select distinct b.type,b.name
+--     ,a.kc_id
+    from member_lesson a,course b
     where a.mem_id=#{mem_id,jdbcType=VARCHAR}
     and a.coach_id=#{coach_id,jdbcType=VARCHAR}
+
     and b.course_id=a.sale_id
 --     and a.start_time_1 is  null
     and a.end_time_1 is  null
@@ -115,7 +118,7 @@ mem_icon
     </choose>
   </select>
     <select id="selectClubList" resultType="map" parameterType="java.lang.String">
-        SELECT distinct a.name club_name,a.club_Id club_id
+        SELECT distinct a.name club_name,a.club_Id club_id,c.kc_id
         from club a,course b,member_lesson c
         where a.club_Id=b.club_id
         and c.sale_id=b.course_id

@@ -510,13 +510,16 @@ public class CoachController {
         logger.info(list.size()+"");
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
+        List<String> list3 = new ArrayList<>();
         for(int i=0;i<list.size();i++){
             list1.add(list.get(i).get("club_name"));
             list2.add(list.get(i).get("club_id"));
+            list3.add(list.get(i).get("kc_id"));
         }
         Map<String,List<String>> map = new HashMap<>();
         map.put("club_name",list1);
         map.put("club_id",list2);
+        map.put("kc_id",list3);
         return map;
     }
     /**
