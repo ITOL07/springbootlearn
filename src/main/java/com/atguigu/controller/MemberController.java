@@ -136,6 +136,15 @@ public class MemberController {
                 map.put("bz2",tmp);
             }
 
+            logger.info("+++++++++++"+map.get("start_time_1"));
+            map.put("datex",String.valueOf(map.get("start_time_1")).split(" ")[0]);
+            String start_time=String.valueOf(map.get("start_time_1")).split(" ")[1];
+            String end_time=String.valueOf(map.get("end_time_1")).split(" ")[1];
+            logger.info("start_time==="+start_time+"   end_time===="+end_time);
+
+            map.put("timex",start_time.substring(0,start_time.lastIndexOf(":"))+"-"+end_time.substring(0,end_time.lastIndexOf(":")));
+
+
         }
         return list;
     }
@@ -356,25 +365,17 @@ public class MemberController {
 
 //        list= memberService.getMemberLessByView(mem_id,coach_id,club_id,"");
         list = memberService.getMemberLessCancel(mem_id,coach_id,club_id,"",reg_date);
-
-//        for(Map<Object,Object> map:list){
-//            System.out.println("返回课程信息："+map);
-//            Object ob = null;
-//            TMemberLessonCancelKey tkey=new TMemberLessonCancelKey();
-//            if(map.containsKey("kc_id")){
-//                ob=map.get("kc_id");
-//                tkey.setKcId(ob.toString());
-//            }
-//            if(map.containsKey("seq_no")){
-//                ob=map.get("seq_no");
-//                tkey.setSeqNo(Integer.parseInt(ob.toString()));
-//            }
-//            TMemberLessonCancel tMemberLessonCancel=memberService.getMemLesscancel(tkey);
-//            if(tMemberLessonCancel != null) {
-//                logger.info("tMemberLessonCancel =====" + tMemberLessonCancel.toString());
-//                resList.add(tMemberLessonCancel);
-//            }
+//        for(TMemberLessonCancel map:list){
+//            logger.info("+++++++++++"+map.get("start_time_1"));
+//
+//            map.put("datex",String.valueOf(map.get("start_time_1")).split(" ")[0]);
+//            String start_time=String.valueOf(map.get("start_time_1")).split(" ")[1];
+//            String end_time=String.valueOf(map.get("end_time_1")).split(" ")[1];
+//            logger.info("start_time==="+start_time+"   end_time===="+end_time);
+//
+//            map.put("timex",start_time.substring(0,start_time.lastIndexOf(":"))+"-"+end_time.substring(0,end_time.lastIndexOf(":")));
 //        }
+
         return list;
     }
 }
