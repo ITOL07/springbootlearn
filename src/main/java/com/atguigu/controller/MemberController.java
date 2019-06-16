@@ -352,7 +352,7 @@ public class MemberController {
      * @return 返回课时信息状态
      */
     @RequestMapping("/qryCancelLesson")
-    public List<TMemberLessonCancel> qryCancelLesson(
+    public List<Map<Object,Object>> qryCancelLesson(
             @RequestParam("mem_id") String mem_id,
             @RequestParam("coach_id") String coach_id,
             @RequestParam("club_id") String club_id,
@@ -360,21 +360,21 @@ public class MemberController {
     ){
         logger.info("qryCancelLesson方法：mem_id ===="+mem_id+"club_id===="+club_id+"coach_id===="+coach_id+"reg_date"+reg_date);
 
-        List<TMemberLessonCancel> list= new ArrayList<>();
-        List<TMemberLessonCancel> resList= new ArrayList<>();
+        List<Map<Object,Object>> list= new ArrayList<>();
+//        List<Map<Object,Object>> resList= new ArrayList<>();
 
 //        list= memberService.getMemberLessByView(mem_id,coach_id,club_id,"");
         list = memberService.getMemberLessCancel(mem_id,coach_id,club_id,"",reg_date);
-//        for(TMemberLessonCancel map:list){
-//            logger.info("+++++++++++"+map.get("start_time_1"));
-//
-//            map.put("datex",String.valueOf(map.get("start_time_1")).split(" ")[0]);
-//            String start_time=String.valueOf(map.get("start_time_1")).split(" ")[1];
-//            String end_time=String.valueOf(map.get("end_time_1")).split(" ")[1];
-//            logger.info("start_time==="+start_time+"   end_time===="+end_time);
-//
-//            map.put("timex",start_time.substring(0,start_time.lastIndexOf(":"))+"-"+end_time.substring(0,end_time.lastIndexOf(":")));
-//        }
+        for(Map<Object,Object> map:list){
+            logger.info("+++++++++++"+map.get("start_time_1"));
+
+            map.put("datex",String.valueOf(map.get("start_time_1")).split(" ")[0]);
+            String start_time=String.valueOf(map.get("start_time_1")).split(" ")[1];
+            String end_time=String.valueOf(map.get("end_time_1")).split(" ")[1];
+            logger.info("start_time==="+start_time+"   end_time===="+end_time);
+
+            map.put("timex",start_time.substring(0,start_time.lastIndexOf(":"))+"-"+end_time.substring(0,end_time.lastIndexOf(":")));
+        }
 
         return list;
     }

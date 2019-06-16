@@ -79,6 +79,7 @@ club_name,
 coach_id,
 coach_type,
 coach_name,
+bz1,
 bz2,
 brief,
 buy_count,
@@ -446,7 +447,7 @@ mem_icon
     update member_lesson
     <set>
 
-      <if test="startTime1 != null" >
+      <if test="startTime1 != ''" >
         start_time_1 = #{startTime1,jdbcType=TIMESTAMP},
       </if>
       <if test="endTime1 != ''" >

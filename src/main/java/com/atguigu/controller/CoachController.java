@@ -601,10 +601,11 @@ public class CoachController {
         //预约中的课程
         list=memberService.getMemberLessByView(mem_id,coach_id,"","0");
         //已签到的课程
-        list1=memberService.getMemberLessByView(mem_id,coach_id,"","0");
+        list1=memberService.getMemberLessByView(mem_id,coach_id,"","1");
         logger.info("list.size()"+list.size());
-        map.put("ordered",list.size());
+        map.put("ordered",list.size()+list1.size());
         map.put("ordering",Integer.parseInt(map.get("rem").toString())-list.size()-list1.size());
+
         return map;
     }
 }

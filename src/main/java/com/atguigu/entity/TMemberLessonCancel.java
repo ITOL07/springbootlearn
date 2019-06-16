@@ -37,4 +37,8 @@ public class TMemberLessonCancel extends TMemberLessonCancelKey {
     private String coachId;
 
     private String clubId;
+
+    private Date endTime1;
+
+    private String bz1;
 }

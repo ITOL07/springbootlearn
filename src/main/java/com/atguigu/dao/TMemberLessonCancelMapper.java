@@ -20,6 +20,6 @@ public interface TMemberLessonCancelMapper {
 
     int updateByPrimaryKey(TMemberLessonCancel record);
 
-    List<TMemberLessonCancel> selectByAll(@Param("memId") String memId, @Param("coachId") String coachId, @Param("clubId") String clubId, @Param("status")String status, @Param("reg_date") String reg_date);
+    List<Map<Object,Object>> selectByAll(@Param("memId") String memId, @Param("coachId") String coachId, @Param("clubId") String clubId, @Param("status")String status, @Param("reg_date") String reg_date);
 
 }

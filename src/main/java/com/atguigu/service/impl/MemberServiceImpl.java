@@ -225,8 +225,8 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public List<TMemberLessonCancel> getMemberLessCancel(String memId,String coachId,String clubId,String status,String reg_date){
-        List<TMemberLessonCancel> map=tMemberLessonCancelMapper.selectByAll(memId,coachId,clubId,status,reg_date);
+    public List<Map<Object,Object>> getMemberLessCancel(String memId,String coachId,String clubId,String status,String reg_date){
+        List<Map<Object,Object>> map=tMemberLessonCancelMapper.selectByAll(memId,coachId,clubId,status,reg_date);
         return map;
     }
 

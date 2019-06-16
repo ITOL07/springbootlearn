@@ -181,13 +181,15 @@ public class AttendClassController {
 
         Map<String, String> map1 = memberService.selecctInfoByKcid(memberLesson);
         logger.info(map1.toString());
-        Date date = new Date();
+        Date start_time = new Date();
+        Date end_time = new Date();
 //        java.sql.Timestamp timestamp= new Timestamp(map1.get("start_time_1"));
         logger.info("map1.get(\"start_time_1\")"+map1.get("start_time_1"));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try{
 
-            date=formatter.parse(map1.get("start_time_1"));
+            start_time=formatter.parse(map1.get("start_time_1"));
+            end_time=formatter.parse(map1.get("end_time_1"));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -208,11 +210,13 @@ public class AttendClassController {
                     .setClubName(map1.get("club_name"))
                     .setCoachName(map1.get("coach_name"))
                     .setCourseName(map1.get("course_name"))
-                    .setStartTime1(date)
+                    .setStartTime1(start_time)
+                    .setEndTime1(end_time)
                     .setMemIcon(map1.get("mem_icon"))
                     .setCourseType(map1.get("course_type"))
                     .setCoachId(map1.get("coach_id"))
                     .setClubId(map1.get("club_id"))
+                    .setBz1(map1.get("bz1"))
                     .setMemName(map1.get("mem_name"));
             memberService.addMemLesscancel(tCancel);
         }
@@ -225,11 +229,13 @@ public class AttendClassController {
                     .setClubName(map1.get("club_name"))
                     .setCoachName(map1.get("coach_name"))
                     .setCourseName(map1.get("course_name"))
-                    .setStartTime1(date)
+                    .setStartTime1(start_time)
+                    .setEndTime1(end_time)
                     .setCoachId(map1.get("coach_id"))
                     .setClubId(map1.get("club_id"))
                     .setMemIcon(map1.get("mem_icon"))
                     .setCourseType(map1.get("course_type"))
+                    .setBz1(map1.get("bz1"))
                     .setMemName(map1.get("mem_name"));
             tCancel.setCancelCount(tCancel.getCancelCount()+1);
             memberService.updateMemLesscancel(tCancel);
