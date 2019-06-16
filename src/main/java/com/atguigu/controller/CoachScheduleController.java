@@ -67,6 +67,51 @@ public class CoachScheduleController {
      * @param times
      * @return
      */
+//    @ResponseBody
+//    @RequestMapping("/listTimes")
+//    public List<String> getListTimes(@RequestParam("mem_id") String mem_id, @RequestParam("date") String date, @RequestParam("times") List<String> times){
+//        logger.info("listTimes 传入参数 mem_id："+mem_id+",date："+date.substring(0,10));
+//        logger.info("=================");
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        int i1 = Integer.parseInt(simpleDateFormat.format(new Date()).substring(11, 13));
+//        //保证传入日期格式
+//        String date1 = date.substring(0,10);
+//        List<String> listTimes = memberService.getListTimes(mem_id, date1);
+//        for(int i=0;i<times.size();i++){
+//            logger.info("被删除前，此时当前位置时间为："+times.get(i));
+//            int i2 = Integer.parseInt(times.get(i).replaceAll(" ", "").split("-")[1].split(":")[0]);
+//            if(14>i2){
+//                logger.info("小于当前时间，被删除");
+//                times.remove(i);
+//                i--;
+//                continue;
+//            }
+//            String xxx = times.get(i).replaceAll(" ","").split("-")[1];
+//            boolean flag = false;
+//            for(String listTimes1:listTimes){
+//                logger.info("已被预定时间："+listTimes1+"这个时间是否能被删除："+(listTimes1.endsWith(xxx)||listTimes1.equals(xxx)));
+//                if(listTimes1.endsWith(xxx)||listTimes1.equals(xxx)){
+//                    times.remove(i);
+//                    flag= true;
+//                    logger.info("被删除后，此时当前索引值为："+i);
+//                    break;
+//                }
+//            }
+//            if(flag){
+//                i--;
+//            }
+//        }
+//        return times;
+//    }
+//}
+
+/**
+ *
+ * @param mem_id
+ * @param date
+ * @param times
+ * @return
+ */
     @ResponseBody
     @RequestMapping("/listTimes")
     public List<String> getListTimes(@RequestParam("mem_id") String mem_id, @RequestParam("date") String date, @RequestParam("times") List<String> times){
@@ -87,12 +132,22 @@ public class CoachScheduleController {
         for(int i=0;i<times.size();i++){
             logger.info("被删除前，此时当前位置时间为："+times.get(i));
             int i2 = Integer.parseInt(times.get(i).replaceAll(" ", "").split("-")[1].split(":")[0]);
-            if(!b&&i1>i2){
-                logger.info("小于当前时间，被删除");
-                times.remove(i);
-                i--;
-                continue;
+            if(b){
+                logger.info("选择日期大于当前系统日期");
+            }else{
+                if(i1>i2){
+                    logger.info("小于当前时间，被删除");
+                    times.remove(i);
+                    i--;
+                    continue;
+                }
             }
+//            if(!b&&i1>i2){
+//                logger.info("小于当前时间，被删除");
+//                times.remove(i);
+//                i--;
+//                continue;
+//            }
             String xxx = times.get(i).replaceAll(" ","").split("-")[1];
             boolean flag = false;
             for(String listTimes1:listTimes){

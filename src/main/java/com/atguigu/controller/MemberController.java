@@ -292,10 +292,54 @@ public class MemberController {
 
     }
 
+//    /**
+//     *
+//     * @param mem_id 会员id
+//     *  课程状态 预约 上课
+//     * @return 返回课时信息状态
+//     */
+//    @RequestMapping("/qryCancelLesson")
+//    public List<TMemberLessonCancel> qryCancelLesson(
+//            @RequestParam("mem_id") String mem_id,
+//            @RequestParam("coach_id") String coach_id,
+//            @RequestParam("club_id") String club_id,
+//            @RequestParam("reg_date") String reg_date
+//    ){
+//        logger.info("qryCancelLesson方法：mem_id ===="+mem_id+"club_id===="+club_id+"coach_id===="+coach_id+"reg_date"+reg_date);
+//
+//        List<Map<Object,Object>> list= new ArrayList<Map<Object,Object>>();
+//        List<TMemberLessonCancel> resList= new ArrayList<>();
+//
+////        list= memberService.getMemberLessByView(mem_id,coach_id,club_id,"");
+//        list= memberService.getMemberLess(mem_id,coach_id,club_id,"",reg_date);
+//
+//        for(Map<Object,Object> map:list){
+//            System.out.println("返回课程信息："+map);
+//            Object ob = null;
+//            TMemberLessonCancelKey tkey=new TMemberLessonCancelKey();
+//            if(map.containsKey("kc_id")){
+//                ob=map.get("kc_id");
+//                tkey.setKcId(ob.toString());
+//            }
+//            if(map.containsKey("seq_no")){
+//                ob=map.get("seq_no");
+//                tkey.setSeqNo(Integer.parseInt(ob.toString()));
+//            }
+//            TMemberLessonCancel tMemberLessonCancel=memberService.getMemLesscancel(tkey);
+//            if(tMemberLessonCancel != null) {
+//                logger.info("tMemberLessonCancel =====" + tMemberLessonCancel.toString());
+//                resList.add(tMemberLessonCancel);
+//            }
+//        }
+//        return resList;
+//    }
+
+
+
     /**
      *
      * @param mem_id 会员id
-     * @param status 课程状态 预约 上课
+     *  课程状态 预约 上课
      * @return 返回课时信息状态
      */
     @RequestMapping("/qryCancelLesson")
@@ -305,33 +349,32 @@ public class MemberController {
             @RequestParam("club_id") String club_id,
             @RequestParam("reg_date") String reg_date
     ){
-        logger.info("mem_id ===="+mem_id+"coach_id===="+coach_id);
+        logger.info("qryCancelLesson方法：mem_id ===="+mem_id+"club_id===="+club_id+"coach_id===="+coach_id+"reg_date"+reg_date);
 
-        List<Map<Object,Object>> list= new ArrayList<Map<Object,Object>>();
+        List<TMemberLessonCancel> list= new ArrayList<>();
         List<TMemberLessonCancel> resList= new ArrayList<>();
 
 //        list= memberService.getMemberLessByView(mem_id,coach_id,club_id,"");
-        list= memberService.getMemberLess(mem_id,coach_id,club_id,"",reg_date);
+        list = memberService.getMemberLessCancel(mem_id,coach_id,club_id,"",reg_date);
 
-        for(Map<Object,Object> map:list){
-            System.out.println(map);
-            Object ob = null;
-            TMemberLessonCancelKey tkey=new TMemberLessonCancelKey();
-            if(map.containsKey("kc_id")){
-                ob=map.get("kc_id");
-                tkey.setKcId(ob.toString());
-            }
-            if(map.containsKey("seq_no")){
-                ob=map.get("seq_no");
-                tkey.setSeqNo(Integer.parseInt(ob.toString()));
-            }
-            TMemberLessonCancel tMemberLessonCancel=memberService.getMemLesscancel(tkey);
-            if(tMemberLessonCancel != null) {
-                logger.info("tMemberLessonCancel =====" + tMemberLessonCancel.toString());
-                resList.add(tMemberLessonCancel);
-            }
-        }
-        return resList;
+//        for(Map<Object,Object> map:list){
+//            System.out.println("返回课程信息："+map);
+//            Object ob = null;
+//            TMemberLessonCancelKey tkey=new TMemberLessonCancelKey();
+//            if(map.containsKey("kc_id")){
+//                ob=map.get("kc_id");
+//                tkey.setKcId(ob.toString());
+//            }
+//            if(map.containsKey("seq_no")){
+//                ob=map.get("seq_no");
+//                tkey.setSeqNo(Integer.parseInt(ob.toString()));
+//            }
+//            TMemberLessonCancel tMemberLessonCancel=memberService.getMemLesscancel(tkey);
+//            if(tMemberLessonCancel != null) {
+//                logger.info("tMemberLessonCancel =====" + tMemberLessonCancel.toString());
+//                resList.add(tMemberLessonCancel);
+//            }
+//        }
+        return list;
     }
-
 }

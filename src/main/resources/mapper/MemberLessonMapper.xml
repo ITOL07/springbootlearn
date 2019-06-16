@@ -1,58 +1,65 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.atguigu.dao.MemberLessonMapper" >
-    <resultMap id="BaseResultMap" type="com.atguigu.entity.MemberLesson" >
-        <result column="mem_id" property="memId" jdbcType="VARCHAR" />
-        <result column="sale_id" property="saleId" jdbcType="VARCHAR" />
-        <result column="seq_no" property="seqNo" jdbcType="INTEGER" />
-        <result column="club_id" property="clubId" jdbcType="INTEGER" />
-        <result column="status" property="status" jdbcType="TINYINT" />
-        <result column="start_time_1" property="startTime1" jdbcType="TIMESTAMP" />
-        <result column="end_time_1" property="endTime1" jdbcType="TIMESTAMP" />
-        <result column="start_time_2" property="startTime2" jdbcType="TIMESTAMP" />
-        <result column="end_time_2" property="endTime2" jdbcType="TIMESTAMP" />
-        <result column="coach_id" property="coachId" jdbcType="VARCHAR" />
-        <result column="real_club" property="realClub" jdbcType="INTEGER" />
-        <result column="real_coach" property="realCoach" jdbcType="VARCHAR" />
-        <result column="bz1" property="bz1" jdbcType="VARCHAR" />
-        <result column="bz2" property="bz2" jdbcType="VARCHAR" />
-        <result column="ch_time" property="chTime" jdbcType="TIMESTAMP" />
-        <result column="kc_id" property="kc_id" jdbcType="VARCHAR" />
-    </resultMap>
-    <sql id="Base_Column_List" >
+  <resultMap id="BaseResultMap" type="com.atguigu.entity.MemberLesson" >
+    <result column="mem_id" property="memId" jdbcType="VARCHAR" />
+    <result column="sale_id" property="saleId" jdbcType="VARCHAR" />
+    <result column="seq_no" property="seqNo" jdbcType="INTEGER" />
+    <result column="club_id" property="clubId" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="TINYINT" />
+    <result column="start_time_1" property="startTime1" jdbcType="TIMESTAMP" />
+    <result column="end_time_1" property="endTime1" jdbcType="TIMESTAMP" />
+    <result column="start_time_2" property="startTime2" jdbcType="TIMESTAMP" />
+    <result column="end_time_2" property="endTime2" jdbcType="TIMESTAMP" />
+    <result column="coach_id" property="coachId" jdbcType="VARCHAR" />
+    <result column="real_club" property="realClub" jdbcType="INTEGER" />
+    <result column="real_coach" property="realCoach" jdbcType="VARCHAR" />
+    <result column="bz1" property="bz1" jdbcType="VARCHAR" />
+    <result column="bz2" property="bz2" jdbcType="VARCHAR" />
+    <result column="ch_time" property="chTime" jdbcType="TIMESTAMP" />
+    <result column="kc_id" property="kc_id" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
     mem_id,kc_id,sale_id,seq_no,status,DATE_FORMAT(start_time_1,'%Y-%m-%d %H:%i:%S') start_time_1,DATE_FORMAT(end_time_1,'%Y-%m-%d %H:%i:%S') end_time_1,
     course_name,course_type,price,club_id,club_type,club_name,coach_id,coach_type,coach_name,bz2,brief,buy_count,mem_name,mem_icon
   </sql>
-    <select id="selectById" resultType="map" parameterType="java.lang.String" >
+  <select id="selectById" resultType="map" parameterType="java.lang.String" >
     select *
     from member_lesson
     where mem_Id = #{memId,jdbcType=VARCHAR}
   </select>
-    <select id="selectMaxId" resultType="java.lang.String">
+  <select id="selectMaxId" resultType="java.lang.String">
     select max(seq_no)
     from member_lesson
     where mem_Id = #{memId,jdbcType=VARCHAR}
     and sale_id=#{saleId,jdbcType=VARCHAR}
 --     where id like CONCAT('%',date_format(now(), '%Y%m%d'),'%')
   </select>
-    <select id="selectMemberInfo_1" resultType="map" parameterType="java.lang.String">
-    select distinct a.nick_name name,a.mem_id mem_id from member a,member_lesson b where a.mem_Id = b.mem_Id and b.coach_id=#{coach_id,jdbcType=VARCHAR} and b.start_time_1 is  null and b.end_time_1 is  null
+  <select id="selectMemberInfo_1" resultType="map" parameterType="java.lang.String">
+    select distinct a.nick_name name,a.mem_id mem_id from member a,member_lesson b where a.mem_Id = b.mem_Id and b.coach_id=#{coach_id,jdbcType=VARCHAR}
+
+     and b.end_time_1 is  null
   </select>
-    <select id="selectMemberInfo" resultType="map" parameterType="java.lang.String">
+  <select id="selectMemberInfo" resultType="map" parameterType="java.lang.String">
     select distinct a.nick_name name,a.mem_id mem_id,(case a.sex when '1' then '../../images/student/man.png' when '2' then '../../images/student/woman.png' end ) sex,
     a.tel telephone from member a,member_lesson b where a.mem_Id = b.mem_Id and b.coach_id=#{coach_id,jdbcType=VARCHAR} and b.start_time_1 is  null and b.end_time_1 is  null
   </select>
-    <select id="selectLessonList" resultType="map">
-    select distinct b.course_id,b.name,a.kc_id from member_lesson a,course b where a.mem_id=#{mem_id,jdbcType=VARCHAR} and a.coach_id=#{coach_id,jdbcType=VARCHAR} and b.course_id=a.sale_id and a.start_time_1 is  null and a.end_time_1 is  null
+  <select id="selectLessonList" resultType="map">
+    select distinct b.course_id,b.name,a.kc_id from member_lesson a,course b
+    where a.mem_id=#{mem_id,jdbcType=VARCHAR}
+    and a.coach_id=#{coach_id,jdbcType=VARCHAR}
+    and b.course_id=a.sale_id
+--     and a.start_time_1 is  null
+    and a.end_time_1 is  null
   </select>
 
-    <select id="selectByIdS" resultType="map" parameterType="java.lang.String" >
+  <select id="selectByIdS" resultType="map" parameterType="java.lang.String" >
     select *
     from member_lesson
     where mem_Id = #{memId,jdbcType=VARCHAR}
     and status=#{status,jdbcType=TINYINT}
   </select>
-    <select id="selecctInfoByKcid" resultType="map" parameterType="com.atguigu.entity.MemberLesson">
+  <select id="selecctInfoByKcid" resultType="map" parameterType="com.atguigu.entity.MemberLesson">
     select mem_id,
 kc_id,
 sale_id,
@@ -77,36 +84,36 @@ mem_icon
  from v_member_lesson where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=INTEGER}
   </select>
 
-    <select id="selectByLesson" resultType="map" >
-        select
+  <select id="selectByLesson" resultType="map" >
+    select
+    <choose>
+      <when test="course_id!=''">
         <choose>
-            <when test="course_id!=''">
-                <choose>
-                    <when test="club_id!=''">
-                        <choose>
-                            <when test="coach_id!=''">
-                                start_time_1,end_time_1 from coach_lesson where course_id=#{course_id,jdbcType=VARCHAR}
-                                and club_id=#{club_id,jdbcType=VARCHAR}
-                                and coach_id=#{coach_id,jdbcType=VARCHAR}
-                            </when>
-                            <otherwise>
-                                b.coach_id,b.name from coach_lesson a,coach b where a.course_id=#{course_id,jdbcType=VARCHAR}
-                                and a.club_id=#{club_id,jdbcType=VARCHAR}
-                                and a.coach_id=b.coach_id
-                            </otherwise>
-                        </choose>
-                    </when>
-                    <otherwise>
-                        b.club_id,b.name from coach_lesson a,club b where a.course_id=#{course_id,jdbcType=VARCHAR}
-                        and a.club_id=b.club_id
-                    </otherwise>
-                </choose>
-            </when>
-            <otherwise>
-                distinct sale_id from member_lesson where mem_id=#{mem_id,jdbcType=VARCHAR} and status=0
-            </otherwise>
+          <when test="club_id!=''">
+            <choose>
+              <when test="coach_id!=''">
+                start_time_1,end_time_1 from coach_lesson where course_id=#{course_id,jdbcType=VARCHAR}
+                and club_id=#{club_id,jdbcType=VARCHAR}
+                and coach_id=#{coach_id,jdbcType=VARCHAR}
+              </when>
+              <otherwise>
+                b.coach_id,b.name from coach_lesson a,coach b where a.course_id=#{course_id,jdbcType=VARCHAR}
+                and a.club_id=#{club_id,jdbcType=VARCHAR}
+                and a.coach_id=b.coach_id
+              </otherwise>
+            </choose>
+          </when>
+          <otherwise>
+            b.club_id,b.name from coach_lesson a,club b where a.course_id=#{course_id,jdbcType=VARCHAR}
+            and a.club_id=b.club_id
+          </otherwise>
         </choose>
-    </select>
+      </when>
+      <otherwise>
+        distinct sale_id from member_lesson where mem_id=#{mem_id,jdbcType=VARCHAR} and status=0
+      </otherwise>
+    </choose>
+  </select>
     <select id="selectClubList" resultType="map" parameterType="java.lang.String">
         SELECT distinct a.name club_name,a.club_Id club_id from club a,member_lesson b where a.club_Id=b.club_id and b.sale_id=#{course_id,jdbcType=VARCHAR}
     </select>
@@ -134,325 +141,327 @@ mem_icon
         </if>
         order by start_time_1 desc
     </select>
-    <insert id="insert" parameterType="com.atguigu.entity.MemberLesson">
-    insert into member_lesson (mem_id, sale_id, seq_no,
-      club_id, status, start_time_1,
-      end_time_1, start_time_2, end_time_2,
-      coach_id, real_club, real_coach,
+  <insert id="insert" parameterType="com.atguigu.entity.MemberLesson">
+    insert into member_lesson (mem_id, sale_id, seq_no, 
+      club_id, status, start_time_1, 
+      end_time_1, start_time_2, end_time_2, 
+      coach_id, real_club, real_coach, 
       bz1, bz2, ch_time)
     values (#{memId,jdbcType=VARCHAR}, #{saleId,jdbcType=VARCHAR}, #{seqNo,jdbcType=INTEGER},
-      #{clubId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{startTime1,jdbcType=TIMESTAMP},
-      #{endTime1,jdbcType=TIMESTAMP}, #{startTime2,jdbcType=TIMESTAMP}, #{endTime2,jdbcType=TIMESTAMP},
-      #{coachId,jdbcType=VARCHAR}, #{realClub,jdbcType=INTEGER}, #{realCoach,jdbcType=VARCHAR},
+      #{clubId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{startTime1,jdbcType=TIMESTAMP}, 
+      #{endTime1,jdbcType=TIMESTAMP}, #{startTime2,jdbcType=TIMESTAMP}, #{endTime2,jdbcType=TIMESTAMP}, 
+      #{coachId,jdbcType=VARCHAR}, #{realClub,jdbcType=INTEGER}, #{realCoach,jdbcType=VARCHAR}, 
       #{bz1,jdbcType=VARCHAR}, #{bz2,jdbcType=VARCHAR}, #{chTime,jdbcType=TIMESTAMP})
   </insert>
-    <insert id="insertSelective" parameterType="com.atguigu.entity.MemberLesson" >
-        insert into member_lesson
-        <trim prefix="(" suffix=")" suffixOverrides="," >
-            <if test="memId != null" >
-                mem_id,
-            </if>
-            <if test="saleId != null" >
-                sale_id,
-            </if>
-            <if test="seqNo != null" >
-                seq_no,
-            </if>
-            <if test="clubId != null" >
-                club_id,
-            </if>
-            <if test="status != null" >
-                status,
-            </if>
-            <if test="startTime1 != null" >
-                start_time_1,
-            </if>
-            <if test="endTime1 != null" >
-                end_time_1,
-            </if>
-            <if test="startTime2 != null" >
-                start_time_2,
-            </if>
-            <if test="endTime2 != null" >
-                end_time_2,
-            </if>
-            <if test="coachId != null" >
-                coach_id,
-            </if>
-            <if test="realClub != null" >
-                real_club,
-            </if>
-            <if test="realCoach != null" >
-                real_coach,
-            </if>
-            <if test="bz1 != null" >
-                bz1,
-            </if>
-            <if test="bz2 != null" >
-                bz2,
-            </if>
-            <if test="chTime != null" >
-                ch_time,
-            </if>
-            <if test="kcId != null">
-                kc_id,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides="," >
-            <if test="memId != null" >
-                #{memId,jdbcType=VARCHAR},
-            </if>
-            <if test="saleId != null" >
-                #{saleId,jdbcType=VARCHAR},
-            </if>
-            <if test="seqNo != null" >
-                #{seqNo,jdbcType=INTEGER},
-            </if>
-            <if test="clubId != null" >
-                #{clubId,jdbcType=INTEGER},
-            </if>
-            <if test="status != null" >
-                #{status,jdbcType=TINYINT},
-            </if>
-            <if test="startTime1 != null" >
-                #{startTime1,jdbcType=TIMESTAMP},
-            </if>
-            <if test="endTime1 != null" >
-                #{endTime1,jdbcType=TIMESTAMP},
-            </if>
-            <if test="startTime2 != null" >
-                #{startTime2,jdbcType=TIMESTAMP},
-            </if>
-            <if test="endTime2 != null" >
-                #{endTime2,jdbcType=TIMESTAMP},
-            </if>
-            <if test="coachId != null" >
-                #{coachId,jdbcType=VARCHAR},
-            </if>
-            <if test="realClub != null" >
-                #{realClub,jdbcType=INTEGER},
-            </if>
-            <if test="realCoach != null" >
-                #{realCoach,jdbcType=VARCHAR},
-            </if>
-            <if test="bz1 != null" >
-                #{bz1,jdbcType=VARCHAR},
-            </if>
-            <if test="bz2 != null" >
-                #{bz2,jdbcType=VARCHAR},
-            </if>
-            <if test="chTime != null" >
-                #{chTime,jdbcType=TIMESTAMP},
-            </if>
-            <if test="kcId != null">
-                #{kcId,jdbcType=VARCHAR},
-            </if>
-        </trim>
-    </insert>
+  <insert id="insertSelective" parameterType="com.atguigu.entity.MemberLesson" >
+    insert into member_lesson
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="memId != null" >
+        mem_id,
+      </if>
+      <if test="saleId != null" >
+        sale_id,
+      </if>
+      <if test="seqNo != null" >
+        seq_no,
+      </if>
+      <if test="clubId != null" >
+        club_id,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="startTime1 != null" >
+        start_time_1,
+      </if>
+      <if test="endTime1 != null" >
+        end_time_1,
+      </if>
+      <if test="startTime2 != null" >
+        start_time_2,
+      </if>
+      <if test="endTime2 != null" >
+        end_time_2,
+      </if>
+      <if test="coachId != null" >
+        coach_id,
+      </if>
+      <if test="realClub != null" >
+        real_club,
+      </if>
+      <if test="realCoach != null" >
+        real_coach,
+      </if>
+      <if test="bz1 != null" >
+        bz1,
+      </if>
+      <if test="bz2 != null" >
+        bz2,
+      </if>
+      <if test="chTime != null" >
+        ch_time,
+      </if>
+      <if test="kcId != null">
+        kc_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="memId != null" >
+        #{memId,jdbcType=VARCHAR},
+      </if>
+      <if test="saleId != null" >
+        #{saleId,jdbcType=VARCHAR},
+      </if>
+      <if test="seqNo != null" >
+        #{seqNo,jdbcType=INTEGER},
+      </if>
+      <if test="clubId != null" >
+        #{clubId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=TINYINT},
+      </if>
+      <if test="startTime1 != null" >
+        #{startTime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime1 != null" >
+        #{endTime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime2 != null" >
+        #{startTime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime2 != null" >
+        #{endTime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coachId != null" >
+        #{coachId,jdbcType=VARCHAR},
+      </if>
+      <if test="realClub != null" >
+        #{realClub,jdbcType=INTEGER},
+      </if>
+      <if test="realCoach != null" >
+        #{realCoach,jdbcType=VARCHAR},
+      </if>
+      <if test="bz1 != null" >
+        #{bz1,jdbcType=VARCHAR},
+      </if>
+      <if test="bz2 != null" >
+        #{bz2,jdbcType=VARCHAR},
+      </if>
+      <if test="chTime != null" >
+        #{chTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="kcId != null">
+        #{kcId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
 
-    <update id="update" parameterType="com.atguigu.entity.MemberLesson" >
-        update member_lesson
-        <set >
-            <if test="clubId != null" >
-                club_id = #{clubId,jdbcType=INTEGER},
-            </if>
-            <if test="status != null" >
-                status = #{status,jdbcType=VARCHAR},
-            </if>
-            <if test="startTime1 != null" >
-                start_time_1 = #{startTime1,jdbcType=TIMESTAMP},
-            </if>
-            <if test="endTime1 != null" >
-                end_time_1 = #{endTime1,jdbcType=TIMESTAMP},
-            </if>
-            <if test="startTime2 != null" >
-                start_time_2 = #{startTime2,jdbcType=TIMESTAMP},
-            </if>
-            <if test="endTime2 != null" >
-                end_time_2 = #{endTime2,jdbcType=TIMESTAMP},
-            </if>
-            <if test="coachId != null" >
-                coach_id = #{coachId,jdbcType=VARCHAR},
-            </if>
-            <if test="realClub != null" >
-                real_club = #{realClub,jdbcType=VARCHAR},
-            </if>
-            <if test="realCoach != null" >
-                real_coach = #{realCoach,jdbcType=VARCHAR},
-            </if>
-            <if test="bz1 != null" >
-                bz1 = #{bz1,jdbcType=VARCHAR},
-            </if>
-            <if test="bz2 != null" >
-                bz2 = #{bz2,jdbcType=VARCHAR},
-            </if>
-            <if test="chTime != null" >
-                ch_time = #{chTime,jdbcType=TIMESTAMP},
-            </if>
-        </set>
-        where mem_Id = #{memId,jdbcType=VARCHAR}
-        and sale_id=#{saleId,jdbcType=VARCHAR}
-        and seq_no=#{seqNo,jdbcType=INTEGER}
-    </update>
-    <update id="updatelesson" parameterType="com.atguigu.entity.MemberLesson">
-        update member_lesson
-        <set>
-            <if test="realClub != null" >
-                real_club = #{realClub,jdbcType=VARCHAR},
-            </if>
-            <if test="realCoach != null" >
-                real_coach = #{realCoach,jdbcType=VARCHAR},
-            </if>
-            <if test="startTime1 != null" >
-                start_time_1 = #{startTime1,jdbcType=TIMESTAMP},
-            </if>
-            <if test="endTime1 != null" >
-                end_time_1 = #{endTime1,jdbcType=TIMESTAMP},
-            </if>
-            <if test="status != null" >
-                status = #{status,jdbcType=TINYINT},
-            </if>
-            <if test="bz1 != null" >
-                bz1 = #{bz1,jdbcType=VARCHAR},
-            </if>
-        </set>
+  <update id="update" parameterType="com.atguigu.entity.MemberLesson" >
+    update member_lesson
+    <set >
+      <if test="clubId != null" >
+        club_id = #{clubId,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime1 != null" >
+        start_time_1 = #{startTime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime1 != null" >
+        end_time_1 = #{endTime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startTime2 != null" >
+        start_time_2 = #{startTime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime2 != null" >
+        end_time_2 = #{endTime2,jdbcType=TIMESTAMP},
+      </if>
+      <if test="coachId != null" >
+        coach_id = #{coachId,jdbcType=VARCHAR},
+      </if>
+      <if test="realClub != null" >
+        real_club = #{realClub,jdbcType=VARCHAR},
+      </if>
+      <if test="realCoach != null" >
+        real_coach = #{realCoach,jdbcType=VARCHAR},
+      </if>
+      <if test="bz1 != null" >
+        bz1 = #{bz1,jdbcType=VARCHAR},
+      </if>
+      <if test="bz2 != null" >
+        bz2 = #{bz2,jdbcType=VARCHAR},
+      </if>
+      <if test="chTime != null" >
+        ch_time = #{chTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where mem_Id = #{memId,jdbcType=VARCHAR}
+    and sale_id=#{saleId,jdbcType=VARCHAR}
+    and seq_no=#{seqNo,jdbcType=INTEGER}
+  </update>
+  <update id="updatelesson" parameterType="com.atguigu.entity.MemberLesson">
+    update member_lesson
+    <set>
+      <if test="realClub != null" >
+        real_club = #{realClub,jdbcType=VARCHAR},
+      </if>
+      <if test="realCoach != null" >
+        real_coach = #{realCoach,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime1 != null" >
+        start_time_1 = #{startTime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime1 != null" >
+        end_time_1 = #{endTime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
+      <if test="bz1 != null" >
+        bz1 = #{bz1,jdbcType=VARCHAR},
+      </if>
+    </set>
         where mem_Id = #{memId,jdbcType=VARCHAR}
         and sale_id=#{saleId,jdbcType=VARCHAR}
         and seq_no=#{seqNo,jdbcType=INTEGER}
         and kc_id=#{kcId,jdbcType=VARCHAR}
-    </update>
-    <update id="updateStatus" parameterType="com.atguigu.entity.MemberLesson">
-        update member_lesson set
-        <if test="startTime2 != null" >
-            start_time_2 = #{startTime2,jdbcType=TIMESTAMP},
-        </if>
-        <if test="endTime2 != null" >
-            end_time_2 = #{endTime2,jdbcType=TIMESTAMP},
-        </if>
-        status=#{status,jdbcType=TINYINT}
-        where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=INTEGER}
-    </update>
-    <select id="selectseqno" resultType="int" parameterType="com.atguigu.entity.MemberLesson">
+  </update>
+  <update id="updateStatus" parameterType="com.atguigu.entity.MemberLesson">
+    update member_lesson set
+    <if test="startTime2 != null" >
+      start_time_2 = #{startTime2,jdbcType=TIMESTAMP},
+    </if>
+    <if test="endTime2 != null" >
+      end_time_2 = #{endTime2,jdbcType=TIMESTAMP},
+    </if>
+    status=#{status,jdbcType=TINYINT}
+    where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=INTEGER}
+  </update>
+  <select id="selectseqno" resultType="int" parameterType="com.atguigu.entity.MemberLesson">
     select MIN(seq_no) from member_lesson where mem_Id = #{memId,jdbcType=VARCHAR}
-        and sale_id=#{saleId,jdbcType=VARCHAR} and kc_id=#{kcId,jdbcType=VARCHAR} and start_time_1 is  null and end_time_1 is  null
+        and sale_id=#{saleId,jdbcType=VARCHAR} and kc_id=#{kcId,jdbcType=VARCHAR}
+--         and start_time_1 is  null
+        and end_time_1 is  null
   </select>
 
-    <select id="selectByCoachId" parameterType="java.lang.String" resultType="map">
-        select *
-        from v_member_lesson
-        where
-        coach_id = #{coachId,jdbcType=VARCHAR}
-        <if test="status !=''">
-            and status = #{status,jdbcType=TINYINT}
-        </if>
-        order by start_time_1 desc
-    </select>
-    <select id="selectByCoachIdDate" parameterType="java.lang.String" resultType="map">
-        select *
-        from v_member_lesson
-        where
-        coach_id = #{coachId,jdbcType=VARCHAR}
-        <if test="status !=''">
-            and status = #{status,jdbcType=TINYINT}
-        </if>
-        <if test="reg_date !=''">
-            and start_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%')
-        </if>
-        order by start_time_1 desc
-    </select>
-    <select id="selectByView" parameterType="java.lang.String" resultType="map">
-        select *
-        from v_member_lesson
-        where 1=1
-        <if test="memId !=''">
-            and mem_Id = #{memId,jdbcType=VARCHAR}
-        </if>
-        <if test="status !=''">
-            and status = #{status,jdbcType=TINYINT}
-        </if>
-        <if test="status ==''">
-            and status is null
-        </if>
-        <if test="coachId !=''">
-            and coach_id = #{coachId,jdbcType=VARCHAR}
-        </if>
-        <if test="clubId !=''">
-            and club_id = #{clubId,jdbcType=VARCHAR}
-        </if>
-        order by kc_id,seq_no,start_time_1 desc
-    </select>
-    <select id="selectByViewDate" parameterType="java.lang.String" resultType="map">
-        select
-        <include refid="Base_Column_List" />
-        from v_member_lesson
-        where 1=1
-        <if test="memId !=''">
-            and mem_Id = #{memId,jdbcType=VARCHAR}
-        </if>
-        <if test="status !=''">
-            and status = #{status,jdbcType=TINYINT}
-        </if>
-        <if test="coachId !=''">
-            and coach_id = #{coachId,jdbcType=VARCHAR}
-        </if>
-        <if test="reg_date !=''">
-            and start_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%')
-        </if>
-        order by kc_id,seq_no,start_time_1 desc
-    </select>
-    <select id="getListTimes" resultType="String" parameterType="String">
-        select date_format(end_time_1, '%H:%i')
-        from member_lesson
-        where
-        mem_id=#{mem_id,jdbcType=VARCHAR}
-        <if test="date !=''">
-            and end_time_1 like CONCAT('%',#{date,jdbcType=VARCHAR},'%')
-        </if>
-    </select>
-    <!--<update id="cancleClass" parameterType="com.atguigu.entity.MemberLesson">-->
+  <select id="selectByCoachId" parameterType="java.lang.String" resultType="map">
+    select *
+    from v_member_lesson
+    where
+    coach_id = #{coachId,jdbcType=VARCHAR}
+    <if test="status !=''">
+      and status = #{status,jdbcType=TINYINT}
+    </if>
+    order by start_time_1 desc
+  </select>
+  <select id="selectByCoachIdDate" parameterType="java.lang.String" resultType="map">
+    select *
+    from v_member_lesson
+    where
+    coach_id = #{coachId,jdbcType=VARCHAR}
+    <if test="status !=''">
+      and status = #{status,jdbcType=TINYINT}
+    </if>
+    <if test="reg_date !=''">
+      and start_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%')
+    </if>
+    order by start_time_1 desc
+  </select>
+  <select id="selectByView" parameterType="java.lang.String" resultType="map">
+    select *
+    from v_member_lesson
+    where 1=1
+    <if test="memId !=''">
+    and mem_Id = #{memId,jdbcType=VARCHAR}
+    </if>
+    <if test="status !=''">
+      and status = #{status,jdbcType=TINYINT}
+    </if>
+    <if test="status ==''">
+      and status is null
+    </if>
+    <if test="coachId !=''">
+      and coach_id = #{coachId,jdbcType=VARCHAR}
+    </if>
+    <if test="clubId !=''">
+      and club_id = #{clubId,jdbcType=VARCHAR}
+    </if>
+    order by kc_id,seq_no,start_time_1 desc
+  </select>
+  <select id="selectByViewDate" parameterType="java.lang.String" resultType="map">
+    select
+    <include refid="Base_Column_List" />
+    from v_member_lesson
+    where 1=1
+    <if test="memId !=''">
+     and mem_Id = #{memId,jdbcType=VARCHAR}
+    </if>
+    <if test="status !=''">
+      and status = #{status,jdbcType=TINYINT}
+    </if>
+    <if test="coachId !=''">
+      and coach_id = #{coachId,jdbcType=VARCHAR}
+    </if>
+    <if test="reg_date !=''">
+      and start_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%')
+    </if>
+    order by kc_id,seq_no,start_time_1 desc
+  </select>
+<select id="getListTimes" resultType="String" parameterType="String">
+  select date_format(end_time_1, '%H:%i')
+  from member_lesson
+  where
+  mem_id=#{mem_id,jdbcType=VARCHAR}
+  <if test="date !=''">
+    and end_time_1 like CONCAT('%',#{date,jdbcType=VARCHAR},'%')
+  </if>
+</select>
+  <!--<update id="cancleClass" parameterType="com.atguigu.entity.MemberLesson">-->
     <!--update member_lesson SET-->
-    <!--start_time_1 = #{startTime1,jdbcType=TIMESTAMP},-->
-    <!--end_time_1 = #{endTime1,jdbcType=TIMESTAMP},-->
-    <!--status=#{status,jdbcType=TINYINT}-->
+      <!--start_time_1 = #{startTime1,jdbcType=TIMESTAMP},-->
+      <!--end_time_1 = #{endTime1,jdbcType=TIMESTAMP},-->
+      <!--status=#{status,jdbcType=TINYINT}-->
     <!--where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=INTEGER}-->
-    <!--</update>-->
-    <update id="cancleClass" parameterType="com.atguigu.entity.MemberLesson">
-        update member_lesson
-        <set>
+  <!--</update>-->
+  <update id="cancleClass" parameterType="com.atguigu.entity.MemberLesson">
+    update member_lesson
+    <set>
 
-            <if test="startTime1 != null" >
-                start_time_1 = #{startTime1,jdbcType=TIMESTAMP},
-            </if>
-            <if test="endTime1 != ''" >
-                end_time_1 = #{endTime1,jdbcType=TIMESTAMP},
-            </if>
-            <if test="status != ''" >
-                status = #{status,jdbcType=TINYINT},
-            </if>
+      <if test="startTime1 != null" >
+        start_time_1 = #{startTime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime1 != ''" >
+        end_time_1 = #{endTime1,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != ''" >
+        status = #{status,jdbcType=TINYINT},
+      </if>
 
-        </set>
-        where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=INTEGER}
-    </update>
-    <select id="selectByAll" parameterType="java.lang.String" resultType="map">
-        select
-        <include refid="Base_Column_List" />
-        from v_member_lesson
-        where 1=1
-        <if test="memId !=''">
-            and mem_Id = #{memId,jdbcType=VARCHAR}
-        </if>
-        <if test="status !=''">
-            and status = #{status,jdbcType=TINYINT}
-        </if>
-        <if test="coachId !=''">
-            and coach_id = #{coachId,jdbcType=VARCHAR}
-        </if>
-        <if test="clubId !=''">
-            and club_id = #{clubId,jdbcType=VARCHAR}
-        </if>
-        <if test="reg_date !=''">
-            and start_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%')
-        </if>
-        order by kc_id,seq_no,start_time_1 desc
-    </select>
+    </set>
+    where kc_id=#{kcId,jdbcType=VARCHAR} and seq_no=#{seqNo,jdbcType=INTEGER}
+  </update>
+  <select id="selectByAll" parameterType="java.lang.String" resultType="map">
+    select
+    <include refid="Base_Column_List" />
+    from v_member_lesson
+    where 1=1
+    <if test="memId !=''">
+    and mem_Id = #{memId,jdbcType=VARCHAR}
+    </if>
+    <if test="status !=''">
+      and status = #{status,jdbcType=TINYINT}
+    </if>
+    <if test="coachId !=''">
+      and coach_id = #{coachId,jdbcType=VARCHAR}
+    </if>
+    <if test="clubId !=''">
+      and club_id = #{clubId,jdbcType=VARCHAR}
+    </if>
+    <if test="reg_date !=''">
+      and start_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%')
+    </if>
+    order by kc_id,seq_no,start_time_1 desc
+  </select>
 </mapper>
