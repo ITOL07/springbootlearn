@@ -41,7 +41,7 @@ public interface MemberLessonMapper {
     List<Map<String,String>> selectLessonList(@Param("mem_id") String mem_id,
                                               @Param("coach_id")String coach_id);
 
-    List<Map<String,String>> selectClubList(String course_id);
+    List<Map<String,String>> selectClubList(@Param("course_id") String course_id,@Param("mem_id") String mem_id,@Param("coach_id") String coach_id);
 
     List<Map<Object, String>> selectMemberInfo(String coachid);
     List<Map<Object, String>> selectByLesson(@Param("mem_id") String mem_id,

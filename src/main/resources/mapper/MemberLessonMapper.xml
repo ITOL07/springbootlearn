@@ -45,7 +45,7 @@
     a.tel telephone from member a,member_lesson b where a.mem_Id = b.mem_Id and b.coach_id=#{coach_id,jdbcType=VARCHAR} and b.start_time_1 is  null and b.end_time_1 is  null
   </select>
   <select id="selectLessonList" resultType="map">
-    select distinct b.course_id,b.name,a.kc_id from member_lesson a,course b
+    select distinct b.course_id,b.type,b.name,a.kc_id from member_lesson a,course b
     where a.mem_id=#{mem_id,jdbcType=VARCHAR}
     and a.coach_id=#{coach_id,jdbcType=VARCHAR}
     and b.course_id=a.sale_id
@@ -115,7 +115,13 @@ mem_icon
     </choose>
   </select>
     <select id="selectClubList" resultType="map" parameterType="java.lang.String">
-        SELECT distinct a.name club_name,a.club_Id club_id from club a,member_lesson b where a.club_Id=b.club_id and b.sale_id=#{course_id,jdbcType=VARCHAR}
+        SELECT distinct a.name club_name,a.club_Id club_id
+        from club a,course b,member_lesson c
+        where a.club_Id=b.club_id
+        and c.sale_id=b.course_id
+        and c.mem_id=#{mem_id,jdbcType=VARCHAR}
+        and b.coach_id=#{coach_id,jdbcType=VARCHAR}
+        and b.type=#{course_id,jdbcType=VARCHAR}
     </select>
 
     <select id="selectByClubId" parameterType="java.lang.String" resultType="map">
@@ -324,7 +330,9 @@ mem_icon
       </if>
     </set>
         where mem_Id = #{memId,jdbcType=VARCHAR}
-        and sale_id=#{saleId,jdbcType=VARCHAR}
+    <if test="saleId != null">
+      and sale_id=#{saleId,jdbcType=VARCHAR}
+    </if>
         and seq_no=#{seqNo,jdbcType=INTEGER}
         and kc_id=#{kcId,jdbcType=VARCHAR}
   </update>
@@ -341,7 +349,11 @@ mem_icon
   </update>
   <select id="selectseqno" resultType="int" parameterType="com.atguigu.entity.MemberLesson">
     select MIN(seq_no) from member_lesson where mem_Id = #{memId,jdbcType=VARCHAR}
-        and sale_id=#{saleId,jdbcType=VARCHAR} and kc_id=#{kcId,jdbcType=VARCHAR}
+        <if test="saleId != null">
+          and sale_id=#{saleId,jdbcType=VARCHAR}
+        </if>
+
+        and kc_id=#{kcId,jdbcType=VARCHAR}
 --         and start_time_1 is  null
         and end_time_1 is  null
   </select>

@@ -141,8 +141,8 @@ public class MemberServiceImpl implements MemberService {
         return mapList;
     }
     @Override
-    public List<Map<String, String>> selectClubList(String course_id) {
-        List<Map<String,String>> list = mem_les.selectClubList(course_id);
+    public List<Map<String, String>> selectClubList(String course_id,String mem_id,String coach_id) {
+        List<Map<String,String>> list = mem_les.selectClubList(course_id,mem_id,coach_id);
         return list;
     }
 

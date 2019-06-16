@@ -35,7 +35,7 @@ public class CoachScheduleController {
     public boolean updatelesson(@RequestParam("mem_id") String mem_id,
                                 @RequestParam("real_club") String real_club,
                                 @RequestParam("real_coach") String real_coach,
-                                @RequestParam("sale_id") String sale_id,
+//                                @RequestParam("sale_id") String sale_id,
                                 @RequestParam("kc_id") String kc_id,
                                 @RequestParam("seq_no") Byte seq_no,
                                 @RequestParam("start_time_1") String start_time,
@@ -46,16 +46,18 @@ public class CoachScheduleController {
         Date start_time_1 = new Date(sdf.parse(start_time).getTime());
         Date end_time_1 = new Date(sdf.parse(end_time).getTime());
         logger.info("start_time_1 :"+start_time_1);
-        logger.info("传入为：mem_id:"+mem_id+",sale_id:"+sale_id+",kc_id:"+kc_id);
-
+//        logger.info("传入为：mem_id:"+mem_id+",sale_id:"+sale_id+",kc_id:"+kc_id);
+        logger.info("传入为：mem_id:"+mem_id+",kc_id:"+kc_id);
 
         //优先查询表中条件为mem_id、sale_id、（start_time_2、end_time_2为空）条件下最小的seq_no返回并赋值
                // Byte sss = scheduleService.selectseqno(mem_id,sale_id);
         MemberLesson memberLesson = new MemberLesson();
-        memberLesson.setMemId(mem_id).setSaleId(sale_id).setKcId(kc_id);
+        memberLesson.setMemId(mem_id)
+//                .setSaleId(sale_id)
+                .setKcId(kc_id);
         int selectseqno = memberService.selectseqno(memberLesson);
         logger.info("查询当前课程节数号为："+selectseqno);
-        Boolean flag1 = scheduleService.updatelesson(mem_id,real_club,real_coach,sale_id,kc_id,selectseqno,start_time_1,end_time_1,bz1);
+        Boolean flag1 = scheduleService.updatelesson(mem_id,real_club,real_coach,null,kc_id,selectseqno,start_time_1,end_time_1,bz1);
         Boolean falg2 = true;
         return flag1;
     }
@@ -135,7 +137,7 @@ public class CoachScheduleController {
             if(b){
                 logger.info("选择日期大于当前系统日期");
             }else{
-                if(i1>i2){
+                if(i1>=i2){
                     logger.info("小于当前时间，被删除");
                     times.remove(i);
                     i--;

@@ -467,16 +467,19 @@ public class CoachController {
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
         List<String> list3 = new ArrayList<>();
+        List<String> list4 = new ArrayList<>();
         for(int i=0;i<list.size();i++){
             list1.add(list.get(i).get("name"));
             list2.add(list.get(i).get("course_id"));
             list3.add(list.get(i).get("kc_id"));
+            list4.add(list.get(i).get("type"));
 
         }
         Map<String,List<String>> map = new HashMap<>();
         map.put("course_name",list1);
         map.put("course_id",list2);
         map.put("kc_id",list3);
+        map.put("course_type",list4);
         return map;
     }
     @ResponseBody
@@ -497,9 +500,13 @@ public class CoachController {
     }
     @ResponseBody
     @RequestMapping("/getClubInfo")
-    public Map<String,List<String>> getClubInfo(@RequestParam("course_id") String course_id, HttpServletResponse response){
+    public Map<String,List<String>> getClubInfo(
+            @RequestParam("course_id") String course_id,
+            @RequestParam("mem_id") String mem_id,
+            @RequestParam("coach_id") String coach_id,
+            HttpServletResponse response){
         logger.info("course_id :" +course_id);
-        List<Map<String,String>> list = memberService.selectClubList(course_id);
+        List<Map<String,String>> list = memberService.selectClubList(course_id,mem_id,coach_id);
         logger.info(list.size()+"");
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
