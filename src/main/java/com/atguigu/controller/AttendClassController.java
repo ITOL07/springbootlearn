@@ -194,6 +194,7 @@ public class AttendClassController {
             e.printStackTrace();
         }
 
+        //修改member_lesson表状态
         boolean flag = memberService.cancalClass(memberLesson);
         logger.info("the flag is :"+flag);
 
@@ -217,6 +218,8 @@ public class AttendClassController {
                     .setCoachId(map1.get("coach_id"))
                     .setClubId(map1.get("club_id"))
                     .setBz1(map1.get("bz1"))
+                    .setCancelState(1)
+                    .setCancelReason("教练取消")
                     .setMemName(map1.get("mem_name"));
             memberService.addMemLesscancel(tCancel);
         }
@@ -236,6 +239,108 @@ public class AttendClassController {
                     .setMemIcon(map1.get("mem_icon"))
                     .setCourseType(map1.get("course_type"))
                     .setBz1(map1.get("bz1"))
+                    .setCancelState(1)
+                    .setCancelReason("教练取消")
+                    .setMemName(map1.get("mem_name"));
+            tCancel.setCancelCount(tCancel.getCancelCount()+1);
+            memberService.updateMemLesscancel(tCancel);
+        }
+
+        Map<String,String>map = new HashMap<>();
+        if(flag){
+            result = "success";
+            resultInfo = "课程取消成功，请重新排课";
+        }
+        map.put("result",result);
+        map.put("resultInfo",resultInfo);
+        return map;
+
+    }
+
+
+    //对超时未签到的课程，记为旷课
+    public Map<String,String> cancleClass1(String kc_id,String seq_no,int state){
+
+        logger.info("kc_id ====" + kc_id + "；seq_no====="+seq_no);
+
+        TMemberLessonCancelKey tKey=new TMemberLessonCancelKey();
+        tKey.setKcId(kc_id)
+                .setSeqNo(Integer.parseInt(seq_no));
+
+        int f = Integer.parseInt(seq_no);
+        String resultInfo = "课程取消失败，请联系管理员";
+        String result = "none";
+        //开始进行对会员课时表的status维护
+        MemberLesson memberLesson = new MemberLesson();
+        memberLesson.setSeqNo(f)
+                .setKcId(kc_id)
+                .setStatus(null)
+                .setStartTime1(null)
+                .setEndTime1(null)
+        ;
+
+
+        Map<String, String> map1 = memberService.selecctInfoByKcid(memberLesson);
+        logger.info(map1.toString());
+        Date start_time = new Date();
+        Date end_time = new Date();
+//        java.sql.Timestamp timestamp= new Timestamp(map1.get("start_time_1"));
+        logger.info("map1.get(\"start_time_1\")"+map1.get("start_time_1"));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try{
+
+            start_time=formatter.parse(map1.get("start_time_1"));
+            end_time=formatter.parse(map1.get("end_time_1"));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        boolean flag = memberService.cancalClass(memberLesson);
+        logger.info("the flag is :"+flag);
+
+//        TMemberLessonCancel tCancel= new TMemberLessonCancel();
+        TMemberLessonCancel tCancel= memberService.getMemLesscancel(tKey);
+
+        //原来无记录，新增
+        if(tCancel==null){
+            tCancel = new TMemberLessonCancel();
+            tCancel.setKcId(kc_id)
+                    .setSeqNo(f);
+            tCancel.setMemId(map1.get("mem_id"))
+                    .setCancelUser(map1.get("coach_name"))
+                    .setClubName(map1.get("club_name"))
+                    .setCoachName(map1.get("coach_name"))
+                    .setCourseName(map1.get("course_name"))
+                    .setStartTime1(start_time)
+                    .setEndTime1(end_time)
+                    .setMemIcon(map1.get("mem_icon"))
+                    .setCourseType(map1.get("course_type"))
+                    .setCoachId(map1.get("coach_id"))
+                    .setClubId(map1.get("club_id"))
+                    .setBz1(map1.get("bz1"))
+                    .setCancelState(state)
+                    .setCancelReason("旷课取消")
+                    .setMemName(map1.get("mem_name"));
+            memberService.addMemLesscancel(tCancel);
+        }
+        //原来有记录，更新
+        else{
+            tCancel.setKcId(kc_id)
+                    .setSeqNo(f);
+            tCancel.setMemId(map1.get("mem_id"))
+                    .setCancelUser(map1.get("coach_name"))
+                    .setClubName(map1.get("club_name"))
+                    .setCoachName(map1.get("coach_name"))
+                    .setCourseName(map1.get("course_name"))
+                    .setStartTime1(start_time)
+                    .setEndTime1(end_time)
+                    .setCoachId(map1.get("coach_id"))
+                    .setClubId(map1.get("club_id"))
+                    .setMemIcon(map1.get("mem_icon"))
+                    .setCourseType(map1.get("course_type"))
+                    .setBz1(map1.get("bz1"))
+                    .setCancelState(state)
+                    .setCancelReason("旷课取消")
                     .setMemName(map1.get("mem_name"));
             tCancel.setCancelCount(tCancel.getCancelCount()+1);
             memberService.updateMemLesscancel(tCancel);

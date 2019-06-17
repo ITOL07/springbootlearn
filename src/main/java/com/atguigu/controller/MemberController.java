@@ -121,6 +121,11 @@ public class MemberController {
 
         List<Map<Object,Object>> list= new ArrayList<Map<Object,Object>>();
 
+        if(status.equals("null")){
+            logger.info("status为空");
+            status = "";
+        }
+
         list= memberService.getMemberLessByView(mem_id,coach_id,"",status);
 
         for(Map<Object,Object> map:list){
@@ -136,13 +141,15 @@ public class MemberController {
                 map.put("bz2",tmp);
             }
 
-            logger.info("+++++++++++"+map.get("start_time_1"));
-            map.put("datex",String.valueOf(map.get("start_time_1")).split(" ")[0]);
-            String start_time=String.valueOf(map.get("start_time_1")).split(" ")[1];
-            String end_time=String.valueOf(map.get("end_time_1")).split(" ")[1];
-            logger.info("start_time==="+start_time+"   end_time===="+end_time);
+            if(map.containsKey("start_time_1")&&map.containsKey("end_time_1")) {
+                logger.info("+++++++++++"+map.get("start_time_1"));
+                map.put("datex",String.valueOf(map.get("start_time_1")).split(" ")[0]);
+                String start_time=String.valueOf(map.get("start_time_1")).split(" ")[1];
+                String end_time=String.valueOf(map.get("end_time_1")).split(" ")[1];
+                logger.info("start_time==="+start_time+"   end_time===="+end_time);
 
-            map.put("timex",start_time.substring(0,start_time.lastIndexOf(":"))+"-"+end_time.substring(0,end_time.lastIndexOf(":")));
+                map.put("timex",start_time.substring(0,start_time.lastIndexOf(":"))+"-"+end_time.substring(0,end_time.lastIndexOf(":")));
+            }
 
 
         }
