@@ -90,7 +90,7 @@ public class Userlogin {
         Map<String, String> param = new HashMap<>();
         JSONObject result= new JSONObject();
         // 根据返回的user实体类，判断用户是否是新用户，不是的话，更新最新登录时间，是的话，将用户信息存到数据库
-        logger.info("username ===="+phoneNo+"========passwd====="+passwd);
+        logger.info("username ===="+phoneNo+"========passwd====="+passwd+"===type===="+type);
         Map<Object,Object> map = userService.getUserByName(phoneNo);
         int index=0;
 
@@ -103,13 +103,21 @@ public class Userlogin {
 
             String maxId=userService.getMaxId(type);
             logger.info("maxId==="+maxId);
-            if(maxId!=null) {
-                index = Integer.parseInt(maxId.substring(8));
+            String id="";
+            if(maxId==null){
+                id= getSeqNo.getId(12,0,type);
             }
-            String id= getSeqNo.getId(12,index,type);
+            else{
+                index=Integer.parseInt(maxId.substring(10));
+                logger.info("index==="+index);
+                id= getSeqNo.getId(12,index,type);
+            }
+
+
             insert_user.setId(id);
             insert_user.setUserName(phoneNo);
             insert_user.setPassword(passwd);
+            insert_user.setType(type);
             logger.info("insert_user======"+insert_user.toString());
             // 添加到数据库
 
@@ -204,8 +212,8 @@ public class Userlogin {
         String optCode="SMS_152471207";
 //
         JSONObject jsono= new JSONObject();
-        jsono.put("vericode",crp.sendMsgCode(phoneNo,optCode));
-//        jsono.put("vericode","1234");
+//        jsono.put("vericode",crp.sendMsgCode(phoneNo,optCode));
+        jsono.put("vericode","1234");
         jsono.put("errocode","0");
 
 //        return crp.sendMsgCode(phoneNo,optCode);
@@ -347,11 +355,19 @@ public class Userlogin {
     }
 
     @RequestMapping("/qry")
-    public User bindPhone(
+    public User qry(
             @RequestParam("mem_id") String id
     ){
         logger.info("请求用户信息。。。"+id);
         return userService.getUserById(id);
+    }
+
+    @RequestMapping("/getPhone")
+    public User getPhone(
+            @RequestParam("open_id") String open_id
+    ){
+        logger.info("请求用户信息。。。"+open_id);
+        return userService.getUserByOpenId(open_id);
     }
 
 

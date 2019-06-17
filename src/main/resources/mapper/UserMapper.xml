@@ -12,7 +12,7 @@
     <result column="type" property="type" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, user_name, password, chn, last_login, open_id,try_flag
+    id, user_name, password, chn, last_login, open_id,try_flag,type
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
