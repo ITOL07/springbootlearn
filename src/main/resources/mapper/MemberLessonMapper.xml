@@ -436,6 +436,7 @@ mem_icon
     and end_time_1 like CONCAT('%',#{date,jdbcType=VARCHAR},'%')
   </if>
 </select>
+
   <!--<update id="cancleClass" parameterType="com.atguigu.entity.MemberLesson">-->
     <!--update member_lesson SET-->
       <!--start_time_1 = #{startTime1,jdbcType=TIMESTAMP},-->
@@ -482,4 +483,19 @@ mem_icon
     </if>
     order by kc_id,seq_no,start_time_1 desc
   </select>
+    <select id="selectUsedTime" resultType="map" parameterType="String">
+        select distinct
+        DATE_FORMAT(start_time_1,'%Y-%m-%d %H:%i:%s') as start_time_1,
+        DATE_FORMAT(end_time_1,'%Y-%m-%d %H:%i:%s') as  end_time_1
+        from member_lesson
+        where
+        (
+        mem_id=#{mem_id,jdbcType=VARCHAR}
+        or coach_id=#{coach_id,jdbcType=VARCHAR}
+        )
+        and status is not null
+        <if test="date !=''">
+            and start_time_1 like CONCAT('%',#{date,jdbcType=VARCHAR},'%')
+        </if>
+    </select>
 </mapper>

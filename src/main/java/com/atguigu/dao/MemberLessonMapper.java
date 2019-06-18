@@ -55,5 +55,7 @@ public interface MemberLessonMapper {
 
     List<Map<Object, Object>> selectByAll(@Param("memId") String memId,@Param("coachId") String coachId,@Param("clubId") String clubId,@Param("status")String status,@Param("reg_date") String reg_date);
 
-
+    List<Map<Object, Object>> selectUsedTime(@Param("mem_id") String mem_id,
+                              @Param("coach_id") String coach_id,
+                              @Param("date")String date);
 }

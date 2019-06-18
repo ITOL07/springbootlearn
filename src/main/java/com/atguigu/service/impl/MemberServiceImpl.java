@@ -230,4 +230,10 @@ public class MemberServiceImpl implements MemberService {
         return map;
     }
 
+    @Override
+    public List<Map<Object,Object>> getUsedTimes(String mem_id, String coach_id,String date) {
+        List<Map<Object,Object>> listTimes = mem_les.selectUsedTime(mem_id, coach_id,date);
+
+        return listTimes;
+    }
 }
