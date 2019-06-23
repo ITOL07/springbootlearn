@@ -212,8 +212,8 @@ public class Userlogin {
         String optCode="SMS_152471207";
 //
         JSONObject jsono= new JSONObject();
-//        jsono.put("vericode",crp.sendMsgCode(phoneNo,optCode));
-        jsono.put("vericode","1234");
+        jsono.put("vericode",crp.sendMsgCode(phoneNo,optCode));
+//        jsono.put("vericode","1234");
         jsono.put("errocode","0");
 
 //        return crp.sendMsgCode(phoneNo,optCode);
