@@ -345,19 +345,24 @@ public class CoachController {
             @RequestParam("coach_id") String coach_id,
             @RequestParam("reg_date") String reg_date
     ) {
-        logger.info("mem_id ====" + coach_id + "reg_date=====" + reg_date);
+        logger.info("qrySum ---- mem_id ====" + coach_id + "reg_date=====" + reg_date);
 
         Map<Object,Object> map= new HashMap<Object,Object>();
         Map<Object,Object> resMap= new HashMap<Object,Object>();
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = sdf.parse(reg_date);
-
-        } catch (ParseException e) {
-            logger.info("抛出异常");
-        }
+        Calendar c =Calendar.getInstance();
+        c.set( Calendar.MONTH, Integer.parseInt(reg_date.substring(5,7))-1);
+        c.set(Calendar.DAY_OF_MONTH,c.getActualMaximum(Calendar.DAY_OF_MONTH));
+//        c.getTime();
+        Date date = c.getTime();
+        logger.info("传入日期的月末日期为："+date);
+//        try {
+//            date = sdf.parse(reg_date);
+//
+//        } catch (ParseException e) {
+//            logger.info("抛出异常");
+//        }
 
         map=coachService.getCoachIncomeSumById(coach_id, date);
         if(map!=null){
