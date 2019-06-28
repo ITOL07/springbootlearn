@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.atguigu.dao.CourseTcMapper" >
+  <resultMap id="BaseResultMap" type="com.atguigu.entity.CourseTc" >
+    <id column="course_id" property="courseId" jdbcType="VARCHAR" />
+    <result column="JL_KT_PER1" property="jlKtPer1" jdbcType="DECIMAL" />
+    <result column="JL_XT_PER1" property="jlXtPer1" jdbcType="DECIMAL" />
+    <result column="JL_KT_PER2" property="jlKtPer2" jdbcType="DECIMAL" />
+    <result column="JL_XT_PER2" property="jlXtPer2" jdbcType="DECIMAL" />
+    <result column="CD_KT" property="cdKt" jdbcType="DECIMAL" />
+    <result column="bz2" property="bz2" jdbcType="VARCHAR" />
+    <result column="bz1" property="bz1" jdbcType="VARCHAR" />
+    <result column="ch_time" property="chTime" jdbcType="TIMESTAMP" />
+    <result column="JL_KT_CNT1" property="jlKtCnt1" jdbcType="DECIMAL" />
+    <result column="JL_XT_CNT1" property="jlXtCnt1" jdbcType="DECIMAL" />
+    <result column="JL_KT_CNT2" property="jlKtCnt2" jdbcType="DECIMAL" />
+    <result column="JL_XT_CNT2" property="jlXtCnt2" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    course_id, JL_KT_PER1, JL_XT_PER1, JL_KT_PER2, JL_XT_PER2, CD_KT, bz2, bz1, ch_time, 
+    JL_KT_CNT1, JL_XT_CNT1, JL_KT_CNT2, JL_XT_CNT2
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from course_tc
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from course_tc
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.atguigu.entity.CourseTc" >
+    insert into course_tc (course_id, JL_KT_PER1, JL_XT_PER1, 
+      JL_KT_PER2, JL_XT_PER2, CD_KT, 
+      bz2, bz1, ch_time, 
+      JL_KT_CNT1, JL_XT_CNT1, JL_KT_CNT2, 
+      JL_XT_CNT2)
+    values (#{courseId,jdbcType=VARCHAR}, #{jlKtPer1,jdbcType=DECIMAL}, #{jlXtPer1,jdbcType=DECIMAL}, 
+      #{jlKtPer2,jdbcType=DECIMAL}, #{jlXtPer2,jdbcType=DECIMAL}, #{cdKt,jdbcType=DECIMAL}, 
+      #{bz2,jdbcType=VARCHAR}, #{bz1,jdbcType=VARCHAR}, #{chTime,jdbcType=TIMESTAMP}, 
+      #{jlKtCnt1,jdbcType=DECIMAL}, #{jlXtCnt1,jdbcType=DECIMAL}, #{jlKtCnt2,jdbcType=DECIMAL}, 
+      #{jlXtCnt2,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.atguigu.entity.CourseTc" >
+    insert into course_tc
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="courseId != null" >
+        course_id,
+      </if>
+      <if test="jlKtPer1 != null" >
+        JL_KT_PER1,
+      </if>
+      <if test="jlXtPer1 != null" >
+        JL_XT_PER1,
+      </if>
+      <if test="jlKtPer2 != null" >
+        JL_KT_PER2,
+      </if>
+      <if test="jlXtPer2 != null" >
+        JL_XT_PER2,
+      </if>
+      <if test="cdKt != null" >
+        CD_KT,
+      </if>
+      <if test="bz2 != null" >
+        bz2,
+      </if>
+      <if test="bz1 != null" >
+        bz1,
+      </if>
+      <if test="chTime != null" >
+        ch_time,
+      </if>
+      <if test="jlKtCnt1 != null" >
+        JL_KT_CNT1,
+      </if>
+      <if test="jlXtCnt1 != null" >
+        JL_XT_CNT1,
+      </if>
+      <if test="jlKtCnt2 != null" >
+        JL_KT_CNT2,
+      </if>
+      <if test="jlXtCnt2 != null" >
+        JL_XT_CNT2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="courseId != null" >
+        #{courseId,jdbcType=VARCHAR},
+      </if>
+      <if test="jlKtPer1 != null" >
+        #{jlKtPer1,jdbcType=DECIMAL},
+      </if>
+      <if test="jlXtPer1 != null" >
+        #{jlXtPer1,jdbcType=DECIMAL},
+      </if>
+      <if test="jlKtPer2 != null" >
+        #{jlKtPer2,jdbcType=DECIMAL},
+      </if>
+      <if test="jlXtPer2 != null" >
+        #{jlXtPer2,jdbcType=DECIMAL},
+      </if>
+      <if test="cdKt != null" >
+        #{cdKt,jdbcType=DECIMAL},
+      </if>
+      <if test="bz2 != null" >
+        #{bz2,jdbcType=VARCHAR},
+      </if>
+      <if test="bz1 != null" >
+        #{bz1,jdbcType=VARCHAR},
+      </if>
+      <if test="chTime != null" >
+        #{chTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jlKtCnt1 != null" >
+        #{jlKtCnt1,jdbcType=DECIMAL},
+      </if>
+      <if test="jlXtCnt1 != null" >
+        #{jlXtCnt1,jdbcType=DECIMAL},
+      </if>
+      <if test="jlKtCnt2 != null" >
+        #{jlKtCnt2,jdbcType=DECIMAL},
+      </if>
+      <if test="jlXtCnt2 != null" >
+        #{jlXtCnt2,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.CourseTc" >
+    update course_tc
+    <set >
+      <if test="jlKtPer1 != null" >
+        JL_KT_PER1 = #{jlKtPer1,jdbcType=DECIMAL},
+      </if>
+      <if test="jlXtPer1 != null" >
+        JL_XT_PER1 = #{jlXtPer1,jdbcType=DECIMAL},
+      </if>
+      <if test="jlKtPer2 != null" >
+        JL_KT_PER2 = #{jlKtPer2,jdbcType=DECIMAL},
+      </if>
+      <if test="jlXtPer2 != null" >
+        JL_XT_PER2 = #{jlXtPer2,jdbcType=DECIMAL},
+      </if>
+      <if test="cdKt != null" >
+        CD_KT = #{cdKt,jdbcType=DECIMAL},
+      </if>
+      <if test="bz2 != null" >
+        bz2 = #{bz2,jdbcType=VARCHAR},
+      </if>
+      <if test="bz1 != null" >
+        bz1 = #{bz1,jdbcType=VARCHAR},
+      </if>
+      <if test="chTime != null" >
+        ch_time = #{chTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="jlKtCnt1 != null" >
+        JL_KT_CNT1 = #{jlKtCnt1,jdbcType=DECIMAL},
+      </if>
+      <if test="jlXtCnt1 != null" >
+        JL_XT_CNT1 = #{jlXtCnt1,jdbcType=DECIMAL},
+      </if>
+      <if test="jlKtCnt2 != null" >
+        JL_KT_CNT2 = #{jlKtCnt2,jdbcType=DECIMAL},
+      </if>
+      <if test="jlXtCnt2 != null" >
+        JL_XT_CNT2 = #{jlXtCnt2,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.atguigu.entity.CourseTc" >
+    update course_tc
+    set JL_KT_PER1 = #{jlKtPer1,jdbcType=DECIMAL},
+      JL_XT_PER1 = #{jlXtPer1,jdbcType=DECIMAL},
+      JL_KT_PER2 = #{jlKtPer2,jdbcType=DECIMAL},
+      JL_XT_PER2 = #{jlXtPer2,jdbcType=DECIMAL},
+      CD_KT = #{cdKt,jdbcType=DECIMAL},
+      bz2 = #{bz2,jdbcType=VARCHAR},
+      bz1 = #{bz1,jdbcType=VARCHAR},
+      ch_time = #{chTime,jdbcType=TIMESTAMP},
+      JL_KT_CNT1 = #{jlKtCnt1,jdbcType=DECIMAL},
+      JL_XT_CNT1 = #{jlXtCnt1,jdbcType=DECIMAL},
+      JL_KT_CNT2 = #{jlKtCnt2,jdbcType=DECIMAL},
+      JL_XT_CNT2 = #{jlXtCnt2,jdbcType=DECIMAL}
+    where course_id = #{courseId,jdbcType=VARCHAR}
+  </update>
+</mapper>
