@@ -2,8 +2,10 @@ package com.atguigu.service.impl;
 
 import com.atguigu.dao.CourseInfoMapper;
 import com.atguigu.dao.CourseMapper;
+import com.atguigu.dao.CourseTcMapper;
 import com.atguigu.entity.Course;
 import com.atguigu.entity.CourseInfo;
+import com.atguigu.entity.CourseTc;
 import com.atguigu.service.CourseService;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,8 @@ public class CourseServiceImpl implements CourseService {
     private CourseMapper course;
     @Resource
     private CourseInfoMapper courseInfoMapper;
+    @Resource
+    private CourseTcMapper courseTcMapper;
 
 
     public Course getCourseById(String course_id) {
@@ -110,5 +114,10 @@ public class CourseServiceImpl implements CourseService {
         }
 
         return result;
+    }
+
+    @Override
+    public CourseTc getCourseTcInfo(String course_id){
+        return courseTcMapper.selectByPrimaryKey(course_id);
     }
 }

@@ -39,14 +39,17 @@ public class UserIconsController {
         Map<String,List<String>> map = new HashMap<>();
         List<String> list1 = new ArrayList<>();
         List<String> list2 = new ArrayList<>();
+        List<String> list3 = new ArrayList<>();
         List<Map<String, String>> list = userIconsService.queryCoachInfoIcons(coach_id, type);
         logger.info("list size :"+list.size());
         for(Map<String, String> map1 :list){
             list1.add(CommParams.WEB_URL+map1.get("icon_url").replaceAll("/app/test",""));
             list2.add(map1.get("icon_name"));
+            list3.add(CommParams.WEB_URL+map1.get("icon_url").replaceAll("/app/test","").replace(".","_s."));
         }
         map.put("icons_url",list1);
         map.put("icons_name",list2);
+        map.put("icons_url_s",list3);
         return map;
 
     }
