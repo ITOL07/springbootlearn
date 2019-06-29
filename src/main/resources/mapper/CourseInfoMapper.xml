@@ -16,10 +16,11 @@
     <result column="info_pic" property="info_pic" jdbcType="VARCHAR" />
     <result column="sale_pic" property="sale_pic" jdbcType="VARCHAR" />
     <result column="min_count" property="min_count" jdbcType="INTEGER" />
+    <result column="process" property="process" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     course_type, course_name, try_flag, bz2, club_type, coach_type, brief, detail, approp, 
-    course_time, suggest,info_pic,sale_pic,min_count
+    course_time, suggest,info_pic,sale_pic,min_count,process
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -86,6 +87,9 @@
       <if test="min_count != null" >
         min_count,
       </if>
+      <if test="process != null" >
+        process,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="courseType != null" >
@@ -130,6 +134,9 @@
       <if test="min_count != null" >
         #{min_count,jdbcType=INTEGER},
       </if>
+      <if test="process != null" >
+        #{process,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="com.atguigu.entity.CourseInfo" >
@@ -173,6 +180,9 @@
       </if>
       <if test="min_count != null" >
         min_count = #{min_count,jdbcType=VARCHAR},
+      </if>
+      <if test="process != null" >
+        process = #{process,jdbcType=VARCHAR},
       </if>
     </set>
     where course_type = #{courseType,jdbcType=VARCHAR}

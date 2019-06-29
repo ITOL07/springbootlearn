@@ -34,4 +34,6 @@ public class CourseInfo {
 
     private int min_count;
 
+    private String process;
+
 }

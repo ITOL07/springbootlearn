@@ -317,6 +317,7 @@ public class ClubController {
         Object ob = map.get("min_price");
         resMap.put("min_price",ob.toString());
         resMap.put("max_price",((Object)map.get("max_price")).toString());
+        resMap.put("process",cInfo.getProcess());
         return resMap;
     }
 
@@ -351,6 +352,13 @@ public class ClubController {
         List<Map<String,String>> resList=new ArrayList<>();
         List<Coach> list = coachService.getCoachByClubId(club_id);
         logger.info("club_id ====" + club_id);
+        if(list==null){
+            Map<String,String> map = new HashMap<>();
+            map.put("resCode","404");
+            map.put("resInfo","该门店暂时还没有教练哦");
+            resList.add(map);
+            return resList;
+        }
         for(Coach c:list){
             String coachId=c.getCoachId();
             Map<String,String> map=coachService.getCoachInfoByView(coachId);
