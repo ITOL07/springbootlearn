@@ -32,7 +32,7 @@ public class crontab {
      * 每隔五分钟执行
      * 对已签到课程进行扫描，对于已经超过签退时间的课程，修改为已完成
      */
-    @Scheduled(cron = "0 0/30 * * * ?")
+    @Scheduled(cron = "0 0/1 * * * ?")
     private void configureTasks() {
         logger.info("执行定时刷新member_lesson表状态: ");
         boolean b = false;

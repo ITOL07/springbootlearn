@@ -3,10 +3,7 @@ package com.atguigu.controller;
 import com.atguigu.dao.TClubLessonRegMapper;
 import com.atguigu.dao.TCoachLessonRegMapper;
 import com.atguigu.entity.*;
-import com.atguigu.service.CourseService;
-import com.atguigu.service.MemberService;
-import com.atguigu.service.OrderService;
-import com.atguigu.service.UserService1;
+import com.atguigu.service.*;
 import com.atguigu.util.getSeqNo;
 import com.atguigu.wechatpay.app.UnifiedOrder;
 import org.slf4j.Logger;
@@ -18,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,6 +45,9 @@ public class wxpayController {
 
     @Resource
     private TClubLessonRegMapper tClubLessonRegMapper;
+
+    @Resource
+    private IncomeService incomeService;
 
     @PostMapping("/id")
     public  Map<String, Object> wxpay(
@@ -174,6 +175,7 @@ public class wxpayController {
             MemberCourse mc=step1(open_id,course_id,total_lesson);
             step2(course_id,total_lesson);
             step3(mc);
+            step4(course_id,total_lesson);
 
         }
 
@@ -305,6 +307,53 @@ public class wxpayController {
             logger.info("第"+i+"节课插入lesson表成功");
         }
 
+        return bool;
+    }
+
+    //step4 记入销提
+    public boolean step4(String course_id,int sold_count){
+        boolean bool=false;
+        Date date = new Date();
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String today=formatter.format(date);
+
+        Course c=courseService.getCourseById(course_id);
+        String club_id=c.getClubId();
+        String coach_id=c.getCoachId();
+//        String course_type=c.getType();
+
+        TIncomeDtl tIncomeDtl = new TIncomeDtl();
+        tIncomeDtl.setCourseId(course_id)
+                .setRegDate(date)
+                .setCoachId(coach_id)
+                .setClubId(club_id)
+                .setRegTime(date)
+        ;
+
+        TIncomeDtl list=incomeService.getIncomDtl(course_id,today);
+
+        //开始登记t_income_dtl表数据
+        if(list==null){
+            logger.info("t_income_dtl表今天没有课程，开始新增当天数据");
+            tIncomeDtl.setXtCnt(sold_count);
+            int insertDtl = incomeService.insertIncomDtl(tIncomeDtl);
+            if(insertDtl==1){
+                logger.info("t_income_dtl表新增当天数据完成");
+            }else{
+                logger.info("t_income_dtl表新增当天数据失败");
+            }
+        }else{
+            logger.info("t_income_dtl表今天此类型的课已经有记录，开始更新，售课节数为["+sold_count+"]  课程id为"+course_id);
+
+            tIncomeDtl.setXtCnt(list.getXtCnt()+sold_count);
+
+            int insertflag= incomeService.updateIncomDtl(tIncomeDtl);
+            if(insertflag==1){
+                logger.info("t_income_dtl表更新当天数据完成");
+            }else{
+                logger.info("t_income_dtl表更新当天数据失败");
+            }
+        }
         return bool;
     }
 }

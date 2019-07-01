@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.text.*;
 
@@ -33,6 +35,8 @@ public class AttendClassController {
     private TCoachLessonRegService tCoachLessonRegService;
     @Resource
     private TClubLessonRegService tClubLessonRegService;
+    @Resource
+    private IncomeService incomeService;
 
     /***
      * @param kc_id 课程id
@@ -90,16 +94,17 @@ public class AttendClassController {
                 logger.info("更新表member_course成功，已变更会员课程节数信息，开始对教练日记表进行维护");
             }
             //获取维护教练日记表t_coach_lesson_reg,场地日记表t_club_lesson_reg所需要的数据
-            Map<String, String> map1 = memberService.selecctInfoByKcid(memberLesson);
-            Course course = courseService.selectByPrimaryKey(map1.get("sale_id"));
+            Map<String, Object> map1 = memberService.selecctInfoByKcid(memberLesson);
+            Course course = courseService.selectByPrimaryKey(map1.get("sale_id").toString());
             Date date = new Date();
+
             //装载教练日记表t_coach_lesson_reg实体类
             TCoachLessonReg tCoachLessonReg = new TCoachLessonReg();
             tCoachLessonReg.setRegDate(date).setCourseType(course.getType().toString());
             TCoachLessonReg tCoachLessonReg1 = tCoachLessonRegService.seletNumByDate(tCoachLessonReg);
 
             int les_count = null!=tCoachLessonReg1?tCoachLessonReg1.getLesCount():0;
-            tCoachLessonReg.setCoachId(map1.get("coach_id"))
+            tCoachLessonReg.setCoachId(map1.get("coach_id").toString())
                     .setLesCount(les_count+1)
                     .setLesPrice(course.getPrice())
                     .setRegTime(date);
@@ -122,12 +127,13 @@ public class AttendClassController {
                     logger.info("教练日记表更新当天数据失败");
                 }
             }
+
             //装载场地日记表t_club_lesson_reg实体类
             TClubLessonReg tClubLessonReg = new TClubLessonReg();
             tClubLessonReg.setRegDate(date).setCourseType(course.getType().toString());
             TClubLessonReg tClubLessonReg1 = tClubLessonRegService.seletNumByDate(tClubLessonReg);
             int les_count_club = null!=tClubLessonReg1?tClubLessonReg1.getLesCount():0;
-            tClubLessonReg.setClubId(map1.get("club_id"))
+            tClubLessonReg.setClubId(map1.get("club_id").toString())
                     .setLesCount(les_count_club+1)
                     .setLesPrice(course.getPrice())
                     .setRegTime(date);
@@ -150,6 +156,153 @@ public class AttendClassController {
                     logger.info("场地日记表更新当天数据失败");
                 }
             }
+
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String today=formatter.format(date);
+
+            //登记t_income_dtl
+            String course_id=map1.get("sale_id").toString();
+            TIncomeDtl tIncomeDtl = new TIncomeDtl();
+                    tIncomeDtl.setCourseId(course_id)
+                    .setRegDate(date)
+                    .setCoachId(map1.get("coach_id").toString())
+                    .setClubId(map1.get("club_id").toString())
+                    .setRegTime(date)
+            ;
+
+            TIncomeDtl list=incomeService.getIncomDtl(course_id,today);
+
+            //开始登记t_income_dtl表数据
+            if(list==null){
+                logger.info("t_income_dtl表今天没有课程，开始新增当天数据");
+                tIncomeDtl.setKtCnt(1);
+                int insertDtl = incomeService.insertIncomDtl(tIncomeDtl);
+                if(insertDtl==1){
+                    logger.info("t_income_dtl表新增当天数据完成");
+                }else{
+                    logger.info("t_income_dtl表新增当天数据失败");
+                }
+            }else{
+                logger.info("t_income_dtl表今天此类型的课已经有结束的课程，开始更新当天类型："+tClubLessonReg1.getCourseType()+",上课次数为："+(tClubLessonReg1.getLesCount()+1));
+
+                tIncomeDtl.setKtCnt(list.getKtCnt()+1);
+                logger.info("tIncomeDtl.toString():"+tIncomeDtl.toString());
+                int insertflag= incomeService.updateIncomDtl(tIncomeDtl);
+                if(insertflag==1){
+                    logger.info("t_income_dtl表更新当天数据完成");
+                }else{
+                    logger.info("t_income_dtl表更新当天数据失败");
+                }
+            }
+
+
+            //登记t_income,教练部分
+            String coach_id=map1.get("coach_id").toString();
+            String club_id=map1.get("club_id").toString();
+
+            //1--体验课   其他-- 非体验课
+            boolean try_flag=map1.get("course_type").toString().equals("1")?true:false;
+
+            Map<String,Object> lesSummap = incomeService.getCoachLesSum(course_id,coach_id,today);
+            Map<String,Object> clublesSummap = incomeService.getClubLesSum(course_id,club_id,today);
+            logger.info("map" +lesSummap.toString());
+
+            BigDecimal KT_CNT=(BigDecimal)(lesSummap.get("kt_sum")==null?new BigDecimal(0):lesSummap.get("kt_sum"));
+            BigDecimal XT_CNT=(BigDecimal)(lesSummap.get("xt_sum")==null?new BigDecimal(0):lesSummap.get("xt_sum"));
+
+            BigDecimal CD_KT_CNT=(BigDecimal)(clublesSummap.get("kt_sum")==null?new BigDecimal(0):clublesSummap.get("kt_sum"));
+            BigDecimal PRICE = (BigDecimal)(map1.get("price"));
+
+            CourseTc tc = incomeService.getCourseTcInfo(course_id);
+            logger.info("tc info ==="+tc.toString());
+            BigDecimal JL_KTPER,JL_XTPER,CD_KTPER;
+            //1--场地教练   0--平台教练
+            boolean jlFlag=map1.get("coach_type").toString().equals("0")?true:false;
+            if(jlFlag){
+                JL_KTPER=tc.getJlKtPer1();
+                JL_XTPER=tc.getJlXtPer1();
+                CD_KTPER=new BigDecimal(0);
+            }else{
+                JL_KTPER=tc.getJlKtPer2();
+                JL_XTPER=tc.getJlXtPer2();
+                CD_KTPER=tc.getCdKt();
+            }
+
+            BigDecimal kt_sum,xt_sum,cd_kt_sum;
+            if(try_flag){
+                kt_sum=KT_CNT.multiply(tc.getJlKtCnt1());
+                xt_sum=new BigDecimal(0);
+                cd_kt_sum=new BigDecimal(0);
+            }else{
+                kt_sum=KT_CNT.multiply(PRICE).multiply(JL_KTPER);
+                xt_sum=XT_CNT.multiply(PRICE).multiply(JL_XTPER);
+                cd_kt_sum=CD_KT_CNT.multiply(PRICE).multiply(CD_KTPER);
+            }
+
+            TIncome tIncome_jl = new TIncome();
+            TIncome tIncome_cd = new TIncome();
+            tIncome_jl.setUserId(coach_id)
+                    .setRegDate(date)
+                    .setRegTime(date)
+                    .setKtCnt(KT_CNT)
+                    .setKtPer(JL_KTPER)
+                    .setXtPer(JL_XTPER)
+                    .setKtSum(kt_sum)
+                    .setXtSum(xt_sum)
+            ;
+
+            tIncome_cd.setUserId(club_id)
+                    .setRegDate(date)
+                    .setRegTime(date)
+                    .setKtCnt(CD_KT_CNT)
+                    .setKtPer(CD_KTPER)
+                    .setKtSum(cd_kt_sum);
+
+
+            TIncome tIncome_jl_before=incomeService.getIncom(coach_id,today);
+
+            //开始登记t_income表数据(教练)
+            if(tIncome_jl_before==null){
+                logger.info("t_income表今天没有课程，新增当天数据"+tIncome_jl.toString());
+
+                int insertDtl = incomeService.insertIncom(tIncome_jl);
+                if(insertDtl==1){
+                    logger.info("t_income表新增当天数据完成");
+                }else{
+                    logger.info("t_income表新增当天数据失败");
+                }
+            }else{
+                logger.info("t_income表今天此类型的课已经有记录，开始更新："+tIncome_jl.toString());
+
+                int insertflag= incomeService.updateIncom(tIncome_jl);
+                if(insertflag==1){
+                    logger.info("t_income表更新当天数据完成");
+                }else{
+                    logger.info("t_income表更新当天数据失败");
+                }
+            }
+            //开始登记t_income表数据(场地)
+            TIncome tIncome_cd_before=incomeService.getIncom(club_id,today);
+            if(tIncome_cd_before==null){
+                logger.info("t_income表今天没有课程，开始新增当天数据"+tIncome_cd.toString());
+
+                int insertDtl = incomeService.insertIncom(tIncome_cd);
+                if(insertDtl==1){
+                    logger.info("t_income表新增当天数据完成");
+                }else{
+                    logger.info("t_income表新增当天数据失败");
+                }
+            }else{
+                logger.info("t_income表今天此类型的课已经有记录，开始更新："+tIncome_cd.toString());
+
+                int insertflag= incomeService.updateIncom(tIncome_cd);
+                if(insertflag==1){
+                    logger.info("t_income表更新当天数据完成");
+                }else{
+                    logger.info("t_income表更新当天数据失败");
+                }
+            }
+
         }
 
         return map;
@@ -179,7 +332,7 @@ public class AttendClassController {
         ;
 
 
-        Map<String, String> map1 = memberService.selecctInfoByKcid(memberLesson);
+        Map<String, Object> map1 = memberService.selecctInfoByKcid(memberLesson);
         logger.info(map1.toString());
         Date start_time = new Date();
         Date end_time = new Date();
@@ -188,8 +341,8 @@ public class AttendClassController {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try{
 
-            start_time=formatter.parse(map1.get("start_time_1"));
-            end_time=formatter.parse(map1.get("end_time_1"));
+            start_time=formatter.parse(map1.get("start_time_1").toString());
+            end_time=formatter.parse(map1.get("end_time_1").toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -206,42 +359,42 @@ public class AttendClassController {
             tCancel = new TMemberLessonCancel();
             tCancel.setKcId(kc_id)
                     .setSeqNo(f);
-            tCancel.setMemId(map1.get("mem_id"))
-                    .setCancelUser(map1.get("coach_name"))
-                    .setClubName(map1.get("club_name"))
-                    .setCoachName(map1.get("coach_name"))
-                    .setCourseName(map1.get("course_name"))
+            tCancel.setMemId(map1.get("mem_id").toString())
+                    .setCancelUser(map1.get("coach_name").toString())
+                    .setClubName(map1.get("club_name").toString())
+                    .setCoachName(map1.get("coach_name").toString())
+                    .setCourseName(map1.get("course_name").toString())
                     .setStartTime1(start_time)
                     .setEndTime1(end_time)
-                    .setMemIcon(map1.get("mem_icon"))
-                    .setCourseType(map1.get("course_type"))
-                    .setCoachId(map1.get("coach_id"))
-                    .setClubId(map1.get("club_id"))
-                    .setBz1(map1.get("bz1"))
+                    .setMemIcon(map1.get("mem_icon").toString())
+                    .setCourseType(map1.get("course_type").toString())
+                    .setCoachId(map1.get("coach_id").toString())
+                    .setClubId(map1.get("club_id").toString())
+                    .setBz1(map1.get("bz1").toString())
                     .setCancelState(1)
                     .setCancelReason("教练取消")
-                    .setMemName(map1.get("mem_name"));
+                    .setMemName(map1.get("mem_name").toString());
             memberService.addMemLesscancel(tCancel);
         }
         //原来有记录，更新
         else{
             tCancel.setKcId(kc_id)
                     .setSeqNo(f);
-            tCancel.setMemId(map1.get("mem_id"))
-                    .setCancelUser(map1.get("coach_name"))
-                    .setClubName(map1.get("club_name"))
-                    .setCoachName(map1.get("coach_name"))
-                    .setCourseName(map1.get("course_name"))
+            tCancel.setMemId(map1.get("mem_id").toString())
+                    .setCancelUser(map1.get("coach_name").toString())
+                    .setClubName(map1.get("club_name").toString())
+                    .setCoachName(map1.get("coach_name").toString())
+                    .setCourseName(map1.get("course_name").toString())
                     .setStartTime1(start_time)
                     .setEndTime1(end_time)
-                    .setCoachId(map1.get("coach_id"))
-                    .setClubId(map1.get("club_id"))
-                    .setMemIcon(map1.get("mem_icon"))
-                    .setCourseType(map1.get("course_type"))
-                    .setBz1(map1.get("bz1"))
+                    .setCoachId(map1.get("coach_id").toString())
+                    .setClubId(map1.get("club_id").toString())
+                    .setMemIcon(map1.get("mem_icon").toString())
+                    .setCourseType(map1.get("course_type").toString())
+                    .setBz1(map1.get("bz1").toString())
                     .setCancelState(1)
                     .setCancelReason("教练取消")
-                    .setMemName(map1.get("mem_name"));
+                    .setMemName(map1.get("mem_name").toString());
             tCancel.setCancelCount(tCancel.getCancelCount()+1);
             memberService.updateMemLesscancel(tCancel);
         }
@@ -280,7 +433,7 @@ public class AttendClassController {
         ;
 
 
-        Map<String, String> map1 = memberService.selecctInfoByKcid(memberLesson);
+        Map<String, Object> map1 = memberService.selecctInfoByKcid(memberLesson);
         logger.info(map1.toString());
         Date start_time = new Date();
         Date end_time = new Date();
@@ -289,8 +442,8 @@ public class AttendClassController {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try{
 
-            start_time=formatter.parse(map1.get("start_time_1"));
-            end_time=formatter.parse(map1.get("end_time_1"));
+            start_time=formatter.parse(map1.get("start_time_1").toString());
+            end_time=formatter.parse(map1.get("end_time_1").toString());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -306,42 +459,42 @@ public class AttendClassController {
             tCancel = new TMemberLessonCancel();
             tCancel.setKcId(kc_id)
                     .setSeqNo(f);
-            tCancel.setMemId(map1.get("mem_id"))
-                    .setCancelUser(map1.get("coach_name"))
-                    .setClubName(map1.get("club_name"))
-                    .setCoachName(map1.get("coach_name"))
-                    .setCourseName(map1.get("course_name"))
+            tCancel.setMemId(map1.get("mem_id").toString())
+                    .setCancelUser(map1.get("coach_name").toString())
+                    .setClubName(map1.get("club_name").toString())
+                    .setCoachName(map1.get("coach_name").toString())
+                    .setCourseName(map1.get("course_name").toString())
                     .setStartTime1(start_time)
                     .setEndTime1(end_time)
-                    .setMemIcon(map1.get("mem_icon"))
-                    .setCourseType(map1.get("course_type"))
-                    .setCoachId(map1.get("coach_id"))
-                    .setClubId(map1.get("club_id"))
-                    .setBz1(map1.get("bz1"))
+                    .setMemIcon(map1.get("mem_icon").toString())
+                    .setCourseType(map1.get("course_type").toString())
+                    .setCoachId(map1.get("coach_id").toString())
+                    .setClubId(map1.get("club_id").toString())
+                    .setBz1(map1.get("bz1").toString())
                     .setCancelState(state)
                     .setCancelReason("旷课取消")
-                    .setMemName(map1.get("mem_name"));
+                    .setMemName(map1.get("mem_name").toString());
             memberService.addMemLesscancel(tCancel);
         }
         //原来有记录，更新
         else{
             tCancel.setKcId(kc_id)
                     .setSeqNo(f);
-            tCancel.setMemId(map1.get("mem_id"))
-                    .setCancelUser(map1.get("coach_name"))
-                    .setClubName(map1.get("club_name"))
-                    .setCoachName(map1.get("coach_name"))
-                    .setCourseName(map1.get("course_name"))
+            tCancel.setMemId(map1.get("mem_id").toString())
+                    .setCancelUser(map1.get("coach_name").toString())
+                    .setClubName(map1.get("club_name").toString())
+                    .setCoachName(map1.get("coach_name").toString())
+                    .setCourseName(map1.get("course_name").toString())
                     .setStartTime1(start_time)
                     .setEndTime1(end_time)
-                    .setCoachId(map1.get("coach_id"))
-                    .setClubId(map1.get("club_id"))
-                    .setMemIcon(map1.get("mem_icon"))
-                    .setCourseType(map1.get("course_type"))
-                    .setBz1(map1.get("bz1"))
+                    .setCoachId(map1.get("coach_id").toString())
+                    .setClubId(map1.get("club_id").toString())
+                    .setMemIcon(map1.get("mem_icon").toString())
+                    .setCourseType(map1.get("course_type").toString())
+                    .setBz1(map1.get("bz1").toString())
                     .setCancelState(state)
                     .setCancelReason("旷课取消")
-                    .setMemName(map1.get("mem_name"));
+                    .setMemName(map1.get("mem_name").toString());
             tCancel.setCancelCount(tCancel.getCancelCount()+1);
             memberService.updateMemLesscancel(tCancel);
         }

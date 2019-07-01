@@ -91,7 +91,7 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public Map<String, String> selecctInfoByKcid(MemberLesson record) {
+    public Map<String, Object> selecctInfoByKcid(MemberLesson record) {
         return mem_les.selecctInfoByKcid(record);
     }
 

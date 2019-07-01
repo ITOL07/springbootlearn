@@ -5,10 +5,7 @@ import com.atguigu.entity.Club;
 import com.atguigu.entity.Coach;
 import com.atguigu.entity.Course;
 import com.atguigu.entity.CourseInfo;
-import com.atguigu.service.ClubService;
-import com.atguigu.service.CoachService;
-import com.atguigu.service.CourseService;
-import com.atguigu.service.MemberService;
+import com.atguigu.service.*;
 import com.atguigu.util.CommParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +41,8 @@ public class CoachController {
     private CourseService courseService;
     @Resource
     private ClubService clubService;
+    @Resource
+    private IncomeService incomeService;
 
 
     /***
@@ -340,59 +339,65 @@ public class CoachController {
 
     }
 
+//    @RequestMapping("/qrySum")
+//    public Map<Object, Object> qrySum(
+//            @RequestParam("coach_id") String coach_id,
+//            @RequestParam("reg_date") String reg_date
+//    ) {
+//        logger.info("qrySum ---- mem_id ====" + coach_id + "reg_date=====" + reg_date);
+//
+//        Map<Object,Object> map= new HashMap<Object,Object>();
+//        Map<Object,Object> resMap= new HashMap<Object,Object>();
+//
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Calendar c =Calendar.getInstance();
+//        c.set( Calendar.MONTH, Integer.parseInt(reg_date.substring(5,7))-1);
+//        c.set(Calendar.DAY_OF_MONTH,c.getActualMaximum(Calendar.DAY_OF_MONTH));
+////        c.getTime();
+//        Date date = c.getTime();
+//        logger.info("传入日期的月末日期为："+date);
+//
+//        map=coachService.getCoachIncomeSumById(coach_id, date);
+//        if(map!=null){
+//            logger.info("map.get(\"les_count_sum\");==========="+map.get("les_count_sum"));
+//
+//            int les_count_sum=Integer.parseInt(map.get("les_count_sum").toString());
+//            int sold_count_sum=Integer.parseInt(map.get("sold_count_sum").toString());
+//
+//            float les_total_amt=Float.parseFloat(map.get("les_total_amt").toString());
+//            float sold_total_amt=Float.parseFloat(map.get("sold_total_amt").toString());
+//
+//            float les_pct=coachService.getCoachIncomePct(les_count_sum,"JL_KT");
+//            float sold_pct=coachService.getCoachIncomePct(sold_count_sum,"JL_XT");
+//
+//            float les_amt=les_total_amt*les_pct;
+//            float sold_amt=sold_total_amt*sold_pct;
+//
+//            resMap.put("les_total_amt",les_amt);
+//            resMap.put("sold_total_amt",sold_amt);
+//
+//            logger.info("les_count_sum=["+les_count_sum+"]\t les_pct=["+les_pct+"]\t les_amt=["+les_amt+"]\t les_total_amt=["+les_total_amt+"]");
+//            logger.info("sold_count_sum=["+sold_count_sum+"]\t sold_pct=["+sold_pct+"]\t sold_amt=["+sold_amt+"]\t sold_total_amt=["+sold_total_amt+"]");
+//            return resMap;
+//        }else{
+//            resMap.put("errorNo","-1");
+//            resMap.put("errorMsg","所查月份无记录");
+//            return resMap;
+//        }
+//
+//
+//    }
+
     @RequestMapping("/qrySum")
-    public Map<Object, Object> qrySum(
+    public Map<String, Object> qrySum(
             @RequestParam("coach_id") String coach_id,
             @RequestParam("reg_date") String reg_date
     ) {
-        logger.info("qrySum ---- mem_id ====" + coach_id + "reg_date=====" + reg_date);
+        logger.info("qrySum ---- coach_id ====" + coach_id + "reg_date=====" + reg_date);
 
-        Map<Object,Object> map= new HashMap<Object,Object>();
-        Map<Object,Object> resMap= new HashMap<Object,Object>();
+        Map<String,Object> resMap =incomeService.getSum(coach_id,reg_date);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Calendar c =Calendar.getInstance();
-        c.set( Calendar.MONTH, Integer.parseInt(reg_date.substring(5,7))-1);
-        c.set(Calendar.DAY_OF_MONTH,c.getActualMaximum(Calendar.DAY_OF_MONTH));
-//        c.getTime();
-        Date date = c.getTime();
-        logger.info("传入日期的月末日期为："+date);
-//        try {
-//            date = sdf.parse(reg_date);
-//
-//        } catch (ParseException e) {
-//            logger.info("抛出异常");
-//        }
-
-        map=coachService.getCoachIncomeSumById(coach_id, date);
-        if(map!=null){
-            logger.info("map.get(\"les_count_sum\");==========="+map.get("les_count_sum"));
-
-            int les_count_sum=Integer.parseInt(map.get("les_count_sum").toString());
-            int sold_count_sum=Integer.parseInt(map.get("sold_count_sum").toString());
-
-            float les_total_amt=Float.parseFloat(map.get("les_total_amt").toString());
-            float sold_total_amt=Float.parseFloat(map.get("sold_total_amt").toString());
-
-            float les_pct=coachService.getCoachIncomePct(les_count_sum,"JL_KT");
-            float sold_pct=coachService.getCoachIncomePct(sold_count_sum,"JL_XT");
-
-            float les_amt=les_total_amt*les_pct;
-            float sold_amt=sold_total_amt*sold_pct;
-
-            resMap.put("les_total_amt",les_amt);
-            resMap.put("sold_total_amt",sold_amt);
-
-            logger.info("les_count_sum=["+les_count_sum+"]\t les_pct=["+les_pct+"]\t les_amt=["+les_amt+"]\t les_total_amt=["+les_total_amt+"]");
-            logger.info("sold_count_sum=["+sold_count_sum+"]\t sold_pct=["+sold_pct+"]\t sold_amt=["+sold_amt+"]\t sold_total_amt=["+sold_total_amt+"]");
-            return resMap;
-        }else{
-            resMap.put("errorNo","-1");
-            resMap.put("errorMsg","所查月份无记录");
-            return resMap;
-        }
-
-
+        return resMap;
     }
 
     @RequestMapping("/qryMyMember")

@@ -32,7 +32,7 @@ public interface MemberService {
 
     public Map<Object,Object> getMemCourseSum(String mem_id);
 
-    public Map<String,String> selecctInfoByKcid(MemberLesson record);
+    public Map<String,Object> selecctInfoByKcid(MemberLesson record);
 
     public int selectseqno(MemberLesson record);
 

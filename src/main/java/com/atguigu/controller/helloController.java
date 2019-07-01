@@ -1,10 +1,10 @@
 package com.atguigu.controller;
 
-import com.atguigu.entity.Club;
-import com.atguigu.entity.Course;
-import com.atguigu.entity.CourseInfo;
-import com.atguigu.entity.User;
+import com.atguigu.entity.*;
+import com.atguigu.service.IncomeService;
 import com.atguigu.service.UserService1;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.math.BigDecimal;
+import java.util.Map;
 
 /**
  * 万能的helloWorld，入门
@@ -25,8 +27,12 @@ import javax.servlet.http.HttpServletRequest;
 //@EnableScheduling
 public class helloController {
 //
+    private Logger logger = LoggerFactory.getLogger(helloController.class);
     @Resource
     UserService1 userService1;
+
+    @Resource
+    IncomeService incomeService;
 
     @ResponseBody
     @RequestMapping("/payResult")
@@ -54,11 +60,17 @@ public class helloController {
 
     @ResponseBody
     @RequestMapping("/test1")
-    public User test1(User user){
+    public void test1(User user){
 
-        System.out.println(user.toString());
-        return userService1.getUser(user);
+        Map<String,Object> map = incomeService.getCoachLesSum("0004","JL201904200003","2019-07-02");
+        logger.info("map" +map.toString());
+        BigDecimal KT_CNT=(BigDecimal)map.get("kt_sum");
+        CourseTc tc = incomeService.getCourseTcInfo("0004");
+        logger.info("tc info ==="+tc.toString());
 
+//        Map<String,Object> clublesSummap = incomeService.getClubLesSum("0004","CD201904200001","2019-07-02");
+        BigDecimal XT_CNT=(BigDecimal)(map.get("xt_sum"));
+        logger.info("XT_CNT===="+XT_CNT+"map.get(\"xt_sum\")=="+map.get("xt_sum"));
     }
 }
 

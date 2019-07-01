@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.atguigu.dao.TIncomeMapper">
+  <resultMap id="BaseResultMap" type="com.atguigu.entity.TIncome">
+    <result column="user_id" jdbcType="VARCHAR" property="userId" />
+    <result column="user_type" jdbcType="VARCHAR" property="userType" />
+    <result column="reg_date" jdbcType="DATE" property="regDate" />
+    <result column="KT_PER" jdbcType="DECIMAL" property="ktPer" />
+    <result column="KT_SUM" jdbcType="DECIMAL" property="ktSum" />
+    <result column="KT_CNT" jdbcType="DECIMAL" property="ktCnt" />
+    <result column="XT_PER" jdbcType="DECIMAL" property="xtPer" />
+    <result column="XT_SUM" jdbcType="DECIMAL" property="xtSum" />
+    <result column="XT_CNT" jdbcType="DECIMAL" property="xtCnt" />
+    <result column="bz1" jdbcType="VARCHAR" property="bz1" />
+    <result column="bz2" jdbcType="VARCHAR" property="bz2" />
+    <result column="reg_time" jdbcType="TIMESTAMP" property="regTime" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, user_type, reg_date,KT_PER, KT_SUM, KT_CNT,XT_PER, XT_SUM, XT_CNT,bz1, bz2, reg_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from t_income
+    where user_id = #{userId,jdbcType=VARCHAR}
+    and reg_date like CONCAT('%',#{regDate,jdbcType=VARCHAR},'%')
+  </select>
+  <select id="selectSum" resultType="map" parameterType="java.lang.String" >
+    select
+    user_id,sum(kt_sum) kt_sum,sum(xt_sum) xt_sum
+    from t_income
+    where 1=1
+    <if test="userId != null">
+      and user_id=#{userId,jdbcType=VARCHAR}
+    </if>
+    and  DATE_FORMAT(reg_date,'%Y-%m') = DATE_FORMAT(#{regDate,jdbcType=VARCHAR},'%Y-%m')
+    group by user_id
+  </select>
+  <insert id="insert" parameterType="com.atguigu.entity.TIncome">
+    insert into t_income (user_id, user_type, reg_date, 
+      KT_PER, KT_SUM, KT_CNT, 
+      XT_PER, XT_SUM, XT_CNT, 
+      bz1, bz2, reg_time
+      )
+    values (#{userId,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, #{regDate,jdbcType=DATE}, 
+      #{ktPer,jdbcType=DECIMAL}, #{ktSum,jdbcType=DECIMAL}, #{ktCnt,jdbcType=DECIMAL}, 
+      #{xtPer,jdbcType=DECIMAL}, #{xtSum,jdbcType=DECIMAL}, #{xtCnt,jdbcType=DECIMAL}, 
+      #{bz1,jdbcType=VARCHAR}, #{bz2,jdbcType=VARCHAR}, #{regTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.atguigu.entity.TIncome">
+    insert into t_income
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="userType != null">
+        user_type,
+      </if>
+      <if test="regDate != null">
+        reg_date,
+      </if>
+      <if test="ktPer != null">
+        KT_PER,
+      </if>
+      <if test="ktSum != null">
+        KT_SUM,
+      </if>
+      <if test="ktCnt != null">
+        KT_CNT,
+      </if>
+      <if test="xtPer != null">
+        XT_PER,
+      </if>
+      <if test="xtSum != null">
+        XT_SUM,
+      </if>
+      <if test="xtCnt != null">
+        XT_CNT,
+      </if>
+      <if test="bz1 != null">
+        bz1,
+      </if>
+      <if test="bz2 != null">
+        bz2,
+      </if>
+      <if test="regTime != null">
+        reg_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null">
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="regDate != null">
+        #{regDate,jdbcType=DATE},
+      </if>
+      <if test="ktPer != null">
+        #{ktPer,jdbcType=DECIMAL},
+      </if>
+      <if test="ktSum != null">
+        #{ktSum,jdbcType=DECIMAL},
+      </if>
+      <if test="ktCnt != null">
+        #{ktCnt,jdbcType=DECIMAL},
+      </if>
+      <if test="xtPer != null">
+        #{xtPer,jdbcType=DECIMAL},
+      </if>
+      <if test="xtSum != null">
+        #{xtSum,jdbcType=DECIMAL},
+      </if>
+      <if test="xtCnt != null">
+        #{xtCnt,jdbcType=DECIMAL},
+      </if>
+      <if test="bz1 != null">
+        #{bz1,jdbcType=VARCHAR},
+      </if>
+      <if test="bz2 != null">
+        #{bz2,jdbcType=VARCHAR},
+      </if>
+      <if test="regTime != null">
+        #{regTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateSelective" parameterType="com.atguigu.entity.TIncome">
+    update t_income
+    <set >
+      <if test="userType != null">
+        user_type=#{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="ktPer != null">
+        kt_per=#{ktPer,jdbcType=DECIMAL},
+      </if>
+      <if test="ktSum != null">
+        kt_sum=#{ktSum,jdbcType=DECIMAL},
+      </if>
+      <if test="ktCnt != null">
+        kt_cnt=#{ktCnt,jdbcType=DECIMAL},
+      </if>
+      <if test="xtPer != null">
+        xt_per=#{xtPer,jdbcType=DECIMAL},
+      </if>
+      <if test="xtSum != null">
+        xt_sum=#{xtSum,jdbcType=DECIMAL},
+      </if>
+      <if test="xtCnt != null">
+        xt_cnt=#{xtCnt,jdbcType=DECIMAL},
+      </if>
+      <if test="bz1 != null">
+        bz1=#{bz1,jdbcType=VARCHAR},
+      </if>
+      <if test="bz2 != null">
+        bz2=#{bz2,jdbcType=VARCHAR},
+      </if>
+      <if test="regTime != null">
+        reg_time=#{regTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where
+    <if test="userId != null">
+      user_id= #{userId,jdbcType=VARCHAR}
+    </if>
+    <if test="regDate != null">
+      and reg_date =#{regDate,jdbcType=DATE}
+    </if>
+  </update>
+</mapper>

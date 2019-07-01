@@ -11,7 +11,7 @@ public interface MemberLessonMapper {
 
     int insertSelective(MemberLesson record);
 
-    Map<String,String> selecctInfoByKcid(MemberLesson record);
+    Map<String,Object> selecctInfoByKcid(MemberLesson record);
 
     List<Map<Object, Object>> selectById(String memId);
 
