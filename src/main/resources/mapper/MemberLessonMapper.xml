@@ -479,7 +479,8 @@ mem_icon
       and club_id = #{clubId,jdbcType=VARCHAR}
     </if>
     <if test="reg_date !=''">
-      and start_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%')
+      and(start_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%')
+      or end_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%'))
     </if>
     order by kc_id,seq_no,start_time_1 desc
   </select>
