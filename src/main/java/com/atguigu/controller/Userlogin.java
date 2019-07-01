@@ -1,7 +1,13 @@
 package com.atguigu.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.atguigu.entity.Club;
+import com.atguigu.entity.Coach;
+import com.atguigu.entity.Member;
 import com.atguigu.entity.User;
+import com.atguigu.service.ClubService;
+import com.atguigu.service.CoachService;
+import com.atguigu.service.MemberService;
 import com.atguigu.service.UserService1;
 import com.atguigu.util.CommonRpc;
 import com.atguigu.util.getSeqNo;
@@ -15,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,6 +41,12 @@ public class Userlogin {
 
     @Autowired
     private UserService1 userService;
+    @Resource
+    private MemberService memberService;
+    @Resource
+    private CoachService coachService;
+    @Resource
+    private ClubService clubService;
 
 
     @PostMapping("/login")
@@ -345,6 +358,30 @@ public class Userlogin {
 
             Boolean flag = userService.updateUserByOpenid(user_tmp);
             result.put("errocode","您现在可以通过手机号登录，初始密码为000000");
+
+            //
+            String user_id=user_tmp.getId();
+            String prefix=user_id.substring(0,2);
+            logger.info("开始更新member/coach/club表 prefix="+prefix);
+            if(prefix.equals("HY")){
+                Member mem = new Member();
+                mem.setMemId(user_id)
+                        .setTel(phoneNo);
+                memberService.updateMember(mem);
+                logger.info("开始更新member表 prefix="+prefix);
+            }else if(prefix.equals("JL")){
+                Coach coach = new Coach();
+                coach.setCoachId(user_id)
+                        .setTel(phoneNo);
+                coachService.updateCoach(coach);
+                logger.info("开始更新coach表 prefix="+prefix);
+            }else if (prefix.equals("CD")){
+                Club club = new Club();
+                club.setClubId(user_id)
+                        .setTel(phoneNo);
+                clubService.updateClub(club);
+                logger.info("开始更新club表 prefix="+prefix);
+            }
 
         }
         // 封装返回小程序
