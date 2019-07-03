@@ -1,10 +1,7 @@
 package com.atguigu.controller;
 
 
-import com.atguigu.entity.Club;
-import com.atguigu.entity.Coach;
-import com.atguigu.entity.Course;
-import com.atguigu.entity.CourseInfo;
+import com.atguigu.entity.*;
 import com.atguigu.service.*;
 import com.atguigu.util.CommParams;
 import org.slf4j.Logger;
@@ -482,8 +479,12 @@ public class CoachController {
         List<String> list2 = new ArrayList<>();
         List<String> list3 = new ArrayList<>();
         List<String> list4 = new ArrayList<>();
+        List<String> list5 = new ArrayList<>();
         for(int i=0;i<list.size();i++){
-            list1.add(list.get(i).get("name"));
+
+
+            MemberCourse m = memberService.getMemCourse(list.get(i).get("kc_id"));
+            list1.add(list.get(i).get("name")+"--"+m.getRem());
             list2.add(list.get(i).get("course_id"));
             list3.add(list.get(i).get("kc_id"));
             list4.add(list.get(i).get("type"));
@@ -493,7 +494,9 @@ public class CoachController {
         map.put("course_name",list1);
         map.put("course_id",list2);
         map.put("kc_id",list3);
+
         map.put("course_type",list4);
+//        map.put("rem",list5);
         return map;
     }
     @ResponseBody

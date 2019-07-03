@@ -66,4 +66,6 @@ public interface MemberService {
     public List<Map<Object,Object>> getMemberLessCancel(String memId,String coachId,String clubId,String status,String reg_date);
 
     public List<Map<Object,Object>> getUsedTimes(String mem_id, String coach_id,String date);
+
+    public MemberCourse getMemCourse(String kc_id);
     }

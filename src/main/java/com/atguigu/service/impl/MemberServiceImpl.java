@@ -236,4 +236,9 @@ public class MemberServiceImpl implements MemberService {
 
         return listTimes;
     }
+
+    @Override
+    public MemberCourse getMemCourse(String kc_id){
+        return memberCourseMapper.selectByPrimaryKey(kc_id);
+    }
 }

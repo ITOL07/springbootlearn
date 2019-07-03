@@ -36,9 +36,11 @@
 --     where id like CONCAT('%',date_format(now(), '%Y%m%d'),'%')
   </select>
   <select id="selectMemberInfo_1" resultType="map" parameterType="java.lang.String">
-    select distinct a.nick_name name,a.mem_id mem_id from member a,member_lesson b where a.mem_Id = b.mem_Id and b.coach_id=#{coach_id,jdbcType=VARCHAR}
-
-     and b.end_time_1 is  null
+    select distinct a.nick_name name,a.mem_id mem_id
+    from member a,member_lesson b
+    where a.mem_Id = b.mem_Id
+    and b.coach_id=#{coach_id,jdbcType=VARCHAR}
+    and b.end_time_1 is  null
   </select>
   <select id="selectMemberInfo" resultType="map" parameterType="java.lang.String">
     select distinct a.nick_name name,a.mem_id mem_id,(case a.sex when '1' then '../../images/student/man.png' when '2' then '../../images/student/woman.png' end ) sex,
@@ -46,7 +48,7 @@
   </select>
   <select id="selectLessonList" resultType="map">
     select distinct b.type,b.name
---     ,a.kc_id
+    ,a.kc_id
     from member_lesson a,course b
     where a.mem_id=#{mem_id,jdbcType=VARCHAR}
     and a.coach_id=#{coach_id,jdbcType=VARCHAR}
@@ -118,7 +120,7 @@ mem_icon
       </otherwise>
     </choose>
   </select>
-    <select id="selectClubList" resultType="map" parameterType="java.lang.String">
+    <select id="selectClubList_bak" resultType="map" parameterType="java.lang.String">
         SELECT distinct a.name club_name,a.club_Id club_id,c.kc_id
         from club a,course b,member_lesson c
         where a.club_Id=b.club_id
@@ -129,7 +131,17 @@ mem_icon
         and c.status is NULL
         and c.end_time_1 is null
     </select>
-
+  <select id="selectClubList" resultType="map" parameterType="java.lang.String">
+    SELECT distinct a.name club_name,a.club_Id club_id,c.kc_id
+    from club a,course b,member_lesson c
+    where a.club_Id=b.club_id
+    and c.bz2=b.type
+    and c.mem_id=#{mem_id,jdbcType=VARCHAR}
+    and b.coach_id=#{coach_id,jdbcType=VARCHAR}
+    and c.kc_id=#{course_id,jdbcType=VARCHAR}
+    and c.status is NULL
+    and c.end_time_1 is null
+  </select>
     <select id="selectByClubId" parameterType="java.lang.String" resultType="map">
         select *
         from v_member_lesson
