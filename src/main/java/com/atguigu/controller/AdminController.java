@@ -316,24 +316,24 @@ public class AdminController {
     }
 
     @RequestMapping("/qryCoach")
-    public List<Map<String,String>> qryCoachCourse_new(
+    public List<Map<String,Object>> qryCoachCourse_new(
             @RequestParam("club_id") String club_id
     ) {
-        List<Map<String,String>> resList=new ArrayList<>();
+        List<Map<String,Object>> resList=new ArrayList<>();
         List<Coach> list = coachService.getCoachByClubId(club_id);
         logger.info("club_id ====" + club_id);
         for(Coach c:list){
             String coachId=c.getCoachId();
-            Map<String,String> map=coachService.getCoachInfoByView(coachId);
+            Map<String,Object> map=coachService.getCoachInfoByView(coachId);
             String tmp= CommParams.WEB_URL+c.getIcon().replaceAll("/app/test","");
 //            c.setIcon(tmp);
             map.put("icon",tmp);
-            map.put("total_count",((Object)map.get("total_count")).toString());
-            map.put("weight",((Object)map.get("weight")).toString());
-            map.put("min_price",((Object)map.get("min_price")).toString());
-            map.put("height",((Object)map.get("height")).toString());
-            map.put("score",((Object)map.get("score")).toString());
-            map.put("age",((Object)map.get("age")).toString());
+            map.put("total_count",(map.get("total_count")).toString());
+            map.put("weight",(map.get("weight")).toString());
+            map.put("min_price",(map.get("min_price")).toString());
+            map.put("height",(map.get("height")).toString());
+            map.put("score",(map.get("score")).toString());
+            map.put("age",(map.get("age")).toString());
 //            map.put("birthday",((Object)map.get("birthday")).toString());
             map.remove("birthday");
             System.out.println(map);

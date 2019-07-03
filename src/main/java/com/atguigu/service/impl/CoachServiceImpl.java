@@ -117,7 +117,7 @@ public class CoachServiceImpl implements CoachService {
     }
 
     @Override
-    public Map<String,String> getCoachInfoByView(String coachId) {
+    public Map<String,Object> getCoachInfoByView(String coachId) {
         return coach.getCoachInfoByView(coachId);
     }
 
