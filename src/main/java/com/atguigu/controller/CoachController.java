@@ -484,7 +484,7 @@ public class CoachController {
 
 
             MemberCourse m = memberService.getMemCourse(list.get(i).get("kc_id"));
-            list1.add(list.get(i).get("name")+"--"+m.getRem());
+            list1.add(list.get(i).get("name")+"    剩余"+m.getRem()+"节");
             list2.add(list.get(i).get("course_id"));
             list3.add(list.get(i).get("kc_id"));
             list4.add(list.get(i).get("type"));
