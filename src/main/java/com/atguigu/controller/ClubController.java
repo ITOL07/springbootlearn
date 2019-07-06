@@ -3,10 +3,7 @@ package com.atguigu.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.atguigu.entity.*;
-import com.atguigu.service.ClubService;
-import com.atguigu.service.CoachService;
-import com.atguigu.service.CourseService;
-import com.atguigu.service.MemberService;
+import com.atguigu.service.*;
 import com.atguigu.util.CommParams;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,6 +39,8 @@ public class ClubController {
     private CoachService coachService;
     @Resource
     private MemberService memberService;
+    @Resource
+    private IncomeService incomeService;
 
     @RequestMapping("/getClub")
 //    @RequestMapping("/qry")
@@ -227,61 +226,85 @@ public class ClubController {
     ) {
         logger.info("club_id ====" + club_id + "reg_date=====" + reg_date);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = sdf.parse(reg_date);
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Date date = null;
+//        try {
+//            date = sdf.parse(reg_date);
+//
+//        } catch (ParseException e) {
+//            logger.info("抛出异常");
+//        }
+//        return clubService.getClubIncomeById(club_id, date);
+        List<Map<Object,Object>> list= memberService.getMemberLess("","",club_id,"",reg_date);
+        for(Map<Object, Object> map:list){
 
-        } catch (ParseException e) {
-            logger.info("抛出异常");
+            logger.info("+++++++++++"+map.get("start_time_1"));
+            map.put("datex",String.valueOf(map.get("start_time_1")).split(" ")[0]);
+            String start_time=String.valueOf(map.get("start_time_1")).split(" ")[1];
+            String end_time=String.valueOf(map.get("end_time_1")).split(" ")[1];
+            logger.info("start_time==="+start_time+"   end_time===="+end_time);
+
+            map.put("timex",start_time.substring(0,start_time.lastIndexOf(":"))+"-"+end_time.substring(0,end_time.lastIndexOf(":")));
         }
-        return clubService.getClubIncomeById(club_id, date);
+        return list;
 
     }
 
+//    @RequestMapping("/qrySum_bak")
+//    public Map<Object, Object> qrySum_bak(
+//            @RequestParam("club_id") String club_id,
+//            @RequestParam("reg_date") String reg_date
+//    ) {
+//        logger.info("club_id ====" + club_id + "reg_date=====" + reg_date);
+//
+//        Map<Object,Object> map= new HashMap<Object,Object>();
+//        Map<Object,Object> resMap= new HashMap<Object,Object>();
+//
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+//        Date date = null;
+//        try {
+//            date = sdf.parse(reg_date);
+//
+//        } catch (ParseException e) {
+//            logger.info("抛出异常");
+//        }
+//
+//        map=clubService.getClubIncomeSumById(club_id, date);
+//        logger.info("map.get(\"les_count_sum\");==========="+map.get("les_count_sum"));
+//
+//        int les_count_sum=Integer.parseInt(map.get("les_count_sum").toString());
+//        int sold_count_sum=Integer.parseInt(map.get("les_count_sum").toString());
+//
+//        float les_total_amt=Float.parseFloat(map.get("les_total_amt").toString());
+//        float sold_total_amt=Float.parseFloat(map.get("sold_total_amt").toString());
+//
+//        float les_pct=0.10f;
+//        float sold_pct=0.10f;
+//
+//        float les_amt=les_total_amt*les_pct;
+//        float sold_amt=sold_total_amt*sold_pct;
+//
+//        resMap.put("les_total_cnt",les_count_sum);
+//        resMap.put("sold_total_cnt",sold_count_sum);
+//        resMap.put("les_total_amt",les_amt);
+//        resMap.put("sold_total_amt",sold_amt);
+//
+//        logger.info("les_count_sum=["+les_count_sum+"]\t les_pct=["+les_pct+"]\t les_amt=["+les_amt+"]\t les_total_amt=["+les_total_amt+"]");
+//        logger.info("sold_count_sum=["+sold_count_sum+"]\t sold_pct=["+sold_pct+"]\t sold_amt=["+sold_amt+"]\t sold_total_amt=["+sold_total_amt+"]");
+//        return resMap;
+//
+//    }
+
     @RequestMapping("/qrySum")
-    public Map<Object, Object> qrySum(
+    public Map<String, Object> qrySum(
             @RequestParam("club_id") String club_id,
             @RequestParam("reg_date") String reg_date
     ) {
-        logger.info("club_id ====" + club_id + "reg_date=====" + reg_date);
+        logger.info("qrySum ---- club_id ====" + club_id + "reg_date=====" + reg_date);
 
-        Map<Object,Object> map= new HashMap<Object,Object>();
-        Map<Object,Object> resMap= new HashMap<Object,Object>();
+        Map<String,Object> resMap =incomeService.getSum(club_id,reg_date);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        Date date = null;
-        try {
-            date = sdf.parse(reg_date);
-
-        } catch (ParseException e) {
-            logger.info("抛出异常");
-        }
-
-        map=clubService.getClubIncomeSumById(club_id, date);
-        logger.info("map.get(\"les_count_sum\");==========="+map.get("les_count_sum"));
-
-        int les_count_sum=Integer.parseInt(map.get("les_count_sum").toString());
-        int sold_count_sum=Integer.parseInt(map.get("les_count_sum").toString());
-
-        float les_total_amt=Float.parseFloat(map.get("les_total_amt").toString());
-        float sold_total_amt=Float.parseFloat(map.get("sold_total_amt").toString());
-
-        float les_pct=0.10f;
-        float sold_pct=0.10f;
-
-        float les_amt=les_total_amt*les_pct;
-        float sold_amt=sold_total_amt*sold_pct;
-
-        resMap.put("les_total_cnt",les_count_sum);
-        resMap.put("sold_total_cnt",sold_count_sum);
-        resMap.put("les_total_amt",les_amt);
-        resMap.put("sold_total_amt",sold_amt);
-
-        logger.info("les_count_sum=["+les_count_sum+"]\t les_pct=["+les_pct+"]\t les_amt=["+les_amt+"]\t les_total_amt=["+les_total_amt+"]");
-        logger.info("sold_count_sum=["+sold_count_sum+"]\t sold_pct=["+sold_pct+"]\t sold_amt=["+sold_amt+"]\t sold_total_amt=["+sold_total_amt+"]");
         return resMap;
-
     }
 
     @RequestMapping("/getCourseInfo")

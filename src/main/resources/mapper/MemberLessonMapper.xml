@@ -490,7 +490,7 @@ mem_icon
       and coach_id = #{coachId,jdbcType=VARCHAR}
     </if>
     <if test="clubId !=''">
-      and club_id = #{clubId,jdbcType=VARCHAR}
+      and real_club = #{clubId,jdbcType=VARCHAR}
     </if>
     <if test="reg_date !=''">
       and(start_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%')
