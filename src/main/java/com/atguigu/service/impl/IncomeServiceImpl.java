@@ -45,8 +45,8 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     @Override
-    public TIncomeDtl getIncomDtl(String courseId,String regDate){
-        return tIncomeDtlMapper.selectByPrimaryKey(courseId,regDate);
+    public TIncomeDtl getIncomDtl(String courseId,String coachId,String clubId,String regDate){
+        return tIncomeDtlMapper.selectByPrimaryKey(courseId,coachId,clubId,regDate);
     }
     @Override
     public int updateIncomDtl(TIncomeDtl t){

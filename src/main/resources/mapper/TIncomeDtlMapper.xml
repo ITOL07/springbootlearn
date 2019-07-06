@@ -20,6 +20,8 @@
     <include refid="Base_Column_List" />
     from t_income_dtl
     where course_id = #{courseId,jdbcType=VARCHAR}
+    and coach_id=#{coachId,jdbcType=VARCHAR}
+    and club_id=#{clubId,jdbcType=VARCHAR}
     and reg_date like CONCAT('%',#{regDate,jdbcType=VARCHAR},'%')
   </select>
   <select id="selectCoachLesSum" resultType="map" parameterType="java.lang.String" >

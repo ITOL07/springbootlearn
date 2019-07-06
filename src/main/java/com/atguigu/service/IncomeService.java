@@ -18,8 +18,6 @@ public interface IncomeService {
     //插入提成计算记录表
     public int insertIncomDtl(TIncomeDtl t);
 
-    public TIncomeDtl getIncomDtl(String courseId,String regDate);
-
     public int updateIncomDtl(TIncomeDtl t);
 
     public TIncome getIncom(String userId,String regDate);
@@ -33,4 +31,7 @@ public interface IncomeService {
     public Map<String,Object> getClubLesSum(String courseId,String clubId,String regDate);
 
     public Map<String,Object> getSum(String userId,String regDate);
+
+    public TIncomeDtl getIncomDtl(String courseId,String coachId,String clubId,String regDate);
+
 }

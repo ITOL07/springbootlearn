@@ -104,7 +104,7 @@ public class AttendClassController {
             TCoachLessonReg tCoachLessonReg1 = tCoachLessonRegService.seletNumByDate(tCoachLessonReg);
 
             int les_count = null!=tCoachLessonReg1?tCoachLessonReg1.getLesCount():0;
-            tCoachLessonReg.setCoachId(map1.get("coach_id").toString())
+            tCoachLessonReg.setCoachId(map1.get("real_coach").toString())
                     .setLesCount(les_count+1)
                     .setLesPrice(course.getPrice())
                     .setRegTime(date);
@@ -133,7 +133,7 @@ public class AttendClassController {
             tClubLessonReg.setRegDate(date).setCourseType(course.getType().toString());
             TClubLessonReg tClubLessonReg1 = tClubLessonRegService.seletNumByDate(tClubLessonReg);
             int les_count_club = null!=tClubLessonReg1?tClubLessonReg1.getLesCount():0;
-            tClubLessonReg.setClubId(map1.get("club_id").toString())
+            tClubLessonReg.setClubId(map1.get("real_club").toString())
                     .setLesCount(les_count_club+1)
                     .setLesPrice(course.getPrice())
                     .setRegTime(date);
@@ -165,12 +165,12 @@ public class AttendClassController {
             TIncomeDtl tIncomeDtl = new TIncomeDtl();
                     tIncomeDtl.setCourseId(course_id)
                     .setRegDate(date)
-                    .setCoachId(map1.get("coach_id").toString())
-                    .setClubId(map1.get("club_id").toString())
+                    .setCoachId(map1.get("real_coach").toString())
+                    .setClubId(map1.get("real_club").toString())
                     .setRegTime(date)
             ;
 
-            TIncomeDtl list=incomeService.getIncomDtl(course_id,today);
+            TIncomeDtl list=incomeService.getIncomDtl(course_id,map1.get("real_coach").toString(),map1.get("real_club").toString(),today);
 
             //开始登记t_income_dtl表数据
             if(list==null){
@@ -197,12 +197,13 @@ public class AttendClassController {
 
 
             //登记t_income,教练部分
-            String coach_id=map1.get("coach_id").toString();
-            String club_id=map1.get("club_id").toString();
+            String coach_id=map1.get("real_coach").toString();
+            String club_id=map1.get("real_club").toString();
 
             //1--体验课   其他-- 非体验课
             boolean try_flag=map1.get("course_type").toString().equals("1")?true:false;
 
+            //获取dtl表中按course_id和日期汇总的kt_sum，和xt_sum
             Map<String,Object> lesSummap = incomeService.getCoachLesSum(course_id,coach_id,today);
             Map<String,Object> clublesSummap = incomeService.getClubLesSum(course_id,club_id,today);
             logger.info("map" +lesSummap.toString());
@@ -221,7 +222,7 @@ public class AttendClassController {
             if(jlFlag){
                 JL_KTPER=tc.getJlKtPer1();
                 JL_XTPER=tc.getJlXtPer1();
-                CD_KTPER=new BigDecimal(0);
+                CD_KTPER=tc.getCdKt();
             }else{
                 JL_KTPER=tc.getJlKtPer2();
                 JL_XTPER=tc.getJlXtPer2();
@@ -247,6 +248,7 @@ public class AttendClassController {
                     .setKtCnt(KT_CNT)
                     .setKtPer(JL_KTPER)
                     .setXtPer(JL_XTPER)
+                    .setXtCnt(new BigDecimal(0))
                     .setKtSum(kt_sum)
                     .setXtSum(xt_sum)
             ;
@@ -272,7 +274,21 @@ public class AttendClassController {
                     logger.info("t_income表新增当天数据失败");
                 }
             }else{
+                logger.info("t_income表今天此类型的课已经有记录："+tIncome_jl_before.toString());
                 logger.info("t_income表今天此类型的课已经有记录，开始更新："+tIncome_jl.toString());
+//                BigDecimal ktcnt_before=tIncome_jl_before.getKtCnt().add(tIncome_jl.getKtCnt());
+//                BigDecimal xtcnt_before=tIncome_jl_before.getXtCnt().add(tIncome_jl.getXtCnt());
+//                BigDecimal ktsum_before=tIncome_jl_before.getKtSum().add(tIncome_jl.getKtSum());
+//                BigDecimal xtsum_before=tIncome_jl_before.getXtSum().add(tIncome_jl.getXtSum());
+                BigDecimal ktcnt_before=tIncome_jl_before.getKtCnt().add(new BigDecimal(1));
+                BigDecimal xtcnt_before=tIncome_jl_before.getXtCnt();
+                BigDecimal ktsum_before=tIncome_jl_before.getKtSum().add(PRICE.multiply(JL_KTPER));
+                BigDecimal xtsum_before=tIncome_jl_before.getXtSum().add(PRICE.multiply(JL_XTPER));
+
+                tIncome_jl.setKtCnt(ktcnt_before)
+                        .setXtCnt(xtcnt_before)
+                        .setKtSum(ktsum_before)
+                        .setXtSum(xtsum_before);
 
                 int insertflag= incomeService.updateIncom(tIncome_jl);
                 if(insertflag==1){
@@ -293,8 +309,15 @@ public class AttendClassController {
                     logger.info("t_income表新增当天数据失败");
                 }
             }else{
+                logger.info("t_income表今天此类型的课已经有记录"+tIncome_cd_before.toString());
                 logger.info("t_income表今天此类型的课已经有记录，开始更新："+tIncome_cd.toString());
 
+                BigDecimal ktcnt_before=tIncome_cd_before.getKtCnt().add(new BigDecimal(1));
+                BigDecimal ktsum_before=tIncome_cd_before.getKtSum().add(PRICE.multiply(CD_KTPER));
+                tIncome_cd.setKtCnt(ktcnt_before)
+//                        .setXtCnt(xtcnt_before)
+                        .setKtSum(ktsum_before);
+//                        .setXtSum(xtsum_before)
                 int insertflag= incomeService.updateIncom(tIncome_cd);
                 if(insertflag==1){
                     logger.info("t_income表更新当天数据完成");

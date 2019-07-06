@@ -332,7 +332,7 @@ public class wxpayController {
                 .setRegTime(date)
         ;
 
-        TIncomeDtl list=incomeService.getIncomDtl(course_id,today);
+        TIncomeDtl list=incomeService.getIncomDtl(course_id,coach_id,club_id,today);
 
         //开始登记t_income_dtl表数据
         if(list==null){
