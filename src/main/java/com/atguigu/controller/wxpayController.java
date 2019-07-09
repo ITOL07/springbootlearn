@@ -38,6 +38,9 @@ public class wxpayController {
     private MemberService memberService;
 
     @Resource
+    private CoachService coachService;
+
+    @Resource
     private CourseService courseService;
 
     @Resource
@@ -344,18 +347,81 @@ public class wxpayController {
             }else{
                 logger.info("t_income_dtl表新增当天数据失败");
             }
-        }else{
-            logger.info("t_income_dtl表今天此类型的课已经有记录，开始更新，售课节数为["+sold_count+"]  课程id为"+course_id);
+        }else {
+            logger.info("t_income_dtl表今天此类型的课已经有记录，开始更新，售课节数为[" + sold_count + "]  课程id为" + course_id);
 
-            tIncomeDtl.setXtCnt(list.getXtCnt()+sold_count);
+            tIncomeDtl.setXtCnt(list.getXtCnt() + sold_count);
 
-            int insertflag= incomeService.updateIncomDtl(tIncomeDtl);
-            if(insertflag==1){
+            int insertflag = incomeService.updateIncomDtl(tIncomeDtl);
+            if (insertflag == 1) {
                 logger.info("t_income_dtl表更新当天数据完成");
-            }else{
+            } else {
                 logger.info("t_income_dtl表更新当天数据失败");
             }
         }
+            //开始登记 income—— jl表
+            //获取教练类型
+            CourseTc tc = incomeService.getCourseTcInfo(course_id);
+            logger.info("tc info ==="+tc.toString());
+            BigDecimal JL_XTPER;
+            //1--体验课   其他-- 非体验课
+            boolean try_flag=c.getType().toString().equals("1")?true:false;
+            BigDecimal XT_CNT=new BigDecimal(sold_count);
+            BigDecimal PRICE = (BigDecimal)(c.getPrice());
+
+
+            boolean jlFlag=coachService.getCoachById(coach_id).getType().toString().equals("0")?true:false;;
+            if(jlFlag){
+                JL_XTPER=tc.getJlXtPer1();
+            }else{
+                JL_XTPER=tc.getJlXtPer2();
+            }
+            BigDecimal xt_sum;
+            if(try_flag){
+                xt_sum=new BigDecimal(0);
+            }else{
+                xt_sum=XT_CNT.multiply(PRICE).multiply(JL_XTPER);
+            }
+            TIncome tIncome_jl = new TIncome();
+            tIncome_jl.setUserId(coach_id)
+                    .setRegDate(date)
+                    .setRegTime(date)
+
+                    .setXtPer(JL_XTPER)
+                    .setXtCnt(new BigDecimal(sold_count))
+                    .setXtSum(xt_sum)
+            ;
+            TIncome tIncome_jl_before=incomeService.getIncom(coach_id,today);
+
+            //开始登记t_income表数据(教练)
+            if(tIncome_jl_before==null){
+                logger.info("t_income表今天没有课程，新增当天数据"+tIncome_jl.toString());
+
+                int insertDtl = incomeService.insertIncom(tIncome_jl);
+                if(insertDtl==1){
+                    logger.info("t_income表新增当天数据完成");
+                }else{
+                    logger.info("t_income表新增当天数据失败");
+                }
+            }else{
+                logger.info("t_income表今天此类型的课已经有记录："+tIncome_jl_before.toString());
+                logger.info("t_income表今天此类型的课已经有记录，开始更新："+tIncome_jl.toString());
+
+                BigDecimal xtcnt_before=tIncome_jl_before.getXtCnt().add(new BigDecimal(sold_count));
+                BigDecimal xtsum_before=tIncome_jl_before.getXtSum().add(PRICE.multiply(JL_XTPER));
+
+                tIncome_jl
+                        .setXtCnt(xtcnt_before)
+                        .setXtSum(xtsum_before);
+
+                int insertflag2= incomeService.updateIncom(tIncome_jl);
+                if(insertflag2==1){
+                    logger.info("t_income表更新当天数据完成");
+                }else{
+                    logger.info("t_income表更新当天数据失败");
+                }
+            }
+
         return bool;
     }
 }
