@@ -18,10 +18,11 @@
     <result column="bz2" property="bz2" jdbcType="VARCHAR" />
     <result column="ch_time" property="chTime" jdbcType="TIMESTAMP" />
     <result column="kc_id" property="kc_id" jdbcType="VARCHAR" />
+      <result column="price" property="price" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Base_Column_List" >
     mem_id,kc_id,sale_id,seq_no,status,DATE_FORMAT(start_time_1,'%Y-%m-%d %H:%i:%S') start_time_1,DATE_FORMAT(end_time_1,'%Y-%m-%d %H:%i:%S') end_time_1,
-    course_name,course_type,price,club_id,club_type,club_name,coach_id,coach_type,coach_name,bz2,brief,buy_count,mem_name,mem_icon
+    course_name,course_type,price,club_id,club_type,club_name,coach_id,coach_type,coach_name,bz2,brief,buy_count,mem_name,mem_icon,price
   </sql>
   <select id="selectById" resultType="map" parameterType="java.lang.String" >
     select *
@@ -172,12 +173,12 @@ mem_icon
       club_id, status, start_time_1, 
       end_time_1, start_time_2, end_time_2, 
       coach_id, real_club, real_coach, 
-      bz1, bz2, ch_time)
+      bz1, bz2, ch_time,pric)
     values (#{memId,jdbcType=VARCHAR}, #{saleId,jdbcType=VARCHAR}, #{seqNo,jdbcType=INTEGER},
       #{clubId,jdbcType=INTEGER}, #{status,jdbcType=TINYINT}, #{startTime1,jdbcType=TIMESTAMP}, 
       #{endTime1,jdbcType=TIMESTAMP}, #{startTime2,jdbcType=TIMESTAMP}, #{endTime2,jdbcType=TIMESTAMP}, 
       #{coachId,jdbcType=VARCHAR}, #{realClub,jdbcType=INTEGER}, #{realCoach,jdbcType=VARCHAR}, 
-      #{bz1,jdbcType=VARCHAR}, #{bz2,jdbcType=VARCHAR}, #{chTime,jdbcType=TIMESTAMP})
+      #{bz1,jdbcType=VARCHAR}, #{bz2,jdbcType=VARCHAR}, #{chTime,jdbcType=TIMESTAMP},#{price,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="com.atguigu.entity.MemberLesson" >
     insert into member_lesson
@@ -230,6 +231,9 @@ mem_icon
       <if test="kcId != null">
         kc_id,
       </if>
+        <if test="price != null">
+            price,
+        </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="memId != null" >
@@ -280,6 +284,9 @@ mem_icon
       <if test="kcId != null">
         #{kcId,jdbcType=VARCHAR},
       </if>
+        <if test="price != null">
+            #{price,jdbcType=DECIMAL},
+        </if>
     </trim>
   </insert>
 
@@ -322,6 +329,9 @@ mem_icon
       <if test="chTime != null" >
         ch_time = #{chTime,jdbcType=TIMESTAMP},
       </if>
+        <if test="price != null" >
+            price = #{price,jdbcType=TIMESTAMP},
+        </if>
     </set>
     where mem_Id = #{memId,jdbcType=VARCHAR}
     and sale_id=#{saleId,jdbcType=VARCHAR}
@@ -348,6 +358,9 @@ mem_icon
       <if test="bz1 != null" >
         bz1 = #{bz1,jdbcType=VARCHAR},
       </if>
+        <if test="price != null" >
+            price = #{price,jdbcType=VARCHAR},
+        </if>
     </set>
         where mem_Id = #{memId,jdbcType=VARCHAR}
     <if test="saleId != null">
