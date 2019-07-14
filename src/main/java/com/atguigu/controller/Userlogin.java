@@ -360,7 +360,7 @@ public class Userlogin {
             result.put("errocode","您现在可以通过手机号登录，初始密码为000000");
 
             //
-            String user_id=user_tmp.getId();
+            String user_id=user.getId();
             String prefix=user_id.substring(0,2);
             logger.info("开始更新member/coach/club表 prefix="+prefix);
             if(prefix.equals("HY")){
