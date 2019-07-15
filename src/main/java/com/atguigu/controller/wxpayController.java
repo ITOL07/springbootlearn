@@ -298,6 +298,7 @@ public class wxpayController {
         String club_id=c.getClubId();
         String coach_id=c.getCoachId();
         String course_type=c.getType();
+        BigDecimal price = c.getPrice();
         MemberLesson ml = new MemberLesson();
         for(int i=0;i<total_lesson;){
             ml.setMemId(mem_id)
@@ -307,6 +308,7 @@ public class wxpayController {
                     .setCoachId(coach_id)
                     .setChTime(new Date())
                     .setBz2(course_type)
+                    .setPrice(price)
                     .setSeqNo(++i);
             memberService.addMemberLes(ml);
             logger.info("第"+i+"节课插入lesson表成功");

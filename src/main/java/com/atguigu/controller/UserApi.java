@@ -188,6 +188,7 @@ public class UserApi {
             member.setMemId(id)
                     .setIcon(map.get("icon"))
                     .setNickName(map.get("nickName"))
+                    .setName(map.get("nickName"))
             .setSex(map.get("gender"));
 
             memberService.updateMember(member);
