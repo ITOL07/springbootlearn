@@ -214,7 +214,11 @@ public class ClubController {
         }
         for(Map<Object, Object> map:listInfo){
             map.put("datex",String.valueOf(map.get("start_time_1")).split(" ")[0]);
-            map.put("timex",String.valueOf(map.get("start_time_1")).split(" ")[1]+"-"+String.valueOf(map.get("start_time_1")).split(" ")[1]);
+            String start_time=String.valueOf(map.get("start_time_1")).split(" ")[1];
+            String end_time=String.valueOf(map.get("end_time_1")).split(" ")[1];
+            logger.info("start_time==="+start_time+"   end_time===="+end_time);
+
+            map.put("timex",start_time.substring(0,start_time.lastIndexOf(":"))+"-"+end_time.substring(0,end_time.lastIndexOf(":")));
         }
         return listInfo;
     }

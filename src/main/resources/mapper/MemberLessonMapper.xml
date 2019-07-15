@@ -509,7 +509,7 @@ mem_icon
       and(start_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%')
       or end_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%'))
     </if>
-    order by kc_id,seq_no,start_time_1 desc
+    order by start_time_1 desc
   </select>
     <select id="selectUsedTime" resultType="map" parameterType="String">
         select distinct
