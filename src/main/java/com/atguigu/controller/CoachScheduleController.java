@@ -212,6 +212,10 @@ public class CoachScheduleController {
         }
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(start_time_in);
+
+        calendar.add(Calendar.MINUTE,1);
+        start_time_in=calendar.getTime();
+
         calendar.add(Calendar.HOUR, 1);
         Date end_time_in = calendar.getTime();
 
