@@ -282,13 +282,19 @@ public class AttendClassController {
 //                BigDecimal xtsum_before=tIncome_jl_before.getXtSum().add(tIncome_jl.getXtSum());
                 BigDecimal ktcnt_before=tIncome_jl_before.getKtCnt().add(new BigDecimal(1));
                 BigDecimal xtcnt_before=tIncome_jl_before.getXtCnt();
-                BigDecimal ktsum_before=tIncome_jl_before.getKtSum().add(PRICE.multiply(JL_KTPER));
-                BigDecimal xtsum_before=tIncome_jl_before.getXtSum().add(PRICE.multiply(JL_XTPER));
+                BigDecimal ktsum_before=null;
+                if(tIncome_jl_before.getKtSum()==null){
+                    ktsum_before=PRICE.multiply(JL_KTPER);
+                }else{
+                    ktsum_before=tIncome_jl_before.getKtSum().add(PRICE.multiply(JL_KTPER));
+                }
+                BigDecimal xtsum_before=tIncome_jl_before.getXtSum();
 
                 tIncome_jl.setKtCnt(ktcnt_before)
                         .setXtCnt(xtcnt_before)
                         .setKtSum(ktsum_before)
-                        .setXtSum(xtsum_before);
+                        .setXtSum(xtsum_before)
+;
 
                 int insertflag= incomeService.updateIncom(tIncome_jl);
                 if(insertflag==1){

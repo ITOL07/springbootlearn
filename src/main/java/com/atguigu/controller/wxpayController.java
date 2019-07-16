@@ -410,7 +410,7 @@ public class wxpayController {
                 logger.info("t_income表今天此类型的课已经有记录，开始更新："+tIncome_jl.toString());
 
                 BigDecimal xtcnt_before=tIncome_jl_before.getXtCnt().add(new BigDecimal(sold_count));
-                BigDecimal xtsum_before=tIncome_jl_before.getXtSum().add(PRICE.multiply(JL_XTPER));
+                BigDecimal xtsum_before=tIncome_jl_before.getXtSum().add(PRICE.multiply(XT_CNT).multiply(JL_XTPER));
 
                 tIncome_jl
                         .setXtCnt(xtcnt_before)
