@@ -184,21 +184,26 @@ public class Userlogin {
 
     @RequestMapping("/isReg")
     public JSONObject isRegistered(
-            @RequestParam("phoneNo") String phoneNo
+            @RequestParam("phoneNo") String phoneNo,
+            @RequestParam("type") Integer type
     ){
 
         Map<String, String> param = new HashMap<>();
         JSONObject result= new JSONObject();
         // 根据返回的user实体类，判断用户是否注册过，不是的话，提示先注册，是的话，将用户信息存到数据库
-        logger.info("username ===="+phoneNo);
-        Map<Object,Object> map = userService.getUserByName(phoneNo);
+        logger.info("username ===="+phoneNo+"type====="+type);
+        User user = new User();
+        user.setUserName(phoneNo)
+                .setType(type);
+
+        User user_out = userService.getUser(user);
 
 
-        if(map == null){
+        if(user_out == null){
             result.put("errono","-1");  //用户不存在
             result.put("errocode","用户不存在");
         }else{
-            result.put("errono","0");  //用户不存在
+            result.put("errono","0");  //用户存在
             result.put("errocode","用户存在");
         }
         // 封装返回小程序

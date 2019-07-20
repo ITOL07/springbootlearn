@@ -26,4 +26,6 @@ public interface UserMapper {
 
     User selectUser(User record);
 
+//    Map<Object,Object> selectbyUsernameType(String phoneNo,String type);
+
 }

@@ -25,6 +25,8 @@ public class CommParams {
     public static final String WX_LOGIN_URL="https://api.weixin.qq.com/sns/jscode2session";
 
     //图片类型
+    //HY--会员，JL--教练，CD--场地，KC--课程
+    //ICON--头像，CERT--证书，PIC--图片，AL--相册
     public static final Integer HY_ICON=11;
     public static final Integer JL_ICON=21;
     public static final Integer JL_PIC=22;

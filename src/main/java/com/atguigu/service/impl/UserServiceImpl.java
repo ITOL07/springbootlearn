@@ -79,4 +79,5 @@ public class UserServiceImpl implements UserService1 {
     public User getUser(User user){
         return userDao.selectUser(user);
     }
+
 }
