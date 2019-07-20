@@ -433,7 +433,7 @@ mem_icon
     <if test="clubId !=''">
       and club_id = #{clubId,jdbcType=VARCHAR}
     </if>
-    order by kc_id,seq_no,start_time_1 desc
+    order by start_time_1 desc
   </select>
   <select id="selectByViewDate" parameterType="java.lang.String" resultType="map">
     select
