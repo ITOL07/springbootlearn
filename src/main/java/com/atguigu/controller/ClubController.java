@@ -223,6 +223,7 @@ public class ClubController {
         return listInfo;
     }
 
+    //只显示已完成的课程
     @RequestMapping("/qryLessReg")
     public List<Map<Object, Object>> qryLesson(
             @RequestParam("club_id") String club_id,
@@ -239,7 +240,7 @@ public class ClubController {
 //            logger.info("抛出异常");
 //        }
 //        return clubService.getClubIncomeById(club_id, date);
-        List<Map<Object,Object>> list= memberService.getMemberLess("","",club_id,"",reg_date);
+        List<Map<Object,Object>> list= memberService.getMemberLess("","",club_id,"2",reg_date);
         for(Map<Object, Object> map:list){
 
             logger.info("+++++++++++"+map.get("start_time_1"));

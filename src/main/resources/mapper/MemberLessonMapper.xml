@@ -452,7 +452,7 @@ mem_icon
     <if test="reg_date !=''">
       and start_time_1 like CONCAT('%',#{reg_date,jdbcType=VARCHAR},'%')
     </if>
-    order by kc_id,seq_no,start_time_1 desc
+    order by start_time_1 desc
   </select>
 <select id="getListTimes" resultType="String" parameterType="String">
   select date_format(end_time_1, '%H:%i')
