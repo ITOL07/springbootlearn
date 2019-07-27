@@ -241,4 +241,9 @@ public class MemberServiceImpl implements MemberService {
     public MemberCourse getMemCourse(String kc_id){
         return memberCourseMapper.selectByPrimaryKey(kc_id);
     }
+
+    @Override
+    public List<Map<Object,Object>> getMemCourseInfo(String mem_id){
+        return memberCourseMapper.selectMemCourseInfo1(mem_id);
+    }
 }

@@ -68,4 +68,5 @@ public interface MemberService {
     public List<Map<Object,Object>> getUsedTimes(String mem_id, String coach_id,String date);
 
     public MemberCourse getMemCourse(String kc_id);
+    public List<Map<Object,Object>> getMemCourseInfo(String mem_id);
     }

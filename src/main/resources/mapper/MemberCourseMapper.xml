@@ -27,6 +27,11 @@
     from member_course
     where mem_id= #{memId,jdbcType=VARCHAR}
   </select>
+  <select id="selectMemCourseInfo1" resultType="map">
+    select * from
+     v_member_course
+    where mem_id= #{memId,jdbcType=VARCHAR}
+  </select>
     <select id="selectByMemId" parameterType="java.lang.String" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List" />

@@ -385,4 +385,29 @@ public class MemberController {
 
         return list;
     }
+    @RequestMapping("/qryCourseInfo")
+    public List<Map<Object,Object>> qryCancelLesson(
+            @RequestParam("mem_id") String mem_id
+    ){
+        logger.info("qryCourseInfo：mem_id ===="+mem_id);
+
+        List<Map<Object,Object>> list= new ArrayList<>();
+        list = memberService.getMemCourseInfo(mem_id);
+        for(Map<Object,Object> map:list){
+//            logger.info("+++++++++++"+map.get("start_time_1"));
+//
+//            map.put("datex",String.valueOf(map.get("start_time_1")).split(" ")[0]);
+//            String start_time=String.valueOf(map.get("start_time_1")).split(" ")[1];
+//            String end_time=String.valueOf(map.get("end_time_1")).split(" ")[1];
+//            logger.info("start_time==="+start_time+"   end_time===="+end_time);
+//
+//            map.put("timex",start_time.substring(0,start_time.lastIndexOf(":"))+"-"+end_time.substring(0,end_time.lastIndexOf(":")));
+            if(map.containsKey("bz2")){
+                String tmp= CommParams.WEB_URL+map.get("bz2").toString().replaceAll("/app/test","");
+                map.put("bz2",tmp);
+            }
+        }
+
+        return list;
+    }
 }
