@@ -158,7 +158,7 @@ public class UserApi {
             Coach coach=new Coach();
             coach.setCoachId(id);
             coachService.addCoach(coach);
-            logger.info("教练+"+id+"插入教练表成功");
+            logger.info("教练+"+id+"插入教练表成功"+coach);
         }else if (prefix.startsWith("HY")){
             Member member=new Member();
             member.setMemId(id)
@@ -166,7 +166,7 @@ public class UserApi {
                     .setNickName(map.get("nickName"));
 
             memberService.addMember(member);
-            logger.info("学员+"+id+"插入学员表成功");
+            logger.info("学员+"+id+"插入学员表成功"+member);
         }else if (prefix.startsWith("CD")){
             Club club =new Club();
             club.setClubId(id)
@@ -174,7 +174,7 @@ public class UserApi {
                 ;
 
             clubService.addUser(club);
-            logger.info("场地+"+id+"插入场地表成功");
+            logger.info("场地+"+id+"插入场地表成功"+club);
         }
     }
 
@@ -200,7 +200,7 @@ public class UserApi {
                 .setPhoto(map.get("icon"));
 
             clubService.updateClub(club);
-            logger.info("场地+"+id+"更新场地表成功");
+            logger.info("场地+"+id+"更新场地表成功"+club);
         }
     }
 }
