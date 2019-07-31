@@ -1,6 +1,7 @@
 package com.atguigu.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.atguigu.dao.OrderDtlMapper;
 import com.atguigu.entity.*;
 import com.atguigu.service.CoachCourseService;
 import com.atguigu.service.CourseService;
@@ -409,5 +410,18 @@ public class MemberController {
         }
 
         return list;
+    }
+
+    @RequestMapping("/cancelOrder")
+    public boolean cancelOrder(
+            @RequestParam("order_no") String order_no
+    ){
+        logger.info("取消订单 order_no ===="+order_no);
+        OrderDtl orderDtl= new OrderDtl();
+        orderDtl= orderService.getOrderById(order_no);
+
+        orderDtl.setTradeState("-2").setTradeStateDesc("已取消");
+        return orderService.updateOrder(orderDtl);
+
     }
 }
