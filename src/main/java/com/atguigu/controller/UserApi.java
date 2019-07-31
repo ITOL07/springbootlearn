@@ -109,6 +109,7 @@ public class UserApi {
             in_tmp.put("nickName",nickName);
             in_tmp.put("gender",gender);
             in_tmp.put("icon",icon);
+//            logger.info("")
             updateUser(user.getId(),in_tmp);
 
         }else{
@@ -192,7 +193,7 @@ public class UserApi {
             .setSex(map.get("gender"));
 
             memberService.updateMember(member);
-            logger.info("学员+"+id+"更新学员表成功");
+            logger.info("学员+"+id+"更新学员表成功"+member);
         }else if (prefix.startsWith("CD")){
             Club club =new Club();
             club.setClubId(id)
