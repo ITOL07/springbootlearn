@@ -170,7 +170,8 @@ public class UserApi {
         }else if (prefix.startsWith("CD")){
             Club club =new Club();
             club.setClubId(id)
-                .setIcon(map.get("icon"))
+//                .setIcon(map.get("icon"))
+            .setPhoto(map.get("icon"))
                 ;
 
             clubService.addUser(club);
